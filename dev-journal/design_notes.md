@@ -1,6 +1,10 @@
-Frontend: React JS, Tailwind CSS
+Frontend: React JS
 Start with website, then create wrapper around website to make Desktop app
 Why? No download needed to see UI
+
+Backend: Django (Python)
+
+Database: ???
 
 Basic Features:
 - Sign up/Login
