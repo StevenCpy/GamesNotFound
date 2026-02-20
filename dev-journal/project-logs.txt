@@ -27,3 +27,9 @@ For game cover images, better use public/ to reduce bundle size.
     display:"flex",
     flexDirection: "column"
 }}>
+
+Day 4 - Feb 20, 2026
+- Merged backend and frontend into single repo.
+
+What I learned today:
+- Whitespace inside tags don't matter, and there's white space collapsing between text elements (i.e. only 1 whitespace counts).
