@@ -45,3 +45,10 @@ What I learned today:
 - Center an element using marginLeft: "auto" and marginRight: "auto".
 - Import browserRouter, routes, route in App.jsx but import Link in pages that use links.
 - <div> vs <span>: <div> stacks elements vertically while <span> stacks elements horizontally.
+
+Day 6 - Feb 25, 2026
+- Added login and sign up pages.
+- Added logic to sign up button.
+
+What I learned today:
+- In button's onClick props, use handleClick instead of handleClick() as handleClick() runs the function immediately, returning the value of the function.
