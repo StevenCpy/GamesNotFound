@@ -56,7 +56,6 @@ function Signup() {
             }
             // do not stop loop early even if all conditions true, as we need to check for invalid characters
         }
-        console.log(hasLowercase, hasUppercase, hasNumber, hasSpecial)
         return (hasLowercase && hasUppercase && hasNumber && hasSpecial)
     }
 

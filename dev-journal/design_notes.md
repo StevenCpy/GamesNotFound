@@ -15,7 +15,10 @@ Why? No download needed to see UI
 BACKEND: Django/Flask/FastAPI (Python)
 
 Backend design decision:
-Supabase (BaaS - Backend as a Service) provides cloud database and authentication.  Backend code can be removed and let frontend directly communicate with Supabase server.  We can get rid of user logins through backend using this service.  However, we have less control over score data, as users can send fake scores through the web console.
+Supabase (BaaS - Backend as a Service) provides cloud database and authentication.  Backend code can be removed and let frontend directly communicate with Supabase server.  We can get rid of user logins through backend using this service.
+Disadv:
+- Less control over score data, as users can send fake scores through the web console.
+- Risk of Supabase API keys getting leaked on frontend unless environment variables are used instead.
 
 -------------------------------------------------------------------------
 
