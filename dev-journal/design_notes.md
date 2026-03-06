@@ -56,4 +56,4 @@ Step 4 - Use of SQLite local database to fill array.  Database updates from JS c
 Step 5 (Goal) - Use of online database (eg. PosgreSQL or MongoDB) to fill array.
 
 SQL vs NoSQL: NoSQL more straightforward to fetch data if all users have same view of games, but SQL better if each user has a different view of games.
-Game cover images are stored in the data structure as the image name instead of the image itself.
+Game cover images stored in the data structure as the image name instead of the image itself.
