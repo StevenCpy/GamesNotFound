@@ -23,8 +23,6 @@ function Signup() {
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
         // TODO -- add password validation, password must follow regex
         e.preventDefault()
-        setSignedUp(false)
-        setPasswordWarning(false)
         if (passwordIsValid(password)) {
             console.log("valid")
             setSignedUp(true)
