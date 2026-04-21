@@ -3,3 +3,9 @@ GamesNotFound-venv/
 
 # Python cache
 __pycache__/
+
+# vscode
+.vscode
+
+# environment variables
+.env
