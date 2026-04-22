@@ -61,6 +61,10 @@ def usernameAlreadyExists(username):
     )
     return len(response.data) > 0
 
+# Allow pinging server
+@app.get("/")
+async def root():
+    return {"status": STATUS_SUCCESS_MESSAGE}
 
 # API to sign up user, returns "Success" or "Fail" with details if unsuccessful
 @app.post("/signup")
