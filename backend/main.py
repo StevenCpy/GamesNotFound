@@ -62,7 +62,7 @@ def usernameAlreadyExists(username):
     return len(response.data) > 0
 
 # Allow pinging server
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     return {"status": STATUS_SUCCESS_MESSAGE}
 
