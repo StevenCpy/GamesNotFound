@@ -19,7 +19,8 @@ function Signup() {
     }
 
     function handleSignUp(e) {
-        // TODO -- add backend logic for checking if email and username are available
+        // send request to server to check if username is available
+        
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
         // TODO -- add password validation, password must follow regex
         e.preventDefault()
