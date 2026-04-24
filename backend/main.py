@@ -98,6 +98,7 @@ async def login(user: User):
         # if user exists in database
         if len(response.data):
             db_password = response.data[0]["password"]
+            # if password matches the one in database
             if db_password == user.password:
                 return {"status": STATUS_SUCCESS_MESSAGE}
             else:

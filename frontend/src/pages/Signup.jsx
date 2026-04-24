@@ -104,6 +104,11 @@ function Signup() {
                 width: "15rem",
                 height: "20rem"
             }}>
+                <div>
+                    WARNING:<br></br>
+                    Passwords not currently encrypted so I can see them in the database.  Please consider this.<br></br>
+                    I will remove this warning after I implement password hashing.
+                </div>
                 <span style={{ marginLeft: "auto", marginRight: "auto" }}>SIGN UP</span>
                 <label>Username:</label>
                 <input
