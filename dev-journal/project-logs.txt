@@ -89,3 +89,16 @@ What I learned today:
 I initially only defined GET on the "/" endpoint and uptimebot's HEAD requests were received but rejected
 by the server (error code 403).
 - e.preventDefault() in form submit handlers prevents whole App() from re-rendering when the form is submitted.
+
+Day 11
+- Fixed warnings not being mutually exclusive on Sign up page.  For eg. if user enters invalid password, then signs up
+successfully, both the "invalid password" and "successful sign up" would persist previously.
+
+What I learned today:
+- A JWT token helps reduce database lookups to verify user.  It contains a signature and payload, which are enough.
+- localStorage and HTTPOnly cookies can both be used to persist data across page refreshes.
+JS code can be injected to read from localStorage, which makes it not safe to store sensitive information like tokens.
+localStorage can be used for things like dark mode toggle state.
+HTTPOnly cookies are safe for storing JWT tokens.
+- Passwords stored on database can be read as-is if not encrypted.  A library like bcrypt can be used to encrypt the
+password so even database admin cannot make sense of it.  When logging in, same hash = same password.
