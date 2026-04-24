@@ -79,3 +79,13 @@ Day 9
 
 What I learned today:
 - Both sign up and login use POST.  Login possible using GET but it's not safe as username and password would appear in URL.
+
+Day 10
+- Set up uptimebot.com monitor to ping server and prevent server cold start.
+- Defined HEAD method for "/" endpoint.
+
+What I learned today:
+- fastAPI HEAD method needs to be explicitly allowed on an endpoint to accept HEAD requests sent to it.
+I initially only defined GET on the "/" endpoint and uptimebot's HEAD requests were received but rejected
+by the server (error code 403).
+- e.preventDefault() in form submit handlers prevents whole App() from re-rendering when the form is submitted.

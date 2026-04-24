@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+const SERVER_URL = "https://gamesnotfound-server.onrender.com"
+
 function Signup() {
     const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
+    //const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [signedUp, setSignedUp] = useState(false)
     const [passwordWarning, setPasswordWarning] = useState(false)
+    const [signUpDetails, setSignUpDetails] = useState("")
     
     const usernameMaxLength = 30
-    const emailMaxLength = 320
+    //const emailMaxLength = 320
     const passwordMaxLength = 128
 
     function handleField(e, setField, fieldMaxLength) {
@@ -18,19 +21,51 @@ function Signup() {
         }
     }
 
-    function handleSignUp(e) {
-        // TODO -- add backend logic for checking if email and username are available
+    async function handleSignUpServer() {
+        try {
+            const response = await fetch(`${SERVER_URL}/signup`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            const data = await response.json()
+            return data
+        } catch (error) {
+            console.error("Error calling API", error)
+            return {"status": "Fail", "details": "Error calling signup API"}
+        }
+    }
+
+    async function handleSignUp(e) {
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
         // TODO -- add password validation, password must follow regex
-        e.preventDefault()
-        setSignedUp(false)
-        setPasswordWarning(false)
+        e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Sign Up" button
         if (passwordIsValid(password)) {
-            console.log("valid")
-            setSignedUp(true)
+            console.log("Valid password.  Initiating server-side sign up...")
+
+            // send request to server to handle sign up
+            let data = await handleSignUpServer()
+            if (data.status == "Success") {
+                console.log("User successfully signed up by server")
+                setSignedUp(true)
+                setSignUpDetails("")
+                setPasswordWarning(false)
+            } else {
+                console.log(data.details)
+                setSignUpDetails(data.details)
+                setSignedUp(false)
+                setPasswordWarning(false)
+            }
         } else {
-            console.log("invalid")
+            console.log("Invalid password")
             setPasswordWarning(true)
+            setSignedUp(false)
+            setSignUpDetails("")
         }
     }
 
@@ -96,6 +131,7 @@ function Signup() {
                     <Link to="/Login">Login</Link>
                 </span>
                 {signedUp && <div style={{ color:"green" }}>Signed up successfully.  You can now login!</div>}
+                {signUpDetails && <div style={{ color:"red" }}> {signUpDetails}</div>}
                 {passwordWarning && <ul style={{ color:"red" }}>
                     <li>Password must contain at least a lowercase letter.</li>
                     <li>Password must contain at least an uppercase letter.</li>
