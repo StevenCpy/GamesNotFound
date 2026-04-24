@@ -44,7 +44,7 @@ function Signup() {
     async function handleSignUp(e) {
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
         // TODO -- add password validation, password must follow regex
-        e.preventDefault() // prevent resetting form on pressing "Sign Up" button
+        e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Sign Up" button
         if (passwordIsValid(password)) {
             console.log("Valid password.  Initiating server-side sign up...")
 
