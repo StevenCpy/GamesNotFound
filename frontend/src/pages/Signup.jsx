@@ -53,13 +53,19 @@ function Signup() {
             if (data.status == "Success") {
                 console.log("User successfully signed up by server")
                 setSignedUp(true)
+                setSignUpDetails("")
+                setPasswordWarning(false)
             } else {
                 console.log(data.details)
                 setSignUpDetails(data.details)
+                setSignedUp(false)
+                setPasswordWarning(false)
             }
         } else {
             console.log("Invalid password")
             setPasswordWarning(true)
+            setSignedUp(false)
+            setSignUpDetails("")
         }
     }
 
