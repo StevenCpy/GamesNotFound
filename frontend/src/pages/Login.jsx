@@ -40,7 +40,7 @@ function Login() {
         let data = await handleLoginServer()
         if (data.status == "Success") {
             console.log("User successfully logged in by server")
-            setCurrentUser(username)
+            setCurrentUser(username.toUpperCase())
             navigate("/")
         } else {
             console.log(data.details)
