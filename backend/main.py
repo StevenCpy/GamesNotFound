@@ -70,6 +70,7 @@ async def root():
 @app.post("/signup")
 async def signup(user: User):
     try:
+        user.username = user.username.upper()
         if usernameAlreadyExists(user.username):
             # return username already exists
             return {"status": STATUS_FAIL_MESSAGE, "details": "Username already exists"}
@@ -89,6 +90,7 @@ async def signup(user: User):
 @app.post("/login")
 async def login(user: User):
     try:
+        user.username = user.username.upper()
         response = (
             supabase.table(USER_TABLE)
             .select("password")
