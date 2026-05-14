@@ -57,7 +57,6 @@ function Login() {
                 marginRight: "auto",
                 width: "15rem",
                 height: "20rem"
-
             }}>
                 <span style={{ marginLeft: "auto", marginRight: "auto" }}>LOGIN</span>
                 <label>Username:</label>
