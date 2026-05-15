@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
-import SERVER_URL from "../data/server_variables"
 
 function Library() {
     const { libraryList, storeList } = useContext(AuthContext)
@@ -24,5 +23,3 @@ function Library() {
         </div>
     )
 }
-
-export default Library
