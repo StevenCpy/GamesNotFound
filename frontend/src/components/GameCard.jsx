@@ -1,4 +1,9 @@
+import { useContext } from "react"
+import { AuthContext } from "./Context"
+
 function GameCard( {gameName, gameVersion, author, coverImageName} ) {
+    const { currentUser } = useContext(AuthContext)
+
     return (
         <div style={{
             display:"flex",
@@ -17,7 +22,7 @@ function GameCard( {gameName, gameVersion, author, coverImageName} ) {
                 <div style={{ fontSize:"2.5rem", textAlign:"center" }}> <b>{ gameName }</b> </div>
                 <div> <b>VERSION: </b> { gameVersion } </div>
                 <div> <b>AUTHOR: </b> { author } </div>
-                <button disabled> Install </button>
+                <button disabled={!currentUser}> + Add to Library </button>
             </div>
         </div>
     )
