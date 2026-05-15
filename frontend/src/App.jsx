@@ -27,7 +27,7 @@ function App() {
             }}>
               <Link to="/">GamesNotFound</Link>
               <Link to="/Store">STORE</Link>
-              {currentUser && <Link to="/Store">LIBRARY</Link>}
+              {currentUser && <Link to="/Library">LIBRARY</Link>}
             </span>
             <span style={{ marginLeft:"auto" }}>
             {currentUser ?
