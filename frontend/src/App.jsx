@@ -10,9 +10,10 @@ import { AuthContext } from './components/Context.jsx'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
+  const [library, setLibrary] = useState({})
 
   return (
-    <AuthContext value={{ currentUser, setCurrentUser }}>
+    <AuthContext value={{ currentUser, setCurrentUser, library, setLibrary }}>
       <BrowserRouter>
         <nav id="main-nav-bar">
           <div style={{
@@ -25,6 +26,7 @@ function App() {
             }}>
               <Link to="/">GamesNotFound</Link>
               <Link to="/Store">STORE</Link>
+              {currentUser && <Link to="/Store">LIBRARY</Link>}
             </span>
             <span style={{ marginLeft:"auto" }}>
             {currentUser ?
