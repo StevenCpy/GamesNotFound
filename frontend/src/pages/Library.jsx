@@ -1,10 +1,11 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
+import SERVER_URL from "../data/server_variables"
 
 function Library() {
     const { library, setLibrary } = useContext(AuthContext)
 
-    function loadLibraryServer() {
+    async function loadLibraryServer() {
         try {
             const response = await fetch(`${SERVER_URL}/loadLibrary`, {
                 method: "POST",
