@@ -4,14 +4,14 @@ import games from '../data/games'
 import { AuthContext } from '../components/Context'
 
 function Store() {
-    const { store } = useContext(AuthContext)
+    const { storeList } = useContext(AuthContext)
 
     return (
         <div style={{
             display:"flex",
             flexDirection: "column",
         }}>
-            {store.map(game =>
+            {storeList.map(game =>
                 <GameCard key={game.gameID}
                             gameID={game.gameID}
                             gameName={game.gameName}
