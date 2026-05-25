@@ -143,3 +143,6 @@ to [1,2] using a map, then this can become a set (1,2).
 new Map() can take a list of [key,value] pairs.
 - Say I have a game version as major.minor.patch, I can just split it in the UI if needed instead of storing
 major, minor and patch as separate columns in the database.
+- Error 405: "Method Not Allowed" caused when for eg. sending GET request to a POST endpoint.
+- Error 422: "Unprocessable Content" for eg. Sending POST request, but using "username: str" as parameter in the POST endpoint function.
+This is valid for GET, but need Pydantic model for body parameters.

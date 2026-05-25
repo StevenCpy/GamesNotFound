@@ -8,6 +8,7 @@ import Profile from './pages/Profile'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import { AuthContext } from './components/Context.jsx'
+import SERVER_URL from './data/server_variables.js'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -16,6 +17,8 @@ function App() {
   const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
 
   useEffect(() => {
+    console.log("calling useEffect in App()")
+
     async function loadStoreServer() {
       try {
         const response = await fetch(`${SERVER_URL}/store`)
@@ -46,6 +49,15 @@ function App() {
       }
     }
 
+    async function loadStoreOnlyServer() {
+      const store_response_json = await loadStoreServer()
+
+      if (store_response_json.status == "Success") {
+        // initialize store games lists
+        setStoreList(store_response_json.data)
+      }
+    }
+
     async function loadStoreAndLibraryServer() {
       const store_response_json = await loadStoreServer()
       const library_response_json = await loadLibraryServer()
@@ -64,6 +76,7 @@ function App() {
       loadStoreAndLibraryServer()
     } else { // user logged out
       // keep store list as users should see the store games even when logged out
+      loadStoreOnlyServer()
       setLibraryList([])
     }
 

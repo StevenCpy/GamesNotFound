@@ -55,6 +55,9 @@ class User(BaseModel):
     username: str
     password: str
 
+class LibraryRequest(BaseModel):
+    username: str
+
 # queries database to check if username already exists
 def usernameAlreadyExists(username):
     response = (
@@ -117,7 +120,7 @@ async def login(user: User):
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
 
 # API to return all games in the store
-@app.post("/store")
+@app.get("/store")
 async def store():
     try:
         response = (
@@ -132,13 +135,13 @@ async def store():
 
 # API to return user's list of library games
 @app.post("/library")
-async def library(username: str):
+async def library(libraryRequest: LibraryRequest):
     try:
-        username = username.upper()
+        libraryRequest.username = libraryRequest.username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
             .select("gameID,added_at")
-            .eq("username",username)
+            .eq("username",libraryRequest.username)
             .order("added_at", desc=False)
             .execute()
         )
