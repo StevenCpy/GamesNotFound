@@ -17,9 +17,9 @@ function Library() {
             {libraryList.map(game =>
                 <LibraryGameCard key={game.gameID}
                             gameID={game.gameID}
-                            gameName={storeHashMap[game.gameID]["name"]}
-                            author={storeHashMap[game.gameID]["author"]}
-                            gameVersion={storeHashMap[game.gameID]["version"]} />
+                            gameName={storeHashMap.get(game.gameID)["name"]}
+                            author={storeHashMap.get(game.gameID)["author"]}
+                            gameVersion={storeHashMap.get(game.gameID)["version"]} />
             )}
         </div>
     )
