@@ -15,7 +15,7 @@ function Library() {
             flexDirection: "column",
         }}>
             {libraryList.map(game =>
-                <GameCard key={game.gameID}
+                <LibraryGameCard key={game.gameID}
                             gameID={game.gameID}
                             gameName={storeHashMap[game.gameID]["name"]}
                             author={storeHashMap[game.gameID]["author"]}
