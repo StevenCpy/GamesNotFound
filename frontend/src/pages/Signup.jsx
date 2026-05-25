@@ -33,8 +33,8 @@ function Signup() {
                     password: password
                 })
             })
-            const data = await response.json()
-            return data
+            const response_json = await response.json()
+            return response_json
         } catch (error) {
             console.error("Error calling signup API", error)
             return {"status": "Fail", "details": "Error calling signup API"}
@@ -49,15 +49,15 @@ function Signup() {
             console.log("Valid password.  Initiating server-side sign up...")
 
             // send request to server to handle sign up
-            const data = await handleSignUpServer()
-            if (data.status == "Success") {
+            const response_json = await handleSignUpServer()
+            if (response_json.status == "Success") {
                 console.log("User successfully signed up by server")
                 setSignedUp(true)
                 setSignUpDetails("")
                 setPasswordWarning(false)
             } else {
-                console.log(data.details)
-                setSignUpDetails(data.details)
+                console.log(response_json.details)
+                setSignUpDetails(response_json.details)
                 setSignedUp(false)
                 setPasswordWarning(false)
             }
