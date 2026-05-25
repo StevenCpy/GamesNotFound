@@ -18,7 +18,7 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
             gap:"1rem"
         }}>
             <div>
-                <img src={`/game-cover-images/${gameName}`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
+                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
             </div>
             <div style={{
                 height:"100%",
