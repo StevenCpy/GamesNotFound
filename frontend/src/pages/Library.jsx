@@ -1,32 +1,25 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
-import SERVER_URL from "../data/server_variables"
 
 function Library() {
-    const { library, setLibrary } = useContext(AuthContext)
+    const { libraryList, storeList } = useContext(AuthContext)
 
-    async function loadLibraryServer() {
-        try {
-            const response = await fetch(`${SERVER_URL}/loadLibrary`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: currentUser
-                })
-            })
-            const data = await response.json()
-            return data
-        } catch (error) {
-            console.error("Error calling loadLibrary API", error)
-            return {"status": "Fail", "details": "Error calling loadLibrary API"}
-        }
-    }
+    const storeHashMap = new Map(
+        storeList.map(game => [game.gameID, game]) // creates key-value pair with key = gameID
+    )
 
     return (
-        <div>
-            This is the library
+        <div style={{
+            display:"flex",
+            flexDirection: "column",
+        }}>
+            {libraryList.map(game =>
+                <LibraryGameCard key={game.gameID}
+                            gameID={game.gameID}
+                            gameName={storeHashMap[game.gameID]["name"]}
+                            author={storeHashMap[game.gameID]["author"]}
+                            gameVersion={storeHashMap[game.gameID]["version"]} />
+            )}
         </div>
     )
 }

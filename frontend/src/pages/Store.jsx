@@ -1,14 +1,21 @@
-import GameCard from '../components/GameCard'
-import games from '../data/games'
+import { useContext } from 'react'
+import { AuthContext } from '../components/Context'
+import GameCard from '../components/StoreGameCard'
 
 function Store() {
+    const { storeList } = useContext(AuthContext)
+
     return (
         <div style={{
             display:"flex",
             flexDirection: "column",
         }}>
-            {games.games.map(game =>
-                <GameCard key={game.Id} gameName={game.gameName} gameVersion={game.gameVersion} author={game.author} coverImageName={game.coverImageName} />
+            {storeList.map(game =>
+                <StoreGameCard key={game.gameID}
+                                gameID={game.gameID}
+                                gameName={game.name}
+                                author={game.author}
+                                gameVersion={game.version} />
             )}
         </div>
     )

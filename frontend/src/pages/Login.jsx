@@ -23,8 +23,8 @@ function Login() {
                     password: password
                 })
             })
-            const data = await response.json()
-            return data
+            const response_json = await response.json()
+            return response_json
         } catch (error) {
             console.error("Error calling login API", error)
             return {"status": "Fail", "details": "Error calling login API"}
@@ -37,13 +37,13 @@ function Login() {
         console.log("Initiating server-side login...")
 
         // send request to server to handle login
-        let data = await handleLoginServer()
-        if (data.status == "Success") {
+        const response_json = await handleLoginServer()
+        if (response_json.status == "Success") {
             console.log("User successfully logged in by server")
             setCurrentUser(username.toUpperCase())
             navigate("/")
         } else {
-            console.log(data.details)
+            console.log(response_json.details)
             setLoginError(true)
         }
     }

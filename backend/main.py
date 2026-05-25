@@ -7,7 +7,11 @@ from supabase import create_client, Client
 from supabase.client import ClientOptions
 from dotenv import load_dotenv
 
-USER_TABLE = "users"
+# database tables
+USERS_TABLE = "users"
+GAMES_TABLE = "games"
+LIBRARY_TABLE = "library"
+
 STATUS_SUCCESS_MESSAGE = "Success"
 STATUS_FAIL_MESSAGE = "Fail"
 TIMEOUT_SECONDS = 10
@@ -54,7 +58,7 @@ class User(BaseModel):
 # queries database to check if username already exists
 def usernameAlreadyExists(username):
     response = (
-        supabase.table(USER_TABLE)
+        supabase.table(USERS_TABLE)
         .select("*")
         .eq("username", username)
         .execute()
@@ -77,7 +81,7 @@ async def signup(user: User):
         else:
             # insert username and password into table, return successful sign up
             response = (
-                supabase.table(USER_TABLE)
+                supabase.table(USERS_TABLE)
                 .insert({"username": user.username, "password": user.password})
                 .execute()
             )
@@ -92,7 +96,7 @@ async def login(user: User):
     try:
         user.username = user.username.upper()
         response = (
-            supabase.table(USER_TABLE)
+            supabase.table(USERS_TABLE)
             .select("password")
             .eq("username",user.username)
             .execute()
@@ -110,4 +114,34 @@ async def login(user: User):
             return {"status": STATUS_FAIL_MESSAGE, "details": "User does not exist"}
     except:
         # return database timeout error message
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+
+# API to return all games in the store
+@app.post("/store")
+async def store():
+    try:
+        response = (
+            supabase.table(GAMES_TABLE)
+            .select("gameID,name,description,author,version,library_adds")
+            .order("gameID", desc=False)
+            .execute()
+        )
+        return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+    except:
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+
+# API to return user's list of library games
+@app.post("/library")
+async def library(username: str):
+    try:
+        username = username.upper()
+        response = (
+            supabase.table(LIBRARY_TABLE)
+            .select("gameID,added_at")
+            .eq("username",username)
+            .order("added_at", desc=False)
+            .execute()
+        )
+        return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+    except:
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}

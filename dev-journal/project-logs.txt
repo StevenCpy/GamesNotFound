@@ -104,7 +104,7 @@ HTTPOnly cookies are safe for storing JWT tokens.
 password so even database admin cannot make sense of it.  When logging in, same hash = same password.
 
 Day 12
-- Implemented functional login feature
+- Implemented functional login feature.
 
 What I learned today:
 - "export default" allows importing without { } eg.
@@ -113,8 +113,33 @@ const AuthContext = createContext(null); export default AuthContext; allows impo
 - Using `` is like using f-strings on Python.
 Python: f"This is {var1}"
 JS: `This is ${var1}`
-- Hooks can only be used instead components i.e. functions that return html
-- context
--- Using contexts prevents prop-drilling
+- Hooks can only be used instead components i.e. functions that return html.
+- CONTEXT
+-- Using contexts prevents prop-drilling.
 -- Pass values to context eg. <AuthContext value = {{ currentUser, setCurrentUser }}> </AuthContext>
-Extracting specific variable is possible (Selective object destructuring) eg. const setCurrentUser = useContext(AuthContext)
+Extracting specific variable is possible (Selective object destructuring) eg. const setCurrentUser = useContext(AuthContext).
+
+Day 13
+- Created Profile page.
+- Implemented log out button.
+- Hide library and "+ Add to library" buttons when user is logged out.
+
+What I learned today:
+- We can use React's useNavigate() to automatically redirect user to another page.
+
+Day 14
+- Created Library page.
+- Created store and library API endpoints to get list of games instead of using previously hard-coded JS list.
+- Added API calls to get and parse store and library games list on app start up.
+- Disable "+ Add to library" button on Store page if user is logged out or game is already in library.
+- Modified database to hold gameVersion instead of major, minor and patch as separate columns.
+- Separated Store and Library game cards to allow "add" and "remove" game button respectively.
+
+What I learned today:
+- List can be converted to set if array is one-dimensional eg. [{ID: 1, name: One}, {ID: 2, name: Two}] can be converted
+to [1,2] using a map, then this can become a set (1,2).
+- List can be converted to hash map eg. [{ID: 1, name: One}, {ID: 2, name: Two}] can be converted to
+[[1, {ID: 1, name: One}], [2, {ID: 2, name: Two}]] which becomes a list of key-value pairs with ID as key.
+new Map() can take a list of [key,value] pairs.
+- Say I have a game version as major.minor.patch, I can just split it in the UI if needed instead of storing
+major, minor and patch as separate columns in the database.
