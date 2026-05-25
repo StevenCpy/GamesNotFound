@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
@@ -11,10 +11,67 @@ import { AuthContext } from './components/Context.jsx'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
-  const [library, setLibrary] = useState({})
+  const [storeList, setStoreList] = useState([]) // list for displaying store games
+  const [libraryList, setLibraryList] = useState([]) // list for displaying library games in order
+  const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
+
+  useEffect(() => {
+    async function loadStoreServer() {
+      try {
+        const response = await fetch(`${SERVER_URL}/store`)
+        const response_json = await response.json()
+        return response_json
+      } catch (error) {
+        console.error("Error calling store API", error)
+        return {"status": "Fail", "details": "Error calling store API"}
+      }
+    }
+
+    async function loadLibraryServer() {
+      try {
+        const response = await fetch(`${SERVER_URL}/library`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: currentUser
+          })
+        })
+        const response_json = await response.json()
+        return response_json
+      } catch (error) {
+        console.error("Error calling library API", error)
+        return {"status": "Fail", "details": "Error calling library API"}
+      }
+    }
+
+    if (currentUser) {
+      const store_response_json = await loadStoreServer()
+      const library_response_json = await loadLibraryServer()
+
+      if (store_response_json.status == "Success" && library_response_json.status == "Success") {
+        // initialize store and library games lists
+        setStoreList(store_response_json.data)
+        setLibraryList(library_response_json.data)
+
+        // convert libraryList to a set containing only gameIDs
+        setLibrarySet(new Set(libraryList.map(game => game.gameID)))
+      }
+    } else { // user logged out
+      // keep store list as users should see the store games even when logged out
+      setLibraryList([])
+    }
+
+  }, [currentUser]) // re-run code in case user logs in/logs out
 
   return (
-    <AuthContext value={{ currentUser, setCurrentUser, library, setLibrary }}>
+    // currentUser used by Profile and Home pages
+    // setCurrentUser used by Login and Log out features
+    // libraryList used by Library to display library games, and Store to disable "+ Add to library button"
+    // setLibraryList used by Store whenever user adds game to library, and Library to remove a game
+    // storeList used by Store to display store games, and Library to check for game info
+    <AuthContext value={{ currentUser, setCurrentUser, libraryList, setLibraryList, storeList }}>
       <BrowserRouter>
         <nav id="main-nav-bar">
           <div style={{
