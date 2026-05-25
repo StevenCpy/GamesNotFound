@@ -37,7 +37,7 @@ function Login() {
         console.log("Initiating server-side login...")
 
         // send request to server to handle login
-        let data = await handleLoginServer()
+        const data = await handleLoginServer()
         if (data.status == "Success") {
             console.log("User successfully logged in by server")
             setCurrentUser(username.toUpperCase())

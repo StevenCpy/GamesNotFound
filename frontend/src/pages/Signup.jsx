@@ -49,7 +49,7 @@ function Signup() {
             console.log("Valid password.  Initiating server-side sign up...")
 
             // send request to server to handle sign up
-            let data = await handleSignUpServer()
+            const data = await handleSignUpServer()
             if (data.status == "Success") {
                 console.log("User successfully signed up by server")
                 setSignedUp(true)
