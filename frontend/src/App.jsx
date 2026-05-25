@@ -8,6 +8,7 @@ import Profile from './pages/Profile'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import { AuthContext } from './components/Context.jsx'
+import SERVER_URL from './data/server_variables.js'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -16,6 +17,8 @@ function App() {
   const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
 
   useEffect(() => {
+    console.log("calling useEffect in App()")
+
     async function loadStoreServer() {
       try {
         const response = await fetch(`${SERVER_URL}/store`)
