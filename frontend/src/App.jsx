@@ -49,6 +49,15 @@ function App() {
       }
     }
 
+    async function loadStoreOnlyServer() {
+      const store_response_json = await loadStoreServer()
+
+      if (store_response_json.status == "Success") {
+        // initialize store games lists
+        setStoreList(store_response_json.data)
+      }
+    }
+
     async function loadStoreAndLibraryServer() {
       const store_response_json = await loadStoreServer()
       const library_response_json = await loadLibraryServer()
@@ -67,6 +76,7 @@ function App() {
       loadStoreAndLibraryServer()
     } else { // user logged out
       // keep store list as users should see the store games even when logged out
+      loadStoreOnlyServer()
       setLibraryList([])
     }
 
