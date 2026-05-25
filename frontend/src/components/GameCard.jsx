@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { AuthContext } from "./Context"
 import SERVER_URL from "../data/server_variables"
 
-function GameCard( {gameID, gameName, gameVersion, author} ) {
+function GameCard( {gameID, gameName, author, gameVersion} ) {
     const { currentUser } = useContext(AuthContext)
 
     // send POST request to add Id to library

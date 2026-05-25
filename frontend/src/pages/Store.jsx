@@ -14,9 +14,9 @@ function Store() {
             {storeList.map(game =>
                 <GameCard key={game.gameID}
                             gameID={game.gameID}
-                            gameName={game.gameName}
-                            gameVersion={`${game.gameMajor}.${game.gameMinor}.${game.gamePatch}`}
-                            author={game.author} />
+                            gameName={game.name}
+                            author={game.author}
+                            gameVersion={game.version} />
             )}
         </div>
     )
