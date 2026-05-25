@@ -1,8 +1,16 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
+import SERVER_URL from "../data/server_variables"
 
-function GameCard( {gameName, gameVersion, author} ) {
+function GameCard( {gameID, gameName, gameVersion, author} ) {
     const { currentUser } = useContext(AuthContext)
+
+    // send POST request to add Id to library
+    async function handleAddToLibrary() {
+        // check if game is already in library
+
+        // tell server to add game to library in user's library in database
+    }
 
     return (
         <div style={{
@@ -22,7 +30,7 @@ function GameCard( {gameName, gameVersion, author} ) {
                 <div style={{ fontSize:"2.5rem", textAlign:"center" }}> <b>{ gameName }</b> </div>
                 <div> <b>VERSION: </b> { gameVersion } </div>
                 <div> <b>AUTHOR: </b> { author } </div>
-                <button disabled={!currentUser}> + Add to Library </button>
+                <button disabled={!currentUser} onClick={ handleAddToLibrary }> + Add to Library </button>
             </div>
         </div>
     )
