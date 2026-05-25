@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
+import LibraryGameCard from "../components/LibraryGameCard"
 
 function Library() {
     const { libraryList, storeList } = useContext(AuthContext)

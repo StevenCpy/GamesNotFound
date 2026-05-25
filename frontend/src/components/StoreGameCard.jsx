@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
-import SERVER_URL from "../data/server_variables"
 
 function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
     const { currentUser, librarySet } = useContext(AuthContext)

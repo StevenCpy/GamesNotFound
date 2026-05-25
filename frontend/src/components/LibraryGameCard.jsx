@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
-import SERVER_URL from "../data/server_variables"
 
 function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
     const { currentUser } = useContext(AuthContext)
@@ -34,4 +33,4 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
     )
 }
 
-export default StoreGameCard
+export default LibraryGameCard
