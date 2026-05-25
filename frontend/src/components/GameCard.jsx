@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
 
-function GameCard( {gameName, gameVersion, author, coverImageName} ) {
+function GameCard( {gameName, gameVersion, author} ) {
     const { currentUser } = useContext(AuthContext)
 
     return (
@@ -13,7 +13,7 @@ function GameCard( {gameName, gameVersion, author, coverImageName} ) {
             gap:"1rem"
         }}>
             <div>
-                <img src={"/game-cover-images/" + coverImageName} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
+                <img src={`/game-cover-images/${gameName}`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
             </div>
             <div style={{
                 height:"100%",
