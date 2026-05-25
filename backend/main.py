@@ -123,6 +123,7 @@ async def store():
         response = (
             supabase.table(GAMES_TABLE)
             .select("gameID,name,description,author,version_major,version_minor,version_patch")
+            .order("gameID", desc=False)
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
@@ -138,6 +139,7 @@ async def library(username: str):
             supabase.table(LIBRARY_TABLE)
             .select("gameID,added_at")
             .eq("username",username)
+            .order("added_at", desc=False)
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
