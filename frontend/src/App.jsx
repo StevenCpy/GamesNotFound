@@ -73,10 +73,9 @@ function App() {
     }
 
     if (currentUser) {
-      loadStoreAndLibraryServer()
+      loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
     } else { // user logged out
-      // keep store list as users should see the store games even when logged out
-      loadStoreOnlyServer()
+      loadStoreOnlyServer() // fetch only Store games if user logged out
       setLibraryList([])
     }
 
@@ -85,10 +84,12 @@ function App() {
   return (
     // currentUser used by Profile and Home pages
     // setCurrentUser used by Login and Log out features
-    // libraryList used by Library to display library games, and Store to disable "+ Add to library button"
+    // libraryList used by Library to display library games
     // setLibraryList used by Store whenever user adds game to library, and Library to remove a game
+    // librarySet used by Store to disable "+ Add to library button"
+    // setLibrarySet used by Store whenever user adds game to library, and Library to remove a game
     // storeList used by Store to display store games, and Library to check for game info
-    <AuthContext value={{ currentUser, setCurrentUser, libraryList, setLibraryList, storeList }}>
+    <AuthContext value={{ currentUser, setCurrentUser, libraryList, setLibraryList, librarySet, setLibrarySet, storeList }}>
       <BrowserRouter>
         <nav id="main-nav-bar">
           <div style={{

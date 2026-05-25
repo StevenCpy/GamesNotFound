@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
-import SERVER_URL from "../data/server_variables"
 
 function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
     const { currentUser } = useContext(AuthContext)
@@ -19,7 +18,7 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
             gap:"1rem"
         }}>
             <div>
-                <img src={`/game-cover-images/${gameName}`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
+                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
             </div>
             <div style={{
                 height:"100%",
@@ -34,4 +33,4 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
     )
 }
 
-export default StoreGameCard
+export default LibraryGameCard
