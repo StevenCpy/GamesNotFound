@@ -46,7 +46,7 @@ function App() {
       }
     }
 
-    if (currentUser) {
+    async function loadStoreAndLibraryServer() {
       const store_response_json = await loadStoreServer()
       const library_response_json = await loadLibraryServer()
 
@@ -56,8 +56,12 @@ function App() {
         setLibraryList(library_response_json.data)
 
         // convert libraryList to a set containing only gameIDs
-        setLibrarySet(new Set(libraryList.map(game => game.gameID)))
+        setLibrarySet(new Set(library_response_json.data.map(game => game.gameID)))
       }
+    }
+
+    if (currentUser) {
+      loadStoreAndLibraryServer()
     } else { // user logged out
       // keep store list as users should see the store games even when logged out
       setLibraryList([])
