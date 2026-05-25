@@ -73,10 +73,9 @@ function App() {
     }
 
     if (currentUser) {
-      loadStoreAndLibraryServer()
+      loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
     } else { // user logged out
-      // keep store list as users should see the store games even when logged out
-      loadStoreOnlyServer()
+      loadStoreOnlyServer() // fetch only Store games if user logged out
       setLibraryList([])
     }
 
