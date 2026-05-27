@@ -175,7 +175,8 @@ async def removeFromLibrary(username: str, gameID: int):
         username = username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
-            .delete({"username": username, "gameID": gameID})
+            .eq("username", username)
+            .eq("gameID", gameID)
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE}
