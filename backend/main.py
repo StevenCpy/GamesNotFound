@@ -50,8 +50,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# -----------------------------------------------------------------
-
+# ----------------------------------------------------------------- #
+#                            BASE MODELS                            #
+# ----------------------------------------------------------------- #
 class User(BaseModel):
     username: str
     password: str
@@ -60,6 +61,10 @@ class LibraryRequest(BaseModel):
     username: str
 
 class AddToLibraryRequest(BaseModel):
+    username: str
+    gameID: int
+
+class removeFromLibraryRequest(BaseModel):
     username: str
     gameID: int
 
@@ -72,6 +77,10 @@ def usernameAlreadyExists(username):
         .execute()
     )
     return len(response.data) > 0
+
+# ----------------------------------------------------------------- #
+#                            ENDPOINTS                              #
+# ----------------------------------------------------------------- #
 
 # Allow pinging server
 @app.api_route("/", methods=["GET", "HEAD"])
@@ -167,5 +176,19 @@ async def addToLibrary(addToLibraryRequest: AddToLibraryRequest):
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+    except:
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    
+# API to remove game from user's library
+@app.post("/removeFromLibrary")
+async def removeFromLibrary(removeFromLibraryRequest: removeFromLibraryRequest):
+    try:
+        removeFromLibraryRequest.username = removeFromLibraryRequest.username.upper()
+        response = (
+            supabase.table(LIBRARY_TABLE)
+            .delete({"username": removeFromLibraryRequest.username, "gameID": removeFromLibraryRequest.gameID}) 
+            .execute()
+        )
+        return {"status": STATUS_SUCCESS_MESSAGE}
     except:
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
