@@ -32,15 +32,7 @@ function App() {
 
     async function loadLibraryServer() {
       try {
-        const response = await fetch(`${SERVER_URL}/library`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: currentUser
-          })
-        })
+        const response = await fetch(`${SERVER_URL}/library/${currentUser}`)
         const response_json = await response.json()
         return response_json
       } catch (error) {

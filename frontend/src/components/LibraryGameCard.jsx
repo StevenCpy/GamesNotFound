@@ -8,14 +8,8 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
     // send removeFromLibrary POST request to server
     async function handleRemoveFromLibraryServer() {
         try {
-            const response = await fetch(`${SERVER_URL}/removeFromLibrary/${gameID}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: currentUser
-                })
+            const response = await fetch(`${SERVER_URL}/removeFromLibrary/${currentUser}/${gameID}`, {
+                method: "DELETE"
             })
         const response_json = await response.json()
         return response_json
