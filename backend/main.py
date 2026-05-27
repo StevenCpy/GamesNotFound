@@ -62,9 +62,8 @@ class LibraryRequest(BaseModel):
 
 class AddToLibraryRequest(BaseModel):
     username: str
-    gameID: int
 
-class removeFromLibraryRequest(BaseModel):
+class RemoveFromLibraryRequest(BaseModel):
     username: str
 
 # queries database to check if username already exists
@@ -163,14 +162,14 @@ async def library(libraryRequest: LibraryRequest):
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
     
 # API to add game to user's library
-@app.post("/addToLibrary")
-async def addToLibrary(addToLibraryRequest: AddToLibraryRequest):
+@app.post("/addToLibrary/{gameID}")
+async def addToLibrary(gameID: int, addToLibraryRequest: AddToLibraryRequest):
     try:
         addToLibraryRequest.username = addToLibraryRequest.username.upper()
         added_at = datetime.now(timezone.utc)
         response = (
             supabase.table(LIBRARY_TABLE)
-            .insert({"username": addToLibraryRequest.username, "gameID": addToLibraryRequest.gameID, "added_at": added_at})
+            .insert({"username": addToLibraryRequest.username, "gameID": gameID, "added_at": added_at})
             .select("gameID,added_at")
             .execute()
         )
@@ -180,7 +179,7 @@ async def addToLibrary(addToLibraryRequest: AddToLibraryRequest):
     
 # API to remove game from user's library
 @app.delete("/removeFromLibrary/{gameID}")
-async def removeFromLibrary(gameID: int, removeFromLibraryRequest: removeFromLibraryRequest):
+async def removeFromLibrary(gameID: int, removeFromLibraryRequest: RemoveFromLibraryRequest):
     try:
         removeFromLibraryRequest.username = removeFromLibraryRequest.username.upper()
         response = (
