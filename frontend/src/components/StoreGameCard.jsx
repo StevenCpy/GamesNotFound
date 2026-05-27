@@ -8,14 +8,8 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
     // send addToLibrary POST request to server
     async function handleAddToLibraryServer() {
         try {
-            const response = await fetch(`${SERVER_URL}/addToLibrary/${gameID}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: currentUser
-                })
+            const response = await fetch(`${SERVER_URL}/addToLibrary/${currentUser}/${gameID}`, {
+                method: "POST"
             })
         const response_json = await response.json()
         return response_json

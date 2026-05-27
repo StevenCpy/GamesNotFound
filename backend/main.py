@@ -57,9 +57,6 @@ class User(BaseModel):
     username: str
     password: str
 
-class AddToLibraryRequest(BaseModel):
-    username: str
-
 # queries database to check if username already exists
 def usernameAlreadyExists(username):
     response = (
@@ -156,14 +153,14 @@ async def library(username: str):
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
     
 # API to add game to user's library
-@app.post("/addToLibrary/{gameID}")
-async def addToLibrary(gameID: int, addToLibraryRequest: AddToLibraryRequest):
+@app.post("/addToLibrary/{username}/{gameID}")
+async def addToLibrary(username: str, gameID: int):
     try:
-        addToLibraryRequest.username = addToLibraryRequest.username.upper()
+        username = username.upper()
         added_at = datetime.now(timezone.utc)
         response = (
             supabase.table(LIBRARY_TABLE)
-            .insert({"username": addToLibraryRequest.username, "gameID": gameID, "added_at": added_at})
+            .insert({"username": username, "gameID": gameID, "added_at": added_at})
             .select("gameID,added_at")
             .execute()
         )
