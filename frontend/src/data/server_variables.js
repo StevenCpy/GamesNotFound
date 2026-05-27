@@ -1,3 +1,3 @@
-const SERVER_URL = "https://gamesnotfound-server.onrender.com"
+const SERVER_URL = import.meta.env.VITE_SERVER_URL
 
 export default SERVER_URL
