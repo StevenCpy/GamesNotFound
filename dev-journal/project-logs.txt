@@ -156,3 +156,9 @@ DAY 15
 
 What I learned today:
 - Accessing a value in a hashmap (created using new Map()) is not same as in Python.  For eg. hashMap[2] doesn't work while hashMap.get(2) does.
+- "select" after "insert" in Supabase SQL queries allows selecting and returning particular columns from the inserted data.
+Eg. insert({"username": "Bill", "gameID": 1}).select("gameID") returns only the gameID column of the inserted row.
+- Treat objects in state as immutable, always replace instead of mutating them
+To change a list state, create a new list containing the previous list and add the new element.  Don't add to the original list itself.
+Eg. setLibraryList([...libraryList, entry]) instead of libraryList.push(entry); setLibraryList(libraryList).
+For sets, setLibrarySet(new Set(librarySet).add(entry)) instead of setLibrarySet(librarySet.add(entry)).

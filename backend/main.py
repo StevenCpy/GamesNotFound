@@ -6,6 +6,7 @@ import os
 from supabase import create_client, Client
 from supabase.client import ClientOptions
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 # database tables
 USERS_TABLE = "users"
@@ -57,6 +58,10 @@ class User(BaseModel):
 
 class LibraryRequest(BaseModel):
     username: str
+
+class AddToLibraryRequest(BaseModel):
+    username: str
+    gameID: int
 
 # queries database to check if username already exists
 def usernameAlreadyExists(username):
@@ -143,6 +148,22 @@ async def library(libraryRequest: LibraryRequest):
             .select("gameID,added_at")
             .eq("username",libraryRequest.username)
             .order("added_at", desc=False)
+            .execute()
+        )
+        return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+    except:
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    
+# API to add game to user's library
+@app.post("/addToLibrary")
+async def addToLibrary(addToLibraryRequest: AddToLibraryRequest):
+    try:
+        addToLibraryRequest.username = addToLibraryRequest.username.upper()
+        added_at = datetime.now(timezone.utc)
+        response = (
+            supabase.table(LIBRARY_TABLE)
+            .insert({"username": addToLibraryRequest.username, "gameID": addToLibraryRequest.gameID, "added_at": added_at})
+            .select("gameID,added_at")
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}

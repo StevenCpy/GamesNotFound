@@ -1,12 +1,45 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
+import SERVER_URL from "../data/server_variables"
 
 function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
-    const { currentUser, librarySet } = useContext(AuthContext)
+    const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
 
-    // send POST request to add Id to library
+    // send addToLibrary request to server
+    async function handleAddToLibraryServer() {
+        try {
+            const response = await fetch(`${SERVER_URL}/addToLibrary`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: currentUser,
+                    gameID: gameID
+                })
+            })
+        const response_json = await response.json()
+        return response_json
+      } catch (error) {
+        console.error("Error calling addToLibrary API", error)
+        return {"status": "Fail", "details": "Error calling addToLibrary API"}
+      }
+    }
+
+    // send POST request to add game Id to library
     async function handleAddToLibrary() {
         // tell server to add game to library in user's library in database
+        const response_json = handleAddToLibraryServer()
+        // Optimistic update: update user's library on UI if server returns success
+        if (response_json.status == "Success") {
+            console.log(`Server successfully added "${gameName}" with game ID ${gameID} user's library`)
+            // get entry for new game in library
+            // we use server response to get server timestamp of when game was successfully added to library
+            const libraryEntry = response_json.data[0]
+            // add the game to libraryList and librarySet
+            setLibraryList([...libraryList, libraryEntry])
+            setLibrarySet(new Set(librarySet).add(libraryEntry))
+        }
     }
 
     return (
