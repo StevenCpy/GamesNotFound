@@ -162,3 +162,12 @@ Eg. insert({"username": "Bill", "gameID": 1}).select("gameID") returns only the 
 To change a list state, create a new list containing the previous list and add the new element.  Don't add to the original list itself.
 Eg. setLibraryList([...libraryList, entry]) instead of libraryList.push(entry); setLibraryList(libraryList).
 For sets, setLibrarySet(new Set(librarySet).add(entry)) instead of setLibrarySet(librarySet.add(entry)).
+
+DAY 16
+- Implemented "+ Add to Library" feature on Store
+
+What I learned today:
+- To remove an item from array state, create a new list with a filter for eg. setLibraryList(libraryList.filter(game => game.gameID != idToRemove))
+- map has an index for eg. array.map((element,index) => {})
+- For sets, librarySet.add() returns a set while librarySet.delete() returns a boolean.
+- Comma operators evaluate the operands and return the last operand.  For eg. return (librarySet.delete(entry), librarySet) returns librarySet without entry.
