@@ -3,7 +3,7 @@ import { AuthContext } from "./Context"
 import SERVER_URL from "../data/server_variables"
 
 function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
 
     // send removeFromLibrary POST request to server
     async function handleRemoveFromLibraryServer() {
