@@ -167,10 +167,10 @@ async def addToLibrary(username: str, gameID: int):
         response = (
             supabase.table(LIBRARY_TABLE)
             .insert({"username": username, "gameID": gameID, "added_at": added_at})
-            .select("gameID,added_at")
             .execute()
         )
-        return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+        game_added = {k:v for k,v in response.data[0] if k != "username"} # remove username field from response
+        return {"status": STATUS_SUCCESS_MESSAGE, "data": [game_added]}
     except Exception as e:
         # return database timeout error message
         print(f"Database error: {e}", file=sys.stderr)
@@ -183,8 +183,8 @@ async def removeFromLibrary(username: str, gameID: int):
         username = username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
-            .eq("username", username)
-            .eq("gameID", gameID)
+            .delete()
+            .match({"username": username, "gameID": gameID})
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE}
