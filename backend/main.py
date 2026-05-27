@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-import os
+import os, sys
 from supabase import create_client, Client
 from supabase.client import ClientOptions
 from dotenv import load_dotenv
@@ -92,9 +92,10 @@ async def signup(user: User):
                 .execute()
             )
             return {"status": STATUS_SUCCESS_MESSAGE}
-    except:
+    except Exception as e:
         # return database timeout error message
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to authenticate user, returns "Success" or "Fail" with details if unsuccessful
 @app.post("/login")
@@ -118,9 +119,10 @@ async def login(user: User):
         # user does not exist
         else:
             return {"status": STATUS_FAIL_MESSAGE, "details": "User does not exist"}
-    except:
+    except Exception as e:
         # return database timeout error message
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
 
 # API to return all games in the store
 @app.get("/store")
@@ -133,8 +135,10 @@ async def store():
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
-    except:
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    except Exception as e:
+        # return database timeout error message
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
 
 # API to return user's list of library games
 @app.get("/library/{username}")
@@ -149,15 +153,17 @@ async def library(username: str):
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
-    except:
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    except Exception as e:
+        # return database timeout error message
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to add game to user's library
 @app.post("/addToLibrary/{username}/{gameID}")
 async def addToLibrary(username: str, gameID: int):
     try:
         username = username.upper()
-        added_at = datetime.now(timezone.utc)
+        added_at = datetime.now(timezone.utc).isoformat()
         response = (
             supabase.table(LIBRARY_TABLE)
             .insert({"username": username, "gameID": gameID, "added_at": added_at})
@@ -165,8 +171,10 @@ async def addToLibrary(username: str, gameID: int):
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
-    except:
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    except Exception as e:
+        # return database timeout error message
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to remove game from user's library
 @app.delete("/removeFromLibrary/{username}/{gameID}")
@@ -175,9 +183,12 @@ async def removeFromLibrary(username: str, gameID: int):
         username = username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
-            .delete({"username": username, "gameID": gameID}) 
+            .eq("username", username)
+            .eq("gameID", gameID)
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE}
-    except:
-        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    except Exception as e:
+        # return database timeout error message
+        print(f"Database error: {e}", file=sys.stderr)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
