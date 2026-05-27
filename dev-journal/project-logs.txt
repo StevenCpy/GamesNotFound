@@ -162,3 +162,27 @@ Eg. insert({"username": "Bill", "gameID": 1}).select("gameID") returns only the 
 To change a list state, create a new list containing the previous list and add the new element.  Don't add to the original list itself.
 Eg. setLibraryList([...libraryList, entry]) instead of libraryList.push(entry); setLibraryList(libraryList).
 For sets, setLibrarySet(new Set(librarySet).add(entry)) instead of setLibrarySet(librarySet.add(entry)).
+
+DAY 16
+- Implemented "+ Add to Library" feature in Store game cards
+-- Created addToLibrary endpoint
+-- Implemented addToLibrary UI functionality
+- Implemented "Remove from Library" feature in Library game cards
+-- Created removeFromLibrary endpoint
+-- Implemented removeFromLibrary UI functionality
+- Removed body from GET & DELETE endpoints & requests, and moved params to endpoint address.
+
+What I learned today:
+- To remove an item from array state, create a new list with a filter for eg. setLibraryList(libraryList.filter(game => game.gameID != idToRemove))
+- map has an index for eg. array.map((element,index) => {})
+- For sets, librarySet.add() returns a set while librarySet.delete() returns a boolean.
+- Comma operators evaluate the operands and return the last operand.  For eg. return (librarySet.delete(entry), librarySet) returns librarySet without entry.
+- We can technically use POST instead of DELETE to request server to delete a resource, but it breaks REST API conventions.
+- GET and DELETE can but usually don't have a body.  If I want to fetch a library for a logged in user, I can put the username in the endpoint but it's not safe
+as anyone can send such request.  Instead use authentication in headers with JWT tokens stored in HTTPOnly cookies.
+- POST doesn't require a body.
+- "Content-Type": "application/json" is not required in the request unless I'm sending a json body.
+- SECURITY:
+-- .env variables are bundled with the React app so secrets should never be stored on the frontend app.
+-- To use .env variable, variable name should start with VITE_ in the .env file which can then be imported in JS
+for eg. const SERVER_URL = import.meta.env.VITE_SERVER_URL

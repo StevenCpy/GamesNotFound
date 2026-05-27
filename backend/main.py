@@ -50,18 +50,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# -----------------------------------------------------------------
-
+# ----------------------------------------------------------------- #
+#                            BASE MODELS                            #
+# ----------------------------------------------------------------- #
 class User(BaseModel):
     username: str
     password: str
-
-class LibraryRequest(BaseModel):
-    username: str
-
-class AddToLibraryRequest(BaseModel):
-    username: str
-    gameID: int
 
 # queries database to check if username already exists
 def usernameAlreadyExists(username):
@@ -72,6 +66,10 @@ def usernameAlreadyExists(username):
         .execute()
     )
     return len(response.data) > 0
+
+# ----------------------------------------------------------------- #
+#                            ENDPOINTS                              #
+# ----------------------------------------------------------------- #
 
 # Allow pinging server
 @app.api_route("/", methods=["GET", "HEAD"])
@@ -139,14 +137,14 @@ async def store():
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
 
 # API to return user's list of library games
-@app.post("/library")
-async def library(libraryRequest: LibraryRequest):
+@app.get("/library/{username}")
+async def library(username: str):
     try:
-        libraryRequest.username = libraryRequest.username.upper()
+        username = username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
             .select("gameID,added_at")
-            .eq("username",libraryRequest.username)
+            .eq("username", username)
             .order("added_at", desc=False)
             .execute()
         )
@@ -155,17 +153,31 @@ async def library(libraryRequest: LibraryRequest):
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
     
 # API to add game to user's library
-@app.post("/addToLibrary")
-async def addToLibrary(addToLibraryRequest: AddToLibraryRequest):
+@app.post("/addToLibrary/{username}/{gameID}")
+async def addToLibrary(username: str, gameID: int):
     try:
-        addToLibraryRequest.username = addToLibraryRequest.username.upper()
+        username = username.upper()
         added_at = datetime.now(timezone.utc)
         response = (
             supabase.table(LIBRARY_TABLE)
-            .insert({"username": addToLibraryRequest.username, "gameID": addToLibraryRequest.gameID, "added_at": added_at})
+            .insert({"username": username, "gameID": gameID, "added_at": added_at})
             .select("gameID,added_at")
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
+    except:
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
+    
+# API to remove game from user's library
+@app.delete("/removeFromLibrary/{username}/{gameID}")
+async def removeFromLibrary(username: str, gameID: int):
+    try:
+        username = username.upper()
+        response = (
+            supabase.table(LIBRARY_TABLE)
+            .delete({"username": username, "gameID": gameID}) 
+            .execute()
+        )
+        return {"status": STATUS_SUCCESS_MESSAGE}
     except:
         return {"status": STATUS_FAIL_MESSAGE, "details": "Database timeout"}
