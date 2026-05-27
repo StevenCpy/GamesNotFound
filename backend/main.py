@@ -157,7 +157,7 @@ async def library(username: str):
 async def addToLibrary(username: str, gameID: int):
     try:
         username = username.upper()
-        added_at = datetime.now(timezone.utc)
+        added_at = datetime.now(timezone.utc).isoformat()
         response = (
             supabase.table(LIBRARY_TABLE)
             .insert({"username": username, "gameID": gameID, "added_at": added_at})
@@ -175,7 +175,7 @@ async def removeFromLibrary(username: str, gameID: int):
         username = username.upper()
         response = (
             supabase.table(LIBRARY_TABLE)
-            .delete({"username": username, "gameID": gameID}) 
+            .delete({"username": username, "gameID": gameID})
             .execute()
         )
         return {"status": STATUS_SUCCESS_MESSAGE}
