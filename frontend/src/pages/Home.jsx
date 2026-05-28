@@ -1,7 +1,11 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
+import devLog from "../../test/logging"
+
+const COMPONENT = "Home"
 
 function Home() {
+    devLog(COMPONENT, "Home() called")
     const { currentUser } = useContext(AuthContext)
 
     return (

@@ -1,8 +1,12 @@
 import { useContext } from 'react'
 import { AuthContext } from '../components/Context'
 import StoreGameCard from '../components/StoreGameCard'
+import devLog from "../../test/logging"
+
+const COMPONENT = "Store"
 
 function Store() {
+    devLog(COMPONENT, "Store() called")
     const { storeList } = useContext(AuthContext)
 
     return (

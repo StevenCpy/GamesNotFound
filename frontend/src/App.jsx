@@ -9,17 +9,22 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import { AuthContext } from './components/Context.jsx'
 import SERVER_URL from './data/server_variables.js'
+import devLog from '../test/logging.jsx'
+
+const COMPONENT = "App"
 
 function App() {
+  devLog(COMPONENT, "App() called")
   const [currentUser, setCurrentUser] = useState(null)
   const [storeList, setStoreList] = useState([]) // list for displaying store games
   const [libraryList, setLibraryList] = useState([]) // list for displaying library games in order
   const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
 
   useEffect(() => {
-    console.log("calling useEffect in App()")
+    devLog(COMPONENT, "calling useEffect in App()")
 
     async function loadStoreServer() {
+      devLog(COMPONENT, "loadStoreServer() called")
       try {
         const response = await fetch(`${SERVER_URL}/store`)
         const response_json = await response.json()
@@ -31,6 +36,7 @@ function App() {
     }
 
     async function loadLibraryServer() {
+      devLog(COMPONENT, "loadLibraryServer() called")
       try {
         const response = await fetch(`${SERVER_URL}/library/${currentUser}`)
         const response_json = await response.json()
@@ -42,19 +48,23 @@ function App() {
     }
 
     async function loadStoreOnlyServer() {
+      devLog(COMPONENT, "loadStoreOnlyServer() called")
       const store_response_json = await loadStoreServer()
 
       if (store_response_json.status == "Success") {
+        devLog(COMPONENT, "Store fetched")
         // initialize store games lists
         setStoreList(store_response_json.data)
       }
     }
 
     async function loadStoreAndLibraryServer() {
+      devLog(COMPONENT, "loadStoreAndLibraryServer() called")
       const store_response_json = await loadStoreServer()
       const library_response_json = await loadLibraryServer()
 
       if (store_response_json.status == "Success" && library_response_json.status == "Success") {
+        devLog(COMPONENT, "Store and Library fetched")
         // initialize store and library games lists
         setStoreList(store_response_json.data)
         setLibraryList(library_response_json.data)

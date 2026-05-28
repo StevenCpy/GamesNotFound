@@ -2,16 +2,21 @@ import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SERVER_URL from '../data/server_variables'
 import { AuthContext } from '../components/Context'
+import devLog from "../../test/logging"
+
+const COMPONENT = "Login"
 
 function Login() {
+    devLog(COMPONENT, "Login() called")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState(false)
     const { setCurrentUser } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    // send login request to server
+    // send login POST request to server
     async function handleLoginServer() {
+        devLog(COMPONENT, "handleLoginServer() called")
         try {
             const response = await fetch(`${SERVER_URL}/login`, {
                 method: "POST",
@@ -32,18 +37,17 @@ function Login() {
     }
 
     async function handleLogin(e) {
+        devLog(COMPONENT, "handleLogin() called.  Initiating server-side login...")
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
-
-        console.log("Initiating server-side login...")
 
         // send request to server to handle login
         const response_json = await handleLoginServer()
         if (response_json.status == "Success") {
-            console.log("User successfully logged in by server")
+            devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
             setCurrentUser(username.toUpperCase())
             navigate("/")
         } else {
-            console.log(response_json.details)
+            devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
             setLoginError(true)
         }
     }

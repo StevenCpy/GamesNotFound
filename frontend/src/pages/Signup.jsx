@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SERVER_URL from '../data/server_variables'
+import devLog from "../../test/logging"
+
+const COMPONENT = "Signup"
 
 function Signup() {
+    devLog(COMPONENT, "Signup() called")
     const [username, setUsername] = useState("")
     //const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -20,8 +24,9 @@ function Signup() {
         }
     }
 
-    // send sign up request to server
+    // send sign up POST request to server
     async function handleSignUpServer() {
+        devLog(COMPONENT, "handleSignUpServer() called")
         try {
             const response = await fetch(`${SERVER_URL}/signup`, {
                 method: "POST",
@@ -42,34 +47,38 @@ function Signup() {
     }
 
     async function handleSignUp(e) {
+        devLog(COMPONENT, "handleSignUp() called")
+
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
         // TODO -- add password validation, password must follow regex
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Sign Up" button
         if (passwordIsValid(password)) {
-            console.log("Valid password.  Initiating server-side sign up...")
+            devLog(COMPONENT, "Valid password.  Initiating server-side sign up...")
 
             // send request to server to handle sign up
             const response_json = await handleSignUpServer()
             if (response_json.status == "Success") {
-                console.log("User successfully signed up by server")
+                devLog(COMPONENT, `User ${username} successfully signed up by server`)
                 setSignedUp(true)
                 setSignUpDetails("")
                 setPasswordWarning(false)
             } else {
-                console.log(response_json.details)
+                devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
                 setSignUpDetails(response_json.details)
                 setSignedUp(false)
                 setPasswordWarning(false)
             }
         } else {
-            console.log("Invalid password")
+            devLog(COMPONENT, "Invalid password")
             setPasswordWarning(true)
             setSignedUp(false)
             setSignUpDetails("")
         }
     }
 
+    // check if password follows rules
     function passwordIsValid(password) {
+        devLog(COMPONENT, "passwordIsValid() called")
         let hasLowercase = false
         let hasUppercase = false
         let hasNumber = false

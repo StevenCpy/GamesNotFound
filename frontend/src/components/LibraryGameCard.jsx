@@ -1,12 +1,18 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
 import SERVER_URL from "../data/server_variables"
+import devLog from "../../test/logging"
+
+const COMPONENT = "LibraryGameCard"
 
 function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
+    devLog(COMPONENT, "LibraryGameCard() called")
     const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
 
     // send removeFromLibrary DELETE request to server
     async function handleRemoveFromLibraryServer() {
+        devLog(COMPONENT, "handleRemoveFromLibraryServer() called")
+
         try {
             const response = await fetch(`${SERVER_URL}/removeFromLibrary/${currentUser}/${gameID}`, {
                 method: "DELETE"
@@ -21,11 +27,13 @@ function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
 
     // remove gameID from library using optimistic update
     async function handleRemoveFromLibrary() {
+        devLog(COMPONENT, "handleRemoveFromLibrary() called")
+
         // tell server to remove game from user's library in database
         const response_json = await handleRemoveFromLibraryServer()
 
         if (response_json.status == "Success") {
-            console.log(`Server successfully removed "${gameName}" with game ID ${gameID} from ${currentUser}'s library`)
+            devLog(COMPONENT, `Server removed "${gameName}" with game ID ${gameID} from ${currentUser}'s library`)
 
             // remove the game from libraryList and librarySet
             setLibraryList(libraryList.filter(game =>
