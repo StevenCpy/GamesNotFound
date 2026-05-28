@@ -3,7 +3,7 @@ import devLog from "./logging/logging"
 
 const STATUS_FAIL_MESSAGE = "Fail"
 
-function apiRequest(component, endpoint, method, body) {
+async function apiRequest(component, endpoint, method, body) {
     devLog(component, `Calling ${endpoint} API endpoint...`)
 
     const URL = `${SERVER_URL}/${endpoint}`
