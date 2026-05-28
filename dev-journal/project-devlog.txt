@@ -158,18 +158,18 @@ What I learned today:
 - Accessing a value in a hashmap (created using new Map()) is not same as in Python.  For eg. hashMap[2] doesn't work while hashMap.get(2) does.
 - "select" after "insert" in Supabase SQL queries allows selecting and returning particular columns from the inserted data.
 Eg. insert({"username": "Bill", "gameID": 1}).select("gameID") returns only the gameID column of the inserted row.
-- Treat objects in state as immutable, always replace instead of mutating them
+- Treat objects in state as immutable, always replace instead of mutating them.
 To change a list state, create a new list containing the previous list and add the new element.  Don't add to the original list itself.
 Eg. setLibraryList([...libraryList, entry]) instead of libraryList.push(entry); setLibraryList(libraryList).
 For sets, setLibrarySet(new Set(librarySet).add(entry)) instead of setLibrarySet(librarySet.add(entry)).
 
 DAY 16
-- Implemented "+ Add to Library" feature in Store game cards
--- Created addToLibrary endpoint
--- Implemented addToLibrary UI functionality
-- Implemented "Remove from Library" feature in Library game cards
--- Created removeFromLibrary endpoint
--- Implemented removeFromLibrary UI functionality
+- Implemented "+ Add to Library" feature in Store game cards.
+-- Created addToLibrary endpoint.
+-- Implemented addToLibrary UI functionality.
+- Implemented "Remove from Library" feature in Library game cards.
+-- Created removeFromLibrary endpoint.
+-- Implemented removeFromLibrary UI functionality.
 - Removed body from GET & DELETE endpoints & requests, and moved params to endpoint address.
 
 What I learned today:
@@ -185,4 +185,22 @@ as anyone can send such request.  Instead use authentication in headers with JWT
 - SECURITY:
 -- .env variables are bundled with the React app so secrets should never be stored on the frontend app.
 -- To use .env variable, variable name should start with VITE_ in the .env file which can then be imported in JS
-for eg. const SERVER_URL = import.meta.env.VITE_SERVER_URL
+for eg. const SERVER_URL = import.meta.env.VITE_SERVER_URL.
+
+DAY 17
+- Added ability to switch server URL to local server URL when in development mode (eg. using "npm run dev")
+- Created logging function and added log statements in components.
+- Fixed game not being immediately reflected in Library after being added.
+- Fixed "+ Add to Library" button still being enabled after adding game to Library.
+- Fixed addToLibrary and removeFromLibrary endpoints.
+- Added logging to backend.
+- Added logging to frontend based on whether the app is run in development mode (eg. using "npm run dev").
+
+What I learned today:
+- DEBUGGING:
+-- We can check for development mode (eg. app is run using "npm run dev") using "if (import.meta.env.DEV)" on React.
+- setState() is asynchronous so we cannot use the new state value right after updating it.  The new value will be reflected on component re-render.
+- PYTHON:
+-- If importing from a module that is a folder, we need to define an __init__.py file inside the module that exposes the functions in that module.
+For eg. we have utils/logging/logging.py that has dev_log() function defined, we need an __init__.py file inside utils/logging/ to which we add
+"from .logging import dev_log".  This way, another file outside the module can do "from utils.logging import dev_log"
