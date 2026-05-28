@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
 import { useNavigate } from "react-router-dom"
-import devLog from "../../test/logging"
+import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Profile"
 

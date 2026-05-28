@@ -8,8 +8,8 @@ import Profile from './pages/Profile'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import { AuthContext } from './components/Context.jsx'
-import SERVER_URL from './data/server_variables.js'
-import devLog from '../test/logging.jsx'
+import devLog from '../utils/logging/logging.jsx'
+import apiRequest from '../utils/apiRequest.jsx'
 
 const COMPONENT = "App"
 
@@ -23,33 +23,9 @@ function App() {
   useEffect(() => {
     devLog(COMPONENT, "calling useEffect in App()")
 
-    async function loadStoreServer() {
-      devLog(COMPONENT, "loadStoreServer() called")
-      try {
-        const response = await fetch(`${SERVER_URL}/store`)
-        const response_json = await response.json()
-        return response_json
-      } catch (error) {
-        console.error("Error calling store API", error)
-        return {"status": "Fail", "details": "Error calling store API"}
-      }
-    }
-
-    async function loadLibraryServer() {
-      devLog(COMPONENT, "loadLibraryServer() called")
-      try {
-        const response = await fetch(`${SERVER_URL}/library/${currentUser}`)
-        const response_json = await response.json()
-        return response_json
-      } catch (error) {
-        console.error("Error calling library API", error)
-        return {"status": "Fail", "details": "Error calling library API"}
-      }
-    }
-
     async function loadStoreOnlyServer() {
       devLog(COMPONENT, "loadStoreOnlyServer() called")
-      const store_response_json = await loadStoreServer()
+      const store_response_json = await apiRequest(COMPONENT, "store", "GET") // send GET request to fetch Store from server
 
       if (store_response_json.status == "Success") {
         devLog(COMPONENT, "Store fetched")
@@ -60,8 +36,8 @@ function App() {
 
     async function loadStoreAndLibraryServer() {
       devLog(COMPONENT, "loadStoreAndLibraryServer() called")
-      const store_response_json = await loadStoreServer()
-      const library_response_json = await loadLibraryServer()
+      const store_response_json = await apiRequest(COMPONENT, "store", "GET") // send GET request to fetch Store from server
+      const library_response_json = await apiRequest(COMPONENT, `library/${currentUser}`, "GET") // send GET request to fetch Library from server
 
       if (store_response_json.status == "Success" && library_response_json.status == "Success") {
         devLog(COMPONENT, "Store and Library fetched")
