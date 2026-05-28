@@ -8,11 +8,14 @@ from supabase.client import ClientOptions
 from dotenv import load_dotenv
 from datetime import datetime, timezone
 
+from utils.logging import dev_log, dev_error_database
+
 # database tables
 USERS_TABLE = "users"
 GAMES_TABLE = "games"
 LIBRARY_TABLE = "library"
-
+ 
+ # Other constants
 STATUS_SUCCESS_MESSAGE = "Success"
 STATUS_FAIL_MESSAGE = "Fail"
 TIMEOUT_SECONDS = 10
@@ -70,19 +73,25 @@ def usernameAlreadyExists(username):
 # ----------------------------------------------------------------- #
 #                            ENDPOINTS                              #
 # ----------------------------------------------------------------- #
-
 # Allow pinging server
 @app.api_route("/", methods=["GET", "HEAD"])
 async def root():
+    endpoint = "root"
+
+    dev_log(endpoint, "Endpoint called")
     return {"status": STATUS_SUCCESS_MESSAGE}
 
 # API to sign up user, returns "Success" or "Fail" with details if unsuccessful
 @app.post("/signup")
 async def signup(user: User):
+    endpoint = "signup"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         user.username = user.username.upper()
         if usernameAlreadyExists(user.username):
             # return username already exists
+            dev_log(endpoint, f"Sign up unsuccessful.  User '{user.username}' already exists")
             return {"status": STATUS_FAIL_MESSAGE, "details": "Username already exists"}
         else:
             # insert username and password into table, return successful sign up
@@ -91,15 +100,18 @@ async def signup(user: User):
                 .insert({"username": user.username, "password": user.password})
                 .execute()
             )
+            dev_log(endpoint, f"User '{user.username}' signed up")
             return {"status": STATUS_SUCCESS_MESSAGE}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to authenticate user, returns "Success" or "Fail" with details if unsuccessful
 @app.post("/login")
 async def login(user: User):
+    endpoint = "login"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         user.username = user.username.upper()
         response = (
@@ -113,20 +125,25 @@ async def login(user: User):
             db_password = response.data[0]["password"]
             # if password matches the one in database
             if db_password == user.password:
+                dev_log(endpoint, f"User '{user.username}' logged in")
                 return {"status": STATUS_SUCCESS_MESSAGE}
             else:
+                dev_log(endpoint, f"Password for '{user.username}' is incorrect")
                 return {"status": STATUS_FAIL_MESSAGE, "details": "Incorrect password"}
         # user does not exist
         else:
+            dev_log(endpoint, f"User '{user.username}' does not exist")
             return {"status": STATUS_FAIL_MESSAGE, "details": "User does not exist"}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
 
 # API to return all games in the store
 @app.get("/store")
 async def store():
+    endpoint = "store"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         response = (
             supabase.table(GAMES_TABLE)
@@ -134,15 +151,18 @@ async def store():
             .order("gameID", desc=False)
             .execute()
         )
+        dev_log(endpoint, f"Store fetched from database")
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
 
 # API to return user's list of library games
 @app.get("/library/{username}")
 async def library(username: str):
+    endpoint = "library"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         username = username.upper()
         response = (
@@ -152,15 +172,18 @@ async def library(username: str):
             .order("added_at", desc=False)
             .execute()
         )
+        dev_log(endpoint, f"Library for '{username}' fetched from database")
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to add game to user's library
 @app.post("/addToLibrary/{username}/{gameID}")
 async def addToLibrary(username: str, gameID: int):
+    endpoint = "addToLibrary"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         username = username.upper()
         added_at = datetime.now(timezone.utc).isoformat()
@@ -170,15 +193,18 @@ async def addToLibrary(username: str, gameID: int):
             .execute()
         )
         game_added = {k:v for k,v in response.data[0].items() if k != "username"} # remove username field from response
+        dev_log(endpoint, f"Game ID {gameID} added to {username}'s library")
         return {"status": STATUS_SUCCESS_MESSAGE, "data": [game_added]}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
     
 # API to remove game from user's library
 @app.delete("/removeFromLibrary/{username}/{gameID}")
 async def removeFromLibrary(username: str, gameID: int):
+    endpoint = "removeFromLibrary"
+
+    dev_log(endpoint, "Endpoint called")
     try:
         username = username.upper()
         response = (
@@ -187,8 +213,8 @@ async def removeFromLibrary(username: str, gameID: int):
             .match({"username": username, "gameID": gameID})
             .execute()
         )
+        dev_log(endpoint, f"Game ID {gameID} removed from {username}'s library")
         return {"status": STATUS_SUCCESS_MESSAGE}
     except Exception as e:
-        # return database timeout error message
-        print(f"Database error: {e}", file=sys.stderr)
+        dev_error_database(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
