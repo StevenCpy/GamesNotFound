@@ -32,7 +32,7 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
             const libraryEntry = response_json.data[0]
             // add the game to libraryList and librarySet
             setLibraryList([...libraryList, libraryEntry])
-            setLibrarySet(new Set(librarySet).add(libraryEntry))
+            setLibrarySet(new Set(librarySet).add(gameID))
         }
     }
 
