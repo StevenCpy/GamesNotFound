@@ -169,7 +169,7 @@ async def addToLibrary(username: str, gameID: int):
             .insert({"username": username, "gameID": gameID, "added_at": added_at})
             .execute()
         )
-        game_added = {k:v for k,v in response.data[0] if k != "username"} # remove username field from response
+        game_added = {k:v for k,v in response.data[0].items() if k != "username"} # remove username field from response
         return {"status": STATUS_SUCCESS_MESSAGE, "data": [game_added]}
     except Exception as e:
         # return database timeout error message

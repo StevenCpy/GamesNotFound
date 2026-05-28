@@ -11,18 +11,18 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
             const response = await fetch(`${SERVER_URL}/addToLibrary/${currentUser}/${gameID}`, {
                 method: "POST"
             })
-        const response_json = await response.json()
-        return response_json
-      } catch (error) {
-        console.error("Error calling addToLibrary API", error)
-        return {"status": "Fail", "details": "Error calling addToLibrary API"}
-      }
+            const response_json = await response.json()
+            return response_json
+        } catch (error) {
+            console.error("Error calling addToLibrary API", error)
+            return {"status": "Fail", "details": "Error calling addToLibrary API"}
+        }
     }
 
     // add gameID to library using optimistic update
     async function handleAddToLibrary() {
         // tell server to add game to library in user's library in database
-        const response_json = handleAddToLibraryServer()
+        const response_json = await handleAddToLibraryServer()
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {
@@ -32,7 +32,7 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
             const libraryEntry = response_json.data[0]
             // add the game to libraryList and librarySet
             setLibraryList([...libraryList, libraryEntry])
-            setLibrarySet(new Set(librarySet).add(libraryEntry))
+            setLibrarySet(new Set(librarySet).add(gameID))
         }
     }
 

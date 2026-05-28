@@ -3,20 +3,20 @@ import { AuthContext } from "./Context"
 import SERVER_URL from "../data/server_variables"
 
 function LibraryGameCard( {gameID, gameName, author, gameVersion} ) {
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
 
-    // send removeFromLibrary POST request to server
+    // send removeFromLibrary DELETE request to server
     async function handleRemoveFromLibraryServer() {
         try {
             const response = await fetch(`${SERVER_URL}/removeFromLibrary/${currentUser}/${gameID}`, {
                 method: "DELETE"
             })
-        const response_json = await response.json()
-        return response_json
-      } catch (error) {
-        console.error("Error calling removeFromLibrary API", error)
-        return {"status": "Fail", "details": "Error calling removeFromLibrary API"}
-      }
+            const response_json = await response.json()
+            return response_json
+        } catch (error) {
+            console.error("Error calling removeFromLibrary API", error)
+            return {"status": "Fail", "details": "Error calling removeFromLibrary API"}
+        }
     }
 
     // remove gameID from library using optimistic update
