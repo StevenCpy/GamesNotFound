@@ -1,9 +1,13 @@
 import { useContext } from "react"
 import { AuthContext } from "../components/Context"
 import LibraryGameCard from "../components/LibraryGameCard"
+import devLog from "../../test/logging"
+
+const COMPONENT = "Library"
 
 function Library() {
-    const { libraryList, storeList } = useContext(AuthContext)
+    devLog(COMPONENT, "Library() called")
+    const { storeList, libraryList } = useContext(AuthContext)
 
     const storeHashMap = new Map(
         storeList.map(game => [game.gameID, game]) // creates key-value pair with key = gameID
