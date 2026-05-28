@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { AuthContext } from "./Context"
-import SERVER_URL from "../data/server_variables"
-import devLog from "../../test/logging"
+import devLog from "../../utils/logging/logging"
+import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreGameCard"
 
@@ -9,28 +9,12 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
 
-    // send addToLibrary POST request to server
-    async function handleAddToLibraryServer() {
-        devLog(COMPONENT, "handleAddToLibraryServer() called")
-        
-        try {
-            const response = await fetch(`${SERVER_URL}/addToLibrary/${currentUser}/${gameID}`, {
-                method: "POST"
-            })
-            const response_json = await response.json()
-            return response_json
-        } catch (error) {
-            console.error("Error calling addToLibrary API", error)
-            return {"status": "Fail", "details": "Error calling addToLibrary API"}
-        }
-    }
-
     // add gameID to library using optimistic update
     async function handleAddToLibrary() {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
-        // tell server to add game to library in user's library in database
-        const response_json = await handleAddToLibraryServer()
+        // send addToLibrary POST request to server
+        const response_json = await apiRequest(COMPONENT, `addToLibrary/${currentUser}/${gameID}`, "POST")
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {

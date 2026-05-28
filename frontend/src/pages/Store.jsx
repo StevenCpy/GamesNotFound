@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { AuthContext } from '../components/Context'
 import StoreGameCard from '../components/StoreGameCard'
-import devLog from "../../test/logging"
+import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Store"
 

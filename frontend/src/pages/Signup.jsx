@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import SERVER_URL from '../data/server_variables'
-import devLog from "../../test/logging"
+import devLog from "../../utils/logging/logging"
+import apiRequest from '../../utils/apiRequest'
 
 const COMPONENT = "Signup"
 
@@ -24,28 +24,6 @@ function Signup() {
         }
     }
 
-    // send sign up POST request to server
-    async function handleSignUpServer() {
-        devLog(COMPONENT, "handleSignUpServer() called")
-        try {
-            const response = await fetch(`${SERVER_URL}/signup`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
-            })
-            const response_json = await response.json()
-            return response_json
-        } catch (error) {
-            console.error("Error calling signup API", error)
-            return {"status": "Fail", "details": "Error calling signup API"}
-        }
-    }
-
     async function handleSignUp(e) {
         devLog(COMPONENT, "handleSignUp() called")
 
@@ -55,8 +33,8 @@ function Signup() {
         if (passwordIsValid(password)) {
             devLog(COMPONENT, "Valid password.  Initiating server-side sign up...")
 
-            // send request to server to handle sign up
-            const response_json = await handleSignUpServer()
+            // send sign up POST request to server to handle sign up
+            const response_json = await apiRequest(COMPONENT, "signup", "POST", { username: username, password: password })
             if (response_json.status == "Success") {
                 devLog(COMPONENT, `User ${username} successfully signed up by server`)
                 setSignedUp(true)

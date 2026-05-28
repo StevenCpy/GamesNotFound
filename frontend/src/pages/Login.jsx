@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import SERVER_URL from '../data/server_variables'
 import { AuthContext } from '../components/Context'
-import devLog from "../../test/logging"
+import devLog from "../../utils/logging/logging"
+import apiRequest from '../../utils/apiRequest'
 
 const COMPONENT = "Login"
 
@@ -14,34 +14,12 @@ function Login() {
     const { setCurrentUser } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    // send login POST request to server
-    async function handleLoginServer() {
-        devLog(COMPONENT, "handleLoginServer() called")
-        try {
-            const response = await fetch(`${SERVER_URL}/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
-            })
-            const response_json = await response.json()
-            return response_json
-        } catch (error) {
-            console.error("Error calling login API", error)
-            return {"status": "Fail", "details": "Error calling login API"}
-        }
-    }
-
     async function handleLogin(e) {
         devLog(COMPONENT, "handleLogin() called.  Initiating server-side login...")
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
 
-        // send request to server to handle login
-        const response_json = await handleLoginServer()
+        // send login POST request to server to handle login
+        const response_json = await apiRequest(COMPONENT, "login", "POST", { username: username, password: password })
         if (response_json.status == "Success") {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
             setCurrentUser(username.toUpperCase())

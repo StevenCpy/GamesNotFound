@@ -195,6 +195,7 @@ DAY 17
 - Fixed addToLibrary and removeFromLibrary endpoints.
 - Added logging to backend.
 - Added logging to frontend based on whether the app is run in development mode (eg. using "npm run dev").
+- Created API request template function to reduce API requests code length significantly.
 
 What I learned today:
 - DEBUGGING:
