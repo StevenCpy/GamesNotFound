@@ -82,10 +82,15 @@ function App() {
               <Link to="/Store">STORE</Link>
               {currentUser && <Link to="/Library">LIBRARY</Link>}
             </span>
-            <span style={{ marginLeft:"auto" }}>
-            {currentUser ?
-              <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
-            }
+            <span style={{
+              marginLeft:"auto",
+              display: "flex",
+              gap: "30px"
+            }}>
+              {(!currentUser && import.meta.env.DEV) && <button onClick={ () => setCurrentUser("Admin") }>Quick Login</button>}
+              {currentUser ?
+                <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
+              }
             </span>
 
           </div>
