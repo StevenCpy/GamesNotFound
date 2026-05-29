@@ -1,29 +1,24 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { useEffect, useContext } from 'react'
 import './App.css'
 
-// pages
-import Home from './pages/Home'
-import Store from './pages/Store'
-import Library from './pages/Library'
-import Profile from './pages/Profile'
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import Error404 from './pages/Error404'
-import RestrictedResource from './pages/RestrictedResource'
+import AppRouter from './components/AppRouter'
 
-import { AuthContext } from './components/contexts/AuthContext.jsx'
-import devLog from '../utils/logging/logging.jsx'
-import apiRequest from '../utils/apiRequest.jsx'
+// contexts
+import { AuthContext } from './components/contexts/AuthContext'
+import { StoreContext } from './components/contexts/StoreContext'
+import { LibraryContext } from './components/contexts/LibraryContext'
+
+// utils
+import devLog from '../utils/logging/logging'
+import apiRequest from '../utils/apiRequest'
 
 const COMPONENT = "App"
 
 function App() {
     devLog(COMPONENT, "App() called")
-    const [currentUser, setCurrentUser] = useState(null)
-    const [storeList, setStoreList] = useState([]) // list for displaying store games
-    const [libraryList, setLibraryList] = useState([]) // list for displaying library games in order
-    const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
+    const { currentUser } = useContext(AuthContext)
+    const { setStoreList } = useContext(StoreContext)
+    const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App()")
@@ -34,9 +29,10 @@ function App() {
 
             if (store_response_json.status == "Success") {
                 devLog(COMPONENT, "Store fetched")
-                // initialize store games lists
+                // initialize store games list
                 setStoreList(store_response_json.data)
             }
+            setLibraryList([])
         }
 
         async function loadStoreAndLibraryServer() {
@@ -55,66 +51,16 @@ function App() {
             }
         }
 
-        if (currentUser) {
-            loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
-        } else { // user logged out
+        if (!currentUser) {
             loadStoreOnlyServer() // fetch only Store games if user logged out
-            setLibraryList([])
+        } else { // user logged in
+            loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
         }
 
     }, [currentUser]) // re-run code in case user logs in/logs out
 
-    {/*
-      // currentUser used by Profile and Home pages
-    // setCurrentUser used by Login and Log out features
-    // libraryList used by Library to display library games
-    // setLibraryList used by Store whenever user adds game to library, and Library to remove a game
-    // librarySet used by Store to disable "+ Add to library button"
-    // setLibrarySet used by Store whenever user adds game to library, and Library to remove a game
-    // storeList used by Store to display store games, and Library to check for game info
-  */}
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, libraryList, setLibraryList, librarySet, setLibrarySet, storeList }}>
-            <BrowserRouter>
-                <nav id="main-nav-bar">
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                    }}>
-                        <span style={{
-                            display: "flex",
-                            gap: "30px"
-                        }}>
-                            <Link to="/">GamesNotFound</Link>
-                            <Link to="/Store">STORE</Link>
-                            {currentUser && <Link to="/Library">LIBRARY</Link>}
-                        </span>
-
-                        <span style={{
-                            marginLeft: "auto",
-                            display: "flex",
-                            gap: "30px"
-                        }}>
-                            {(!currentUser && import.meta.env.DEV) && <button onClick={() => setCurrentUser("Admin")}>Quick Login</button>}
-                            {currentUser ?
-                                <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
-                            }
-                        </span>
-                    </div>
-                </nav>
-
-                <Routes>
-                    <Route path="/" element={ <Home/> } />
-                    <Route path="/Store" element={ <Store/> } />
-                    <Route path="/Library" element={ currentUser ? <Library/> : <RestrictedResource/> } />
-                    <Route path="/Profile" element={ <Profile/> } />
-                    <Route path="/Signup" element={ <Signup/> } />
-                    <Route path="/Login" element={ <Login/> } />
-
-                    <Route path="*" element={ <Error404/> } /> {/* Error page for invalid URLs */}
-                </Routes>
-            </BrowserRouter>
-        </AuthContext>
+        <AppRouter />
     )
 }
 
