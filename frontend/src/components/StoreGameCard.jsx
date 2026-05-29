@@ -8,7 +8,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
+function StoreGameCard( {gameID, gameName, description, author, gameVersion} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
@@ -39,21 +39,31 @@ function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
         <div style={{
             display:"flex",
             flexDirection:"row",
-            height:"12rem",
+            height:"15rem",
             width:"40rem",
             gap:"1rem"
         }}>
             <div>
-                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"10rem", width:"10rem" }} />
+                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"12rem", width:"12rem" }} />
             </div>
             <div style={{
                 height:"100%",
                 width:"100%"
             }}>
                 <div style={{ fontSize:"2.5rem", textAlign:"center" }}> <b>{ gameName }</b> </div>
-                <div> <b>VERSION: </b> { gameVersion } </div>
+                <div> { description } </div>
+                <hr />
                 <div> <b>AUTHOR: </b> { author } </div>
-                <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
+                <div> <b>VERSION: </b> { gameVersion } </div>
+                <hr />
+                <span style={{
+                    display:"flex",
+                    flexDirection:"row",
+                    gap:"1rem"
+                }}>
+                    <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
+                    <button disabled> Play </button>
+                </span>
             </div>
         </div>
     )
