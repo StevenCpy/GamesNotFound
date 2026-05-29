@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AuthContext } from '../components/Context'
+import { StoreContext } from '../components/contexts/StoreContext'
 import StoreGameCard from '../components/StoreGameCard'
 import devLog from "../../utils/logging/logging"
 
@@ -7,7 +7,7 @@ const COMPONENT = "Store"
 
 function Store() {
     devLog(COMPONENT, "Store() called")
-    const { storeList } = useContext(AuthContext)
+    const { storeList } = useContext(StoreContext)
 
     return (
         <div style={{

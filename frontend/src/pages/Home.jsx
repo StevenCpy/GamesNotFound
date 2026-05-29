@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { AuthContext } from "../components/Context"
+import { AuthContext } from "../components/contexts/AuthContext"
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Home"

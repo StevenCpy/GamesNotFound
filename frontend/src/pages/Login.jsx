@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../components/Context'
+import { AuthContext } from '../components/contexts/AuthContext'
 import devLog from "../../utils/logging/logging"
 import apiRequest from '../../utils/apiRequest'
 

@@ -1,5 +1,8 @@
 import { useContext } from "react"
-import { AuthContext } from "./Context"
+
+import { AuthContext } from "./contexts/AuthContext"
+import { LibraryContext } from "./contexts/LibraryContext"
+
 import devLog from "../../utils/logging/logging"
 import apiRequest from "../../utils/apiRequest"
 
@@ -7,7 +10,8 @@ const COMPONENT = "StoreGameCard"
 
 function StoreGameCard( {gameID, gameName, author, gameVersion} ) {
     devLog(COMPONENT, "StoreGameCard() called")
-    const { currentUser, libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(AuthContext)
+    const { currentUser } = useContext(AuthContext)
+    const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
 
     // add gameID to library using optimistic update
     async function handleAddToLibrary() {
