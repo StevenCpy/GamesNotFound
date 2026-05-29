@@ -1,4 +1,4 @@
-import SERVER_URL from "../src/data/server_variables"
+import SERVER_URL from "../src/data/serverVariables"
 import devLog from "./logging/logging"
 
 const STATUS_FAIL_MESSAGE = "Fail"
