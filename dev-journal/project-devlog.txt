@@ -207,3 +207,15 @@ What I learned today:
 For eg. we have utils/logging/logging.py that has dev_log() function defined, we need an __init__.py file inside utils/logging/ to which we add
 "from .logging import dev_log".  This way, another file outside the module can do "from utils.logging import dev_log"
 - When importing from a file, we can omit ".jsx" from the file name.  For eg. "import func from module" is the same as "import func from module.jsx".
+
+DAY 18
+- Created error 404 page for invalid URL.
+- Created invalidResource page for resources not accessible by logged out users.
+- CODE REFACTOR:
+-- Separated AuthContext into AuthContext, StoreContext & LibraryContext, and moved state initialization from App.jsx to the respective context files.
+-- Moved context providers from App.jsx to main.jsx.
+-- Moved BrowserRouter logic and main navigation bar from App.jsx into separate files.
+
+What I learned today:
+- Barrel files allow simplying import statements.  For eg. If we have multiple context provider files like AuthContext & LibraryContext, a barrel file "index.js" can
+import all the variables & functions from AuthContext and LibraryContext, then export them.  From another file, we can then import everything in one single import line.
