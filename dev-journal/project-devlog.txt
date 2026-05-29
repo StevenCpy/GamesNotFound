@@ -196,6 +196,7 @@ DAY 17
 - Added logging to backend.
 - Added logging to frontend based on whether the app is run in development mode (eg. using "npm run dev").
 - Created API request template function to reduce API requests code length significantly.
+- Added "Quick Login" button to bypass Login when in development mode.
 
 What I learned today:
 - DEBUGGING:
@@ -205,3 +206,4 @@ What I learned today:
 -- If importing from a module that is a folder, we need to define an __init__.py file inside the module that exposes the functions in that module.
 For eg. we have utils/logging/logging.py that has dev_log() function defined, we need an __init__.py file inside utils/logging/ to which we add
 "from .logging import dev_log".  This way, another file outside the module can do "from utils.logging import dev_log"
+- When importing from a file, we can omit ".jsx" from the file name.  For eg. "import func from module" is the same as "import func from module.jsx".

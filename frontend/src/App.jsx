@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+
+// pages
 import Home from './pages/Home'
 import Store from './pages/Store'
 import Library from './pages/Library'
 import Profile from './pages/Profile'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
+import Error404 from './pages/Error404'
+import RestrictedResource from './pages/RestrictedResource'
+
 import { AuthContext } from './components/Context.jsx'
 import devLog from '../utils/logging/logging.jsx'
 import apiRequest from '../utils/apiRequest.jsx'
@@ -59,14 +64,16 @@ function App() {
 
   }, [currentUser]) // re-run code in case user logs in/logs out
 
-  return (
-    // currentUser used by Profile and Home pages
+  {/*
+      // currentUser used by Profile and Home pages
     // setCurrentUser used by Login and Log out features
     // libraryList used by Library to display library games
     // setLibraryList used by Store whenever user adds game to library, and Library to remove a game
     // librarySet used by Store to disable "+ Add to library button"
     // setLibrarySet used by Store whenever user adds game to library, and Library to remove a game
     // storeList used by Store to display store games, and Library to check for game info
+  */}
+  return (
     <AuthContext value={{ currentUser, setCurrentUser, libraryList, setLibraryList, librarySet, setLibrarySet, storeList }}>
       <BrowserRouter>
         <nav id="main-nav-bar">
@@ -82,6 +89,7 @@ function App() {
               <Link to="/Store">STORE</Link>
               {currentUser && <Link to="/Library">LIBRARY</Link>}
             </span>
+            
             <span style={{
               marginLeft:"auto",
               display: "flex",
@@ -92,17 +100,18 @@ function App() {
                 <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
               }
             </span>
-
           </div>
         </nav>
 
         <Routes>
           <Route path="/" element={ <Home /> } />
           <Route path="/Store" element={ <Store /> } />
-          <Route path="/Library" element={ <Library /> } />
+          {currentUser ? <Route path="/Library" element={ <Library /> } /> : <Route path="/Library" element={ <RestrictedResource /> } />}
           <Route path="/Profile" element={ <Profile /> } />
           <Route path="/Signup" element={ <Signup /> } />
           <Route path="/Login" element={ <Login /> } />
+
+          <Route path="*" element={ <Error404 /> } /> {/* Error page for invalid URLs */}
         </Routes>
       </BrowserRouter>
     </AuthContext>
