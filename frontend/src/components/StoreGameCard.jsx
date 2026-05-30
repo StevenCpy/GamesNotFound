@@ -8,7 +8,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, description, author, gameVersion} ) {
+function StoreGameCard( {gameID, gameName, description, author, gameVersion, isPlayable} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
@@ -62,7 +62,7 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion} ) {
                     gap:"1rem"
                 }}>
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
-                    <button disabled> Play </button>
+                    <button disabled={ !isPlayable }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
                 </span>
             </div>
         </div>

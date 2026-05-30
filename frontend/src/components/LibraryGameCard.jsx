@@ -8,7 +8,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "LibraryGameCard"
 
-function LibraryGameCard( {gameID, gameName, description, author, gameVersion} ) {
+function LibraryGameCard( {gameID, gameName, description, author, gameVersion, isPlayable} ) {
     devLog(COMPONENT, "LibraryGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
@@ -33,6 +33,15 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion} )
                 return newLibrarySet
             })
         }
+    }
+
+    // request game file download URL, download game files then redirect to game page
+    async function handlePlayGame() {
+        // send GET request to server requesting game download URL
+
+        // send request to remote storage to download game files
+
+        // redirect user to game page
 
     }
 
@@ -63,7 +72,7 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion} )
                     gap:"1rem"
                 }}>
                     <button onClick={ handleRemoveFromLibrary }> Remove from Library </button>
-                    <button disabled> Play </button>
+                    <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
                 </span>
             </div>
         </div>

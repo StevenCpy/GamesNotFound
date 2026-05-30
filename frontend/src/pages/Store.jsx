@@ -20,7 +20,8 @@ function Store() {
                                 gameName={game.name}
                                 description={game.description}
                                 author={game.author}
-                                gameVersion={game.version} />
+                                gameVersion={game.version}
+                                isPlayable={game.is_playable} />
             )}
         </div>
     )
