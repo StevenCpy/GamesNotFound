@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-import os, sys
+import os
 from supabase import create_client, Client
 from supabase.client import ClientOptions
 from dotenv import load_dotenv
@@ -147,7 +147,7 @@ async def store():
     try:
         response = (
             supabase.table(GAMES_TABLE)
-            .select("gameID,name,description,author,version,library_adds")
+            .select("gameID,name,description,author,version,is_playable,library_adds")
             .order("gameID", desc=False)
             .execute()
         )

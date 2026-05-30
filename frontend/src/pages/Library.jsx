@@ -24,8 +24,10 @@ function Library() {
                 <LibraryGameCard key={game.gameID}
                             gameID={game.gameID}
                             gameName={storeHashMap.get(game.gameID)["name"]}
+                            description={storeHashMap.get(game.gameID)["description"]}
                             author={storeHashMap.get(game.gameID)["author"]}
-                            gameVersion={storeHashMap.get(game.gameID)["version"]} />
+                            gameVersion={storeHashMap.get(game.gameID)["version"]}
+                            isPlayable={storeHashMap.get(game.gameID)["is_playable"]} />
             )}
         </div>
     )
