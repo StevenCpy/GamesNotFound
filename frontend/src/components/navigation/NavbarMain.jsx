@@ -25,6 +25,7 @@ function NavbarMain() {
                     display: "flex",
                     gap: "30px"
                 }}>
+                    {import.meta.env.DEV && <Link to="/games/HitTheTarget">LINK FOR TESTING</Link>}
                     {(!currentUser && import.meta.env.DEV) && <button onClick={() => setCurrentUser("Admin")}>Quick Login</button>}
                     {currentUser ?
                         <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
