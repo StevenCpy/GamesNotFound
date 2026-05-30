@@ -43,7 +43,8 @@ supabase: Client = create_client(
 # only allow React dev server to send API requests to server
 origins = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
+    "https://www.gamesnotfound.com"
 ]
 
 app.add_middleware(
