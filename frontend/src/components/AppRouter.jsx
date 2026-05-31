@@ -14,7 +14,7 @@ import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
 import Game from "../games/Game"
-import HitTheTarget from "../games/Hit the Target/Hit the Target"
+import * as games from "../games/index.js"
 
 
 function AppRouter() {
@@ -41,9 +41,20 @@ function AppRouter() {
                     <Route path="/Login" element={<Login />} />
 
                     <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
-                    {/* {import.meta.env.DEV && <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />} */}
-                    {/* Remove later - make routes dynamic */}
-                    <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />
+
+                    {/* Dynamically define routes for playable games */}
+                    {storeList.map(game => {
+                        console.log(game["is_playable"])
+                        if (game["is_playable"]) {
+                            const gameFileName = game["name"].replaceAll(" ","")
+                            const Component = games[gameFileName]
+                            return (
+                                <Route path={`games/${gameFileName}`}
+                                        element={<Game gameName={game["name"]} game={< Component />} />}
+                                />
+                            )
+                        }
+                    })}
                 </Routes>
             </div>
             

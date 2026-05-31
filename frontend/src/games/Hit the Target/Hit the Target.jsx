@@ -34,7 +34,7 @@ function Target({ playableSize, onTargetHit }) {
     )
 }
 
-function HitTheTarget() {
+function HittheTarget() {
     const [score, setScore] = useState(0)
     const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
     const [refresh, setRefresh] = useState(0)
@@ -55,4 +55,4 @@ function HitTheTarget() {
     )
 }
 
-export default HitTheTarget
+export default HittheTarget
