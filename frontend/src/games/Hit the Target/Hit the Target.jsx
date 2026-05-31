@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react"
+import "./Hit the Target.css"
 
 const ScoreContext = createContext(null)
 
@@ -23,14 +24,8 @@ function Target({ playableSize, onTargetHit }) {
     }
 
     return (
-        <button onClick={ handleTargetClicked }
-        ref={targetRef}
+        <button id="target" ref={targetRef} onClick={ handleTargetClicked }
         style={{
-            position: "absolute",
-            lineHeight: 1,
-            border: "none",
-            background: "transparent",
-            fontSize: "10vh",
             left: pos.x,
             top: pos.y
         }}>
@@ -52,14 +47,7 @@ function HitTheTarget() {
 
     return (
         <ScoreContext value={{ setScore }}>
-            <div className="playable-area"
-            ref={playableAreaRef}
-            style={{
-                width: "90%",
-                height: "90%",
-                position: "relative",
-                backgroundColor: "lightblue"
-            }}>
+            <div id="playable-area" ref={playableAreaRef}>
                 <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
             </div>
         </ScoreContext>
