@@ -10,11 +10,6 @@ function PlayableArea() {
         setPlayableSize({width: playableAreaRef.current.clientWidth, height: playableAreaRef.current.clientHeight})
     }, [refresh])
 
-    // refresh playableArea
-    function onTargetHit() {
-        setRefresh(refresh+1)
-    }
-
     return (
         <div className="playable-area-container"
         style={{
@@ -32,7 +27,7 @@ function PlayableArea() {
                 position: "relative",
                 backgroundColor: "lightblue"
             }}>
-                <Target playableSize={playableSize} onTargetHit={(onTargetHit)} />
+                <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
             </div>
         </div>
     )
