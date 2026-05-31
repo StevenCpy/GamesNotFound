@@ -219,3 +219,34 @@ DAY 18
 What I learned today:
 - Barrel files allow simplying import statements.  For eg. If we have multiple context provider files like AuthContext & LibraryContext, a barrel file "index.js" can
 import all the variables & functions from AuthContext and LibraryContext, then export them.  From another file, we can then import everything in one single import line.
+
+DAY 19
+- APP DEVELOPMENT:
+-- Added "Play" button to Store and Library game cards.
+--- Added "is_playable" bool field in games database table to indicate if a game is playable or just a placeholder.
+--- Updated "/Store" endpoint and API request to include the "is_playable" field.
+--- Added logic to disable "Play" button based on the value of "is_playable".
+-- Fixed buggy CSS layout.
+-- Created Game container component (and corresponding .css file) with standard layout to display game being played.
+- GAME DEVELOPMENT (Hit the Target):
+-- Created game file (and corresponding .css file) and basic UI for "Hit the Target" game.  Target respawns in a different place when clicked.
+-- Added Score system that increments the score when the target is clicked.
+- DEPLOYMENT:
+-- Bought domain name GamesNotFound.com.
+-- Deployed frontend on Vercel.
+
+What I learned today:
+- To get width and height of HTML element,
+1. Define a Ref: const playableAreaRef = useRef(null).
+2. Assign the Ref to the element: <div ref={playableAreaRef}></div>.
+3. Get width and height: const width = playableAreaRef.current.clientWidth; const height = playableAreaRef.current.clientHeight.
+Note that playableAreaRef.current.clientWidth should be inside a useEffect().  This waits for the DOM to render before running the code inside useEffect().
+- When using the useEffect() hook, adding
+1. an empty dependency array eg. useEffect(() => { ...codeBlock }, []) makes ...codeBlock run only once (when the component is rendered for the first time).
+2. no dependency array eg. useEffect(() => { ...codeBlock }) makes ...codeBlock run at every component re-render.
+3. a non-empty dependency array eg. useEffect(() => { ...codeBlock }, [state]) makes ...codeBlock run every time state changes.
+- Remount vs re-render: When state changes and component re-renders, its children functions are remounted (i.e. new children functions are created) which causes
+any useEffect() inside the child function to re-rerun.
+- UseEffect() called only when the DOM in the component is rendered.
+- If I just need to update a state through a child component, I can just pass "setState" as prop or through context.
+For eg. if I want the child component to increment "score", I just pass "setScore" and then call setScore(prev => prev+1) in the child component.
