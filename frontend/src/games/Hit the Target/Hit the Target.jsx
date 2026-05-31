@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, createContext, useContext } from "react"
+
+const ScoreContext = createContext(null)
 
 function PlayableArea() {
     const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
@@ -36,22 +38,25 @@ function PlayableArea() {
 function Target({ playableSize, onTargetHit }) {
     const [targetSize, setTargetSize] = useState({width: 0, height: 0})
     const [pos, setPos] = useState({x: Math.random() * playableSize.width, y: Math.random() * playableSize.height})
+    const { setScore } = useContext(ScoreContext)
 
     const targetRef = useRef(null)
 
-    function getNewRandomPosition() {
-        // measure current target size
+    function handleTargetClicked() {
+        // measure current component DOM size
         const currentTargetSize = {width: targetRef.current.clientWidth, height: targetRef.current.clientHeight}
-
         setTargetSize(currentTargetSize)
-        // generate new (x,y) for button
+
+        // generate new random (x,y) for target
         setPos({x: Math.random() * (playableSize.width - currentTargetSize.width), y: Math.random() * (playableSize.height - currentTargetSize.height)})
+        // increment score
+        setScore(prev => prev + 1)
         
         onTargetHit() // refresh playableArea to get new window dimension in case it was resized
     }
 
     return (
-        <button onClick={ getNewRandomPosition }
+        <button onClick={ handleTargetClicked }
         ref={targetRef}
         style={{
             position: "absolute",
@@ -78,8 +83,10 @@ function HitTheTarget() {
             flexDirection: "column",
             fontSize: "5vh"
         }}>
-            <div style={{ textAlign: "center" }}>Playing... Hit the Target</div>
-            <PlayableArea />
+            <div style={{ textAlign: "center" }}>Playing... Hit the Target (Score: {score})</div>
+            <ScoreContext value={{ setScore }}>
+                <PlayableArea />
+            </ScoreContext>
         </div>
     )
 }
