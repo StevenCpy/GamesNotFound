@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { AuthContext } from "./contexts/AuthContext"
 import { LibraryContext } from "./contexts/LibraryContext"
@@ -12,6 +13,7 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
+    const navigate = useNavigate()
 
     // add gameID to library using optimistic update
     async function handleAddToLibrary() {
@@ -33,6 +35,16 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
             setLibraryList([...libraryList, libraryEntry])
             setLibrarySet(new Set(librarySet).add(gameID))
         }
+    }
+
+    // request game file download URL, download game files then redirect to game page
+    async function handlePlayGame() {
+        // send GET request to server requesting game download URL
+
+        // send request to remote storage to download game files
+
+        // redirect user to game page
+        navigate(`/games/${gameName.replaceAll(" ","")}`)
     }
 
     return (
@@ -62,7 +74,7 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
                     gap:"1rem"
                 }}>
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
-                    <button disabled={ !isPlayable }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
+                    <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
                 </span>
             </div>
         </div>

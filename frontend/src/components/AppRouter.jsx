@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthContext } from "./contexts/AuthContext"
+import { StoreContext } from "./contexts/StoreContext"
 import NavbarMain from "./navigation/NavbarMain"
 
 // pages
@@ -15,8 +16,10 @@ import RestrictedResource from "../pages/RestrictedResource"
 import Game from "../games/Game"
 import HitTheTarget from "../games/Hit the Target/Hit the Target"
 
+
 function AppRouter() {
     const { currentUser } = useContext(AuthContext)
+    const { storeList } = useContext(StoreContext)
 
     return (
         <BrowserRouter>
@@ -38,7 +41,9 @@ function AppRouter() {
                     <Route path="/Login" element={<Login />} />
 
                     <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
-                    {import.meta.env.DEV && <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />}
+                    {/* {import.meta.env.DEV && <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />} */}
+                    {/* Remove later - make routes dynamic */}
+                    <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />
                 </Routes>
             </div>
             

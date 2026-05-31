@@ -35,16 +35,6 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
         }
     }
 
-    // request game file download URL, download game files then redirect to game page
-    async function handlePlayGame() {
-        // send GET request to server requesting game download URL
-
-        // send request to remote storage to download game files
-
-        // redirect user to game page
-
-    }
-
     return (
         <div style={{
             display:"flex",
@@ -72,7 +62,8 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
                     gap:"1rem"
                 }}>
                     <button onClick={ handleRemoveFromLibrary }> Remove from Library </button>
-                    <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
+                    {/* <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button> */}
+                    <button disabled> { isPlayable ? "Play on Store" : "Placeholder cannot be played" } </button>
                 </span>
             </div>
         </div>
