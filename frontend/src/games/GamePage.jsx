@@ -1,6 +1,6 @@
-import './Game.css'
+import './GamePage.css'
 
-function Game({ gameName, game }) {
+function GamePage({ gameName, game }) {
     return (
         <div className="game-container">
             <div style={{ textAlign: "center" }}>Playing... {gameName}</div>
@@ -11,4 +11,4 @@ function Game({ gameName, game }) {
     )
 }
 
-export default Game
+export default GamePage

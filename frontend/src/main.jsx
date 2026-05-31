@@ -8,16 +8,17 @@ import { StoreProvider } from './components/contexts/StoreContext'
 import { LibraryProvider } from './components/contexts/LibraryContext'
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        {/*
-            currentUser used by Profile and Home pages
-            setCurrentUser used by Login and Log out features
-            libraryList used by Library to display library games
-            setLibraryList used by Store whenever user adds game to library, and Library to remove a game
-            librarySet used by Store to disable "+ Add to library button"
-            setLibrarySet used by Store whenever user adds game to library, and Library to remove a game
-            storeList used by Store to display store games, and Library to check for game info
-        */}
+    /*
+    currentUser used by Profile and Home pages
+    setCurrentUser used by Login and Log out features
+    libraryList used by Library to display library games
+    setLibraryList used by Store whenever user adds game to library, and Library to remove a game
+    librarySet used by Store to disable "+ Add to library button"
+    setLibrarySet used by Store whenever user adds game to library, and Library to remove a game
+    storeList used by Store to display store games, and Library to check for game info
+    */
+    // <StrictMode>
+    <div>
         <AuthProvider>
             <StoreProvider>
                 <LibraryProvider>
@@ -25,5 +26,6 @@ createRoot(document.getElementById('root')).render(
                 </LibraryProvider>
             </StoreProvider>
         </AuthProvider>
-    </StrictMode>
+    </div>
+    // </StrictMode>
 )

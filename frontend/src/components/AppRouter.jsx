@@ -13,7 +13,8 @@ import Signup from "../pages/Signup"
 import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
-import Game from "../games/Game"
+
+import GamePage from "../games/GamePage.jsx"
 import * as games from "../games/index.js"
 
 
@@ -44,13 +45,12 @@ function AppRouter() {
 
                     {/* Dynamically define routes for playable games */}
                     {storeList.map(game => {
-                        console.log(game["is_playable"])
                         if (game["is_playable"]) {
                             const gameFileName = game["name"].replaceAll(" ","")
                             const Component = games[gameFileName]
                             return (
                                 <Route path={`games/${gameFileName}`}
-                                        element={<Game gameName={game["name"]} game={< Component />} />}
+                                        element={<GamePage gameName={game["name"]} game={< Component />} />}
                                 />
                             )
                         }
