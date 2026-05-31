@@ -12,6 +12,7 @@ import Signup from "../pages/Signup"
 import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
+import Game from "../games/Game"
 import HitTheTarget from "../games/Hit the Target/Hit the Target"
 
 function AppRouter() {
@@ -37,7 +38,7 @@ function AppRouter() {
                     <Route path="/Login" element={<Login />} />
 
                     <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
-                    {import.meta.env.DEV && <Route path="/games/HitTheTarget" element={<HitTheTarget />} />}
+                    {import.meta.env.DEV && <Route path="/games/HitTheTarget" element={<Game gameName="Hit the Target" game={<HitTheTarget />} />} />}
                 </Routes>
             </div>
             
