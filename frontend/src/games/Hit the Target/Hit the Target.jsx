@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react"
 
 function PlayableArea() {
-    const [playableWidth, setPlayableWidth] = useState(0)
-    const [playableHeight, setPlayableHeight] = useState(0)
+    const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
     const [refresh, setRefresh] = useState(0)
 
     const playableAreaRef = useRef(null)
 
     useEffect(() => {
-        setPlayableWidth(playableAreaRef.current.clientWidth)
-        setPlayableHeight(playableAreaRef.current.clientHeight)
+        setPlayableSize({width: playableAreaRef.current.clientWidth, height: playableAreaRef.current.clientHeight})
     }, [refresh])
 
     // refresh playableArea
@@ -34,20 +32,18 @@ function PlayableArea() {
                 position: "relative",
                 backgroundColor: "lightblue"
             }}>
-                <Target playableWidth={playableWidth} playableHeight={playableHeight} onTargetHit={onTargetHit} />
+                <Target playableSize={playableSize} onTargetHit={(onTargetHit)} />
             </div>
         </div>
     )
 }
 
-function Target({ playableWidth, playableHeight, onTargetHit }) {
-    const [x, setX] = useState(Math.random() * playableWidth)
-    const [y, setY] = useState(Math.random() * playableHeight)
+function Target({ playableSize, onTargetHit }) {
+    const [pos, setPos] = useState({x: Math.random() * playableSize.width, y: Math.random() * playableSize.height})
 
     function getNewRandomPosition() {
         // generate new (x,y) for button
-        setX(Math.random() * playableWidth)
-        setY(Math.random() * playableHeight)
+        setPos({x: Math.random() * playableSize.width, y: Math.random() * playableSize.height})
         onTargetHit() // refresh playableArea to get new window dimension in case it was resized
     }
 
@@ -59,8 +55,8 @@ function Target({ playableWidth, playableHeight, onTargetHit }) {
             border: "none",
             background: "transparent",
             fontSize: "10vh",
-            left: x,
-            top: y
+            left: pos.x,
+            top: pos.y
         }}>
             🎯
         </button>
