@@ -1,0 +1,14 @@
+#playable-area {
+    width: 90%;
+    height: 90%;
+    position: relative;
+    background-color: lightblue;
+}
+
+#target {
+    position: absolute;
+    line-height: 1;
+    border: none;
+    background: transparent;
+    font-size: 10vh;
+}

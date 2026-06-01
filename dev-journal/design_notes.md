@@ -1,5 +1,8 @@
-OVERALL ARCHITECTURE:
-Frontend (React) -> Backend (Python) containerized using Docker and hosted on AWS ECS -> Supabase database (for user auth)
+CURRENT OVERALL ARCHITECTURE:
+Frontend (React) hosted on Vercel -> Backend (Python) hosted on Render -> Supabase database (for user auth and game library access)
+
+POSSIBLE EVENTUAL OVERALL ARCHITECTURE:
+Frontend (React) hosted on Vercel -> Backend (Python) containerized using Docker and hosted on AWS ECS -> Supabase database (for user auth and game library access)
 
 -------------------------------------------------------------------------
 
@@ -41,12 +44,13 @@ Database options:
 
 -------------------------------------------------------------------------
 
-Basic Features:
+Features:
 - Sign up/Login
 - UI to allow browsing games
-    - Personalized library for games that user added from Store
     - Store tab to browse games
-- Download games (allow users to play games directly on browser for now, since people reluctant to download)
+    - Personalized library for games that user added from Store
+- Play JavaScript games directly on browser
+- (Later) Download non-JS games (can only play JS games on browser for now)
 
 How to keep list of games
 Step 1 - Hard-coded array.  Disadv: Not scalable/cannot add, remove or update games on the fly.(current approach)
