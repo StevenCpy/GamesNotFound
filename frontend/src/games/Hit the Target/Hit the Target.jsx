@@ -38,6 +38,7 @@ function HittheTarget() {
     const [score, setScore] = useState(0)
     const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
     const [refresh, setRefresh] = useState(0)
+    const [isGameOn, setIsGameOn] = useState(false)
 
     const playableAreaRef = useRef(null)
 
@@ -49,7 +50,10 @@ function HittheTarget() {
         <ScoreContext value={{ setScore }}>
             <div id="playable-area" ref={playableAreaRef}>
                 <span style={{ color: "black" }}>Score: {score}</span>
-                <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
+                {isGameOn ? 
+                    <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
+                    : <div id="start-button-container"><button id="start-button" onClick={() => setIsGameOn(true)}>START</button></div>
+                }
             </div>
         </ScoreContext>
     )
