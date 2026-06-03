@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
     storeList used by Store to display store games, and Library to check for game info
     */
     // <StrictMode>
-    <div>
+    <>
         <AuthProvider>
             <StoreProvider>
                 <LibraryProvider>
@@ -26,6 +26,6 @@ createRoot(document.getElementById('root')).render(
                 </LibraryProvider>
             </StoreProvider>
         </AuthProvider>
-    </div>
+    </>
     // </StrictMode>
 )
