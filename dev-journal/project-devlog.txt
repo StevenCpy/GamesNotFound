@@ -227,9 +227,11 @@ DAY 19
 --- Updated "/Store" endpoint and API request to include the "is_playable" field.
 --- Added logic to disable "Play" button based on the value of "is_playable".
 -- Fixed buggy CSS layout.
--- Created Game container component (and corresponding .css file) with standard layout to display game being played.
+-- Created GamePage component (and corresponding .css file) with standard layout to display game being played.
 - GAME DEVELOPMENT (Hit the Target):
 -- Created game file (and corresponding .css file) and basic UI for "Hit the Target" game.  Target respawns in a different place when clicked.
+-- Fixed target spawning outside playable area.
+-- Added dynamic playable area size measurement.  Target resizes when window is resized.
 -- Added Score system that increments the score when the target is clicked.
 - DEPLOYMENT:
 -- Bought domain name GamesNotFound.com.
@@ -250,3 +252,21 @@ any useEffect() inside the child function to re-rerun.
 - UseEffect() called only when the DOM in the component is rendered.
 - If I just need to update a state through a child component, I can just pass "setState" as prop or through context.
 For eg. if I want the child component to increment "score", I just pass "setScore" and then call setScore(prev => prev+1) in the child component.
+
+DAY 20
+- Added dynamic routes for playable games to BrowserRouter routes.
+- GAME DEVELOPMENT (Hit the Target):
+-- Added 'START' button to trigger game start.  Target first spawns only when 'START' button is clicked.
+
+What I learned today:
+- export { HittheTarget as default } from "./Hit the Target.jsx"; is the same as
+import HittheTarget from "./Hit the Target.jsx";
+export { HittheTarget };
+- Say I export multiple components in a file called "./games/index.js",
+import * as games from "./games/index.js" returns an object containing the components that can be accessed as:
+const Component = games[componentName]
+- Deep linking: Allows accessing a page by typing the route directly in the address bar, for eg. "gamesNotFound.com/HittheTarget".
+Vercel requires a Vercel.json file to enable deep linking.
+Otherwise, typing the route in the address bar directly does not work, but navigating to routes using the useNavigate() hook works.
+For eg. useNavigate() with "/HittheTarget" route redirects the user to "gamesNotFound.com/HittheTarget" but typing "gamesNotFound.com/HittheTarget" in the address bar leads to
+an "error 404" page.

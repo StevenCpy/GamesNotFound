@@ -1,7 +1,11 @@
 #playable-area {
+    position: relative;
     width: 90%;
     height: 90%;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
     background-color: lightblue;
 }
 
@@ -11,4 +15,34 @@
     border: none;
     background: transparent;
     font-size: 10vh;
+}
+
+#start-button-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#start-button, #gameover-button {
+    border-radius: 20px;
+    border-width: 5px;
+    border-color: black;
+    background-color: coral;
+    color: inherit;
+    font-weight: bold;
+    font-size: 5vh;
+}
+
+#score-timer-container {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+#gameover-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
