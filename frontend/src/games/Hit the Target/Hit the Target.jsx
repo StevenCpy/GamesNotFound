@@ -39,13 +39,21 @@ function Target({ playableSize, onTargetHit }) {
 
 function Timer() {
     const [timeSeconds, setTimeSeconds] = useState(START_TIME_S)
-    const { isGameOn, setIsGameOn, isGameOver, setIsGameOver } = useContext(GameStatusContext)
+    const { isGameOn, setIsGameOn, setIsGameOver } = useContext(GameStatusContext)
 
     useEffect(() => {
         if (!isGameOn) return // only start timer when "START" button is clicked
 
         const interval = setInterval(() => {
-            setTimeSeconds(prev => prev-1)
+            setTimeSeconds(prev => {
+                const newTimeSeconds = prev-1
+                if (newTimeSeconds == 0) {
+                    setIsGameOn(false) // ends game
+                    setIsGameOver(true) // show "Game Over" screen
+                    return START_TIME_S // reset timer for next game
+                }
+                return newTimeSeconds
+            })
         }, 1000)
 
         return () => clearInterval(interval)
