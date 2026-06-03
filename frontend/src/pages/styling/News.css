@@ -2,16 +2,25 @@
     list-style-type: "- ";
 }
 
-#news-page img {
-    height: 24rem;
-    aspect-ratio: 16/9;
-}
-
-#layout-change {
-    width: 80%;
+.side-by-side-comparison {
     display: flex;
     flex-direction: row;
     padding: 10px;
-    background-color: white;
+    background-color: green;
     gap: 20px;
+}
+
+.layout-left, .layout-right {
+    flex: 1;
+    text-align: center;
+    color: black;
+}
+
+.side-by-side-comparison h3 {
+    margin : 0;
+}
+
+.side-by-side-comparison img {
+    max-width: 100%;
+    max-height: 100%;
 }
