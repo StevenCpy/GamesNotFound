@@ -288,3 +288,8 @@ I should clear up the interval by returning a cleanup function inside the useEff
 "Error: Rendered more hooks than during the previous render".
 - VERCEL
 -- Vercel requires adding a vercel.json file to enable deep-linking in a Vite page.
+- CSS
+-- "body" adds a margin by default.  We can reset it using "body { margin: 0; }".
+-- Using box-sizing: If parent is a flexbox, we can add "flex: 1" to the child element which makes it take the remaining space within the parent.
+However if the parent is not a flexbox for eg. #root element, we can add "width: 100%; height: 100%" to the child element to do the same with a caveat.
+If we also add padding, the child takes 100%+padding space, which can cause overflow.  We can add "box-sizing: border-box" to include the padding in the child element.
