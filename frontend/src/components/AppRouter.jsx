@@ -8,6 +8,7 @@ import NavbarMain from "./navigation/NavbarMain"
 import Home from "../pages/Home"
 import Store from "../pages/Store"
 import Library from "../pages/Library"
+import News from "../pages/News"
 import Profile from "../pages/Profile"
 import Signup from "../pages/Signup"
 import Login from "../pages/Login"
@@ -35,11 +36,12 @@ function AppRouter() {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/Store" element={<Store />} />
-                    <Route path="/Library" element={currentUser ? <Library /> : <RestrictedResource />} />
-                    <Route path="/Profile" element={<Profile />} />
-                    <Route path="/Signup" element={<Signup />} />
-                    <Route path="/Login" element={<Login />} />
+                    <Route path="/store" element={<Store />} />
+                    <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/news" element={<News />} />
 
                     <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
 

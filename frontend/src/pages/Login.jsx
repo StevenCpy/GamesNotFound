@@ -56,7 +56,7 @@ function Login() {
                 <button disabled={!(username && password)} onClick={ handleLogin }>Login</button>
                 <span>
                     Don't have an account?{" "}
-                    <Link to="/Signup">Sign up</Link>
+                    <Link to="/signup">Sign up</Link>
                 </span>
                 {loginError && <div style={{ color:"red" }}> Incorrect username or password!  Please try again.</div>}
             </div>

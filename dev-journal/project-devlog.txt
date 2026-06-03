@@ -270,3 +270,21 @@ Vercel requires a Vercel.json file to enable deep linking.
 Otherwise, typing the route in the address bar directly does not work, but navigating to routes using the useNavigate() hook works.
 For eg. useNavigate() with "/HittheTarget" route redirects the user to "gamesNotFound.com/HittheTarget" but typing "gamesNotFound.com/HittheTarget" in the address bar leads to
 an "error 404" page.
+
+DAY 21
+- GAME DEVELOPMENT (Hit the Target)
+-- Added a Timer which counts down every second.
+-- Added "Game Over" screen that shows final score when timer reaches zero, along with a "Play again" button.
+- DEPLOYMENT
+-- Added vercel.json to enable deep-linking in Vite app.
+- DEVELOPMENT
+-- Added "News" page to list new features & changelogs, and provide quick links to latest features.
+
+What I learned today:
+- useEffect()
+-- Returning a cleanup function: Say I define an interval inside useEffect().  It will keep running even after the component is unmounted.
+I should clear up the interval by returning a cleanup function inside the useEffect() for eg. "return () => clearInterval(interval)".
+-- Using hooks conditionally eg. if (condition) { useEffect(() => {}) } is wrong.  It gives this error:
+"Error: Rendered more hooks than during the previous render".
+- VERCEL
+-- Vercel requires adding a vercel.json file to enable deep-linking in a Vite page.
