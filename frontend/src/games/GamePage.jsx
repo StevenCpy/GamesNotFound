@@ -3,7 +3,7 @@ import './GamePage.css'
 function GamePage({ gameName, game }) {
     return (
         <div className="game-container">
-            <div style={{ textAlign: "center" }}>Playing... {gameName}</div>
+            <p>Playing... {gameName}</p>
             <div className="playable-area-container">
                 {game}
             </div>

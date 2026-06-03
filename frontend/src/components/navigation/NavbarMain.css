@@ -1,0 +1,25 @@
+#main-navbar {
+    display: flex;
+    flex-direction: row;
+}
+
+#main-navbar a {
+    font-size: 150%;
+    color: white;
+    text-decoration: none;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+#main-navbar-left {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+#main-navbar-right {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}

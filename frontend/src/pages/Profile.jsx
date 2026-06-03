@@ -1,6 +1,9 @@
 import { useContext } from "react"
+
 import { AuthContext } from "../components/contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
+import './styling/Profile.css'
+
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Profile"
@@ -18,16 +21,8 @@ function Profile() {
     }
 
     return (
-        <div
-        style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            width: "50rem",
-            height: "20rem",
-            fontSize: "150%",
-            textAlign: "center"
-        }}>
-            {currentUser}<br></br>
+        <div id="profile-container">
+            {currentUser}<br />
             <button onClick={ handleLogout }>Log out</button>
         </div>
     )

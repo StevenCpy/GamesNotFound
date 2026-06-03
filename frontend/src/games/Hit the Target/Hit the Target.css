@@ -1,7 +1,6 @@
 #playable-area {
     position: relative;
-    width: 90%;
-    height: 90%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +16,7 @@
     font-size: 10vh;
 }
 
-#start-button-container, #gameover-screen {
+#start-screen, #gameover-screen {
     flex: 1;
     display: flex;
     flex-direction: column;

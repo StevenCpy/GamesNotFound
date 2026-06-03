@@ -1,0 +1,23 @@
+#auth-form {
+    width: 15rem;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+#auth-form h3 {
+    text-align: center;
+}
+
+#auth-form p {
+    margin: 0;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-fail {
+    color: red;
+}

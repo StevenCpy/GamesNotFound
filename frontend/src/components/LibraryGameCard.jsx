@@ -2,6 +2,7 @@ import { useContext } from "react"
 
 import { AuthContext } from "./contexts/AuthContext"
 import { LibraryContext } from "./contexts/LibraryContext"
+import './LibraryGameCard.css'
 
 import devLog from "../../utils/logging/logging"
 import apiRequest from "../../utils/apiRequest"
@@ -36,33 +37,17 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
     }
 
     return (
-        <div style={{
-            display:"flex",
-            flexDirection:"row",
-            height:"15rem",
-            width:"40rem",
-            gap:"1rem"
-        }}>
-            <div>
-                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"12rem", width:"12rem" }} />
-            </div>
-            <div style={{
-                height:"100%",
-                width:"100%"
-            }}>
-                <div style={{ fontSize:"2.5rem", textAlign:"center" }}> <b>{ gameName }</b> </div>
-                <div> { description } </div>
+        <div id="library-gamecard">
+            <img id="library-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
+            <div id="library-gamecard-info">
+                <p><b>{ gameName }</b></p>
+                <p>{ description }</p>
                 <hr />
-                <div> <b>AUTHOR: </b> { author } </div>
-                <div> <b>VERSION: </b> { gameVersion } </div>
+                <p><b>AUTHOR: </b> { author }</p>
+                <p><b>VERSION: </b> { gameVersion }</p>
                 <hr />
-                <span style={{
-                    display:"flex",
-                    flexDirection:"row",
-                    gap:"1rem"
-                }}>
+                <span id="library-gamecard-buttons">
                     <button onClick={ handleRemoveFromLibrary }> Remove from Library </button>
-                    {/* <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button> */}
                     <button disabled> { isPlayable ? "Play on Store" : "Placeholder cannot be played" } </button>
                 </span>
             </div>

@@ -60,7 +60,9 @@ function App() {
     }, [currentUser]) // re-run code in case user logs in/logs out
 
     return (
-        <AppRouter />
+        <div id="app-container">
+            <AppRouter />
+        </div>
     )
 }
 

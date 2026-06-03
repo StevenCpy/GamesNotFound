@@ -1,8 +1,11 @@
 import { useContext } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import { AuthContext } from "./contexts/AuthContext"
 import { StoreContext } from "./contexts/StoreContext"
 import NavbarMain from "./navigation/NavbarMain"
+import * as games from "../games/index.js"
+import './AppRouter.css'
 
 // pages
 import Home from "../pages/Home"
@@ -14,10 +17,7 @@ import Signup from "../pages/Signup"
 import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
-
-import GamePage from "../games/GamePage.jsx"
-import * as games from "../games/index.js"
-
+import GamePage from "../games/GamePage"
 
 function AppRouter() {
     const { currentUser } = useContext(AuthContext)
@@ -25,15 +25,9 @@ function AppRouter() {
 
     return (
         <BrowserRouter>
-            <div id="app-container"
-            style={{
-                width: "100vw",
-                height: "100vh",
-                display: "flex",
-                flexDirection: "column"
-            }}>
-                <NavbarMain />
+            <NavbarMain />
 
+            <div id="page-container">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/store" element={<Store />} />
@@ -52,7 +46,7 @@ function AppRouter() {
                             const Component = games[gameFileName]
                             return (
                                 <Route path={`games/${gameFileName}`}
-                                        element={<GamePage gameName={game["name"]} game={< Component />} />}
+                                        element={<GamePage gameName={game["name"]} game={<Component />} />}
                                 />
                             )
                         }
