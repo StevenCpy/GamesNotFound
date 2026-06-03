@@ -1,19 +1,11 @@
+import './styling/RestrictedResource.css'
+
 function RestrictedResource() {
-    return <div style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "50vh",
-        justifyContent: "center",
-        alignItems: "center"
-    }}>
-        <div style={{
-            fontWeight: "bold",
-            fontSize: "200%",
-            textAlign: "center"
-        }}>
+    return <div id="restrictedResource-page">
+        <h1>
             Restricted Access<br />
             Only logged in users can access this page
-        </div>
+        </h1>
     </div>
 }
 
