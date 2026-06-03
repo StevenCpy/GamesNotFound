@@ -82,7 +82,7 @@ function HittheTarget() {
 
     function StartScreen() {
         return (
-            <div id="start-button-container">
+            <div id="start-screen">
                 <GameButton onClick={() => setIsGameOn(true)} text="START" />
             </div>
         )
