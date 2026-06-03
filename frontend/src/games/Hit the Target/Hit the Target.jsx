@@ -42,12 +42,14 @@ function Timer() {
     const { isGameOn, setIsGameOn, isGameOver, setIsGameOver } = useContext(GameStatusContext)
 
     useEffect(() => {
+        if (!isGameOn) return // only start timer when "START" button is clicked
+
         const interval = setInterval(() => {
             setTimeSeconds(prev => prev-1)
         }, 1000)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [isGameOn])
 
     return (
         <>
