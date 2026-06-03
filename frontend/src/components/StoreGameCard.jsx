@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import { AuthContext } from "./contexts/AuthContext"
 import { LibraryContext } from "./contexts/LibraryContext"
+import './StoreGameCard.css'
 
 import devLog from "../../utils/logging/logging"
 import apiRequest from "../../utils/apiRequest"
@@ -48,31 +49,16 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
     }
 
     return (
-        <div style={{
-            display:"flex",
-            flexDirection:"row",
-            height:"15rem",
-            width:"40rem",
-            gap:"1rem"
-        }}>
-            <div>
-                <img src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } style={{ height:"12rem", width:"12rem" }} />
-            </div>
-            <div style={{
-                height:"100%",
-                width:"100%"
-            }}>
-                <div style={{ fontSize:"2.5rem", textAlign:"center" }}> <b>{ gameName }</b> </div>
-                <div> { description } </div>
+        <div id="store-gamecard">
+            <img id="store-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
+            <div id="store-gamecard-info">
+                <p><b>{ gameName }</b></p>
+                <p>{ description }</p>
                 <hr />
-                <div> <b>AUTHOR: </b> { author } </div>
-                <div> <b>VERSION: </b> { gameVersion } </div>
+                <p><b>AUTHOR: </b> { author }</p>
+                <p><b>VERSION: </b> { gameVersion }</p>
                 <hr />
-                <span style={{
-                    display:"flex",
-                    flexDirection:"row",
-                    gap:"1rem"
-                }}>
+                <span id="store-gamecard-buttons">
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
                     <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
                 </span>
