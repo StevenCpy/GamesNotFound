@@ -79,8 +79,29 @@ function HittheTarget() {
         setPlayableSize({width: playableAreaRef.current.clientWidth, height: playableAreaRef.current.clientHeight})
     }, [refresh])
 
+    function StartScreen() {
+        return (
+            <div id="start-button-container">
+                <button id="start-button" onClick={() => setIsGameOn(true)}>
+                    START
+                </button>
+            </div>
+        )
+    }
+
+    function GameOverScreen() {
+        return (
+            <div id="gameover-screen">
+                Final Score: {score}
+                <button id="gameover-button" onClick={() => {setIsGameOver(false); setIsGameOn(true); setScore(0)}}>
+                    Play again
+                </button>
+            </div>
+        )
+    }
+
     return (
-        <GameStatusContext value={{ isGameOn, setIsGameOn, isGameOver, setIsGameOver }}>
+        <GameStatusContext value={{ isGameOn, setIsGameOn, setIsGameOver }}>
             <ScoreContext value={{ setScore }}>
                 <div id="playable-area" ref={playableAreaRef}>
                     <div id="score-timer-container">
@@ -89,7 +110,10 @@ function HittheTarget() {
                     </div>
                     {isGameOn ? 
                         <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
-                        : <div id="start-button-container"><button id="start-button" onClick={() => setIsGameOn(true)}>START</button></div>
+                        :
+                        <>
+                            {isGameOver ? <GameOverScreen /> : <StartScreen />}
+                        </>
                     }
                 </div>
             </ScoreContext>
