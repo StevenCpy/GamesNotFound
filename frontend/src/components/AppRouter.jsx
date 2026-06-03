@@ -25,40 +25,32 @@ function AppRouter() {
 
     return (
         <BrowserRouter>
-            <div id="app-container"
-            style={{
-                width: "100vw",
-                height: "100vh",
-                display: "flex",
-                flexDirection: "column"
-            }}>
-                <NavbarMain />
+            <NavbarMain />
 
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/store" element={<Store />} />
-                    <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/news" element={<News />} />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/store" element={<Store />} />
+                <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/news" element={<News />} />
 
-                    <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
+                <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
 
-                    {/* Dynamically define routes for playable games */}
-                    {storeList.map(game => {
-                        if (game["is_playable"]) {
-                            const gameFileName = game["name"].replaceAll(" ","")
-                            const Component = games[gameFileName]
-                            return (
-                                <Route path={`games/${gameFileName}`}
-                                        element={<GamePage gameName={game["name"]} game={< Component />} />}
-                                />
-                            )
-                        }
-                    })}
-                </Routes>
-            </div>
+                {/* Dynamically define routes for playable games */}
+                {storeList.map(game => {
+                    if (game["is_playable"]) {
+                        const gameFileName = game["name"].replaceAll(" ","")
+                        const Component = games[gameFileName]
+                        return (
+                            <Route path={`games/${gameFileName}`}
+                                    element={<GamePage gameName={game["name"]} game={< Component />} />}
+                            />
+                        )
+                    }
+                })}
+            </Routes>
             
         </BrowserRouter>
     )
