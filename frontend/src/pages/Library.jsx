@@ -1,7 +1,10 @@
 import { useContext } from "react"
+
 import { StoreContext } from "../components/contexts/StoreContext"
 import { LibraryContext } from "../components/contexts/LibraryContext"
 import LibraryGameCard from "../components/LibraryGameCard"
+import './styling/Library.css'
+
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Library"

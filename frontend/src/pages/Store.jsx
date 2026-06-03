@@ -1,6 +1,9 @@
 import { useContext } from 'react'
+
 import { StoreContext } from '../components/contexts/StoreContext'
 import StoreGameCard from '../components/StoreGameCard'
+import './styling/Store.css'
+
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Store"
@@ -10,10 +13,7 @@ function Store() {
     const { storeList } = useContext(StoreContext)
 
     return (
-        <div style={{
-            display:"flex",
-            flexDirection: "column",
-        }}>
+        <div id="store-list">
             {storeList.map(game =>
                 <StoreGameCard key={game.gameID}
                                 gameID={game.gameID}

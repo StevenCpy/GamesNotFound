@@ -279,6 +279,7 @@ DAY 21
 -- Added vercel.json to enable deep-linking in Vite app.
 - DEVELOPMENT
 -- Added "News" page to list new features & changelogs, and provide quick links to latest features.
+-- Refactored CSS styling for all pages: Removed redundant elements, moved styling from in-line to CSS files, improved CSS layout and wrote cleaner CSS code.
 
 What I learned today:
 - useEffect()
