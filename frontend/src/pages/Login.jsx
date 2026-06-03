@@ -1,6 +1,9 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import { AuthContext } from '../components/contexts/AuthContext'
+import './styling/Auth.css'
+
 import devLog from "../../utils/logging/logging"
 import apiRequest from '../../utils/apiRequest'
 
@@ -31,35 +34,27 @@ function Login() {
     }
 
     return (
-        <form>
-            <div style={{
-                display:"flex",
-                flexDirection: "column",
-                marginLeft: "auto",
-                marginRight: "auto",
-                width: "15rem",
-                height: "20rem"
-            }}>
-                <span style={{ marginLeft: "auto", marginRight: "auto" }}>LOGIN</span>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <label>Password:</label>
-                <input
-                    type="text"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button disabled={!(username && password)} onClick={ handleLogin }>Login</button>
-                <span>
-                    Don't have an account?{" "}
-                    <Link to="/signup">Sign up</Link>
-                </span>
-                {loginError && <div style={{ color:"red" }}> Incorrect username or password!  Please try again.</div>}
-            </div>
+        <form id="auth-form">
+            <h3>LOGIN</h3>
+
+            <label>Username:</label>
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <label>Password:</label>
+            <input
+                type="text"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button disabled={!(username && password)} onClick={ handleLogin }>Login</button>
+            <span>
+                Don't have an account?{" "}
+                <Link to="/signup">Sign up</Link>
+            </span>
+            {loginError && <p className="text-fail"> Incorrect username or password!  Please try again.</p>}
         </form>
     )
 }

@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import './styling/Auth.css'
+
 import devLog from "../../utils/logging/logging"
 import apiRequest from '../../utils/apiRequest'
 
@@ -82,57 +85,50 @@ function Signup() {
     }
 
     return (
-        <form>
-            <div style={{
-                display:"flex",
-                flexDirection: "column",
-                marginLeft: "auto",
-                marginRight: "auto",
-                width: "15rem",
-                height: "20rem"
-            }}>
-                <div>
-                    WARNING:<br></br>
-                    Passwords not currently encrypted so I can see them in the database.  Please consider this.<br></br>
-                    I will remove this warning after I implement password hashing.
-                </div>
-                <span style={{ marginLeft: "auto", marginRight: "auto" }}>SIGN UP</span>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => handleField(e, setUsername, usernameMaxLength)}
-                />
-                {/* <label>Email:</label>
-                <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => handleField(e, setEmail, emailMaxLength)}
-                /> */}
-                <label>Password:</label>
-                <input
-                    type="text"
-                    value={password}
-                    onChange={(e) => handleField(e, setPassword, passwordMaxLength)}
-                />
-                {/* show this text only if username or password is blank */}
-                {!(username && password) && <div style={{ color:"red" }} >Fill in all fields!</div>}
-                <button disabled={!(username && password)} onClick={ handleSignUp }>Sign up</button>
-                <span>
-                    Already have an account?{" "}
-                    <Link to="/login">Login</Link>
-                </span>
-                {signedUp && <div style={{ color:"green" }}>Signed up successfully.  You can now login!</div>}
-                {signUpDetails && <div style={{ color:"red" }}> {signUpDetails}</div>}
-                {passwordWarning && <ul style={{ color:"red" }}>
+        <form id="auth-form">
+            <p>
+                WARNING:<br />
+                Passwords not currently encrypted so I can see them in the database.  Please consider this.<br />
+                I will remove this warning after I implement password hashing.
+            </p>
+
+            <h3>SIGN UP</h3>
+
+            <label>Username:</label>
+            <input
+                type="text"
+                value={username}
+                onChange={(e) => handleField(e, setUsername, usernameMaxLength)}
+            />
+            {/* <label>Email:</label>
+            <input
+                type="text"
+                value={email}
+                onChange={(e) => handleField(e, setEmail, emailMaxLength)}
+            /> */}
+            <label>Password:</label>
+            <input
+                type="text"
+                value={password}
+                onChange={(e) => handleField(e, setPassword, passwordMaxLength)}
+            />
+            {/* show this text only if username or password is blank */}
+            {!(username && password) && <p className="text-fail">Fill in all fields!</p>}
+            <button disabled={!(username && password)} onClick={ handleSignUp }>Sign up</button>
+            <span>
+                Already have an account?{" "}
+                <Link to="/login">Login</Link>
+            </span>
+            {signedUp && <p className="text-success" style={{ color:"green" }}>Signed up successfully.  You can now login!</p>}
+            {signUpDetails && <p className="text-fail" style={{ color:"red" }}> {signUpDetails}</p>}
+            {passwordWarning &&
+                <ul className="text-fail">
                     <li>Password must contain at least a lowercase letter.</li>
                     <li>Password must contain at least an uppercase letter.</li>
                     <li>Password must contain at least a number.</li>
                     <li>Password must contain at least a special character: !, @.</li>
-                </ul>}
-
-            </div>
-
+                </ul>
+            }
         </form>
     )
 }
