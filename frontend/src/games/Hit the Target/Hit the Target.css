@@ -32,3 +32,10 @@
     color: black;
     font-size: 5vh;
 }
+
+#score-timer-container {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    color: black;
+}
