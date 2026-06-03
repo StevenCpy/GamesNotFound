@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react"
+import GameButton from "./components/GameButton"
 import './Hit the Target.css'
 
-const START_TIME_S = 5
+const START_TIME_S = 30
 
 const ScoreContext = createContext(null)
 const GameStatusContext = createContext(null)
@@ -82,9 +83,7 @@ function HittheTarget() {
     function StartScreen() {
         return (
             <div id="start-button-container">
-                <button id="start-button" onClick={() => setIsGameOn(true)}>
-                    START
-                </button>
+                <GameButton onClick={() => setIsGameOn(true)} text="START" />
             </div>
         )
     }
@@ -93,9 +92,7 @@ function HittheTarget() {
         return (
             <div id="gameover-screen">
                 Final Score: {score}
-                <button id="gameover-button" onClick={() => {setIsGameOver(false); setIsGameOn(true); setScore(0)}}>
-                    Play again
-                </button>
+                <GameButton onClick={() => {setIsGameOver(false); setIsGameOn(true); setScore(0)}} text="Play again"/>
             </div>
         )
     }
