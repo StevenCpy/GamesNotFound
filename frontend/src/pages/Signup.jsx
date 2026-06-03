@@ -120,7 +120,7 @@ function Signup() {
                 <button disabled={!(username && password)} onClick={ handleSignUp }>Sign up</button>
                 <span>
                     Already have an account?{" "}
-                    <Link to="/Login">Login</Link>
+                    <Link to="/login">Login</Link>
                 </span>
                 {signedUp && <div style={{ color:"green" }}>Signed up successfully.  You can now login!</div>}
                 {signUpDetails && <div style={{ color:"red" }}> {signUpDetails}</div>}

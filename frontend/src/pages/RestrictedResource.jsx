@@ -11,7 +11,7 @@ function RestrictedResource() {
             fontSize: "200%",
             textAlign: "center"
         }}>
-            Restricted Access<br></br>
+            Restricted Access<br />
             Only logged in users can access this page
         </div>
     </div>

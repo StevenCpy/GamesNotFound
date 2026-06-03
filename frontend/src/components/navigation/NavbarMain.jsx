@@ -16,8 +16,9 @@ function NavbarMain() {
                     gap: "30px"
                 }}>
                     <Link to="/">GamesNotFound</Link>
-                    <Link to="/Store">STORE</Link>
-                    {currentUser && <Link to="/Library">LIBRARY</Link>}
+                    <Link to="/store">STORE</Link>
+                    {currentUser && <Link to="/library">LIBRARY</Link>}
+                    <Link to="/news">What's NEW</Link>
                 </span>
 
                 <span style={{
@@ -28,7 +29,7 @@ function NavbarMain() {
                     {import.meta.env.DEV && <Link to="/games/HitTheTarget">LINK FOR TESTING</Link>}
                     {(!currentUser && import.meta.env.DEV) && <button onClick={() => setCurrentUser("Admin")}>Quick Login</button>}
                     {currentUser ?
-                        <Link to="/Profile">{currentUser}</Link> : <Link to="/Login">Login</Link>
+                        <Link to="/profile">{currentUser}</Link> : <Link to="/login">Login</Link>
                     }
                 </span>
             </div>
