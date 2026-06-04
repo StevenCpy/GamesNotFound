@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import Annotated
 
 import os
 from supabase import create_client, Client
@@ -9,7 +10,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timezone
 import jwt
 
-from utils.logging import dev_log, dev_error_database
+from utils.logging import dev_log, dev_error, dev_error_database
 
 # database tables
 USERS_TABLE = "users"
@@ -131,9 +132,9 @@ async def login(user: User):
 
                 # create JWT token
                 key = os.environ.get("JWT_SECRET_KEY")
-                encoded = jwt.encode({"username": user.username}, key=key, algorithm="HS256")
+                payload_encoded = jwt.encode({"username": user.username}, key=key, algorithm="HS256")
 
-                return {"status": STATUS_SUCCESS_MESSAGE, "token": encoded}
+                return {"status": STATUS_SUCCESS_MESSAGE, "token": payload_encoded}
             else:
                 dev_log(endpoint, f"Password for '{user.username}' is incorrect")
                 return {"status": STATUS_FAIL_MESSAGE, "details": "Incorrect password"}
@@ -143,6 +144,24 @@ async def login(user: User):
             return {"status": STATUS_FAIL_MESSAGE, "details": "User does not exist"}
     except Exception as e:
         dev_error_database(endpoint, e)
+        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+
+# API to authenticate user using JWT token
+@app.get("/auth")
+async def auth(Authorization_header: Annotated[str | None, Header(alias="Authorization", convert_underscores=False)] = None):
+    endpoint = "auth"
+
+    dev_log(endpoint, "Endpoint called")
+
+    # decode JWT token
+    key = os.environ.get("JWT_SECRET_KEY")
+    try:
+        token = Authorization_header.replace("Bearer ", "")
+        payload_decoded = jwt.decode(token, key=key, algorithms="HS256")
+        username = payload_decoded["username"]
+        return {"status": STATUS_SUCCESS_MESSAGE, "username": username}
+    except Exception as e:
+        dev_error(endpoint, e)
         return {"status": STATUS_FAIL_MESSAGE, "details": e}
 
 # API to return all games in the store
