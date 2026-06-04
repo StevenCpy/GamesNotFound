@@ -7,6 +7,7 @@ from supabase import create_client, Client
 from supabase.client import ClientOptions
 from dotenv import load_dotenv
 from datetime import datetime, timezone
+import jwt
 
 from utils.logging import dev_log, dev_error_database
 
@@ -127,7 +128,12 @@ async def login(user: User):
             # if password matches the one in database
             if db_password == user.password:
                 dev_log(endpoint, f"User '{user.username}' logged in")
-                return {"status": STATUS_SUCCESS_MESSAGE}
+
+                # create JWT token
+                key = os.environ.get("JWT_SECRET_KEY")
+                encoded = jwt.encode({"username": user.username}, key=key, algorithm="HS256")
+
+                return {"status": STATUS_SUCCESS_MESSAGE, "token": encoded}
             else:
                 dev_log(endpoint, f"Password for '{user.username}' is incorrect")
                 return {"status": STATUS_FAIL_MESSAGE, "details": "Incorrect password"}
