@@ -17,6 +17,8 @@ function Profile() {
         devLog(COMPONENT, "handleLogout() called")
         setCurrentUser(null)
         navigate("/")
+        // clear token from localStorage
+        localStorage.removeItem("token")
         // clear JWT cookie + tell server that user logged out so it can invalidate token
     }
 

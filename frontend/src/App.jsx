@@ -16,12 +16,29 @@ const COMPONENT = "App"
 
 function App() {
     devLog(COMPONENT, "App() called")
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
     const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
 
     useEffect(() => {
-        devLog(COMPONENT, "calling useEffect in App()")
+        devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
+
+        async function getUsernameFromToken() {
+            const token = localStorage.getItem("token") // get JWT token from localStorage
+            
+            if (token) {
+                const auth_response_json = await apiRequest(COMPONENT, "auth", "GET", null, token) // send GET request to fetch username from server
+                if (auth_response_json.status == "Success") {
+                    console.log(auth_response_json.username)
+                    setCurrentUser(auth_response_json.username)
+                }
+            }
+        }
+        getUsernameFromToken()
+    }, [])
+
+    useEffect(() => {
+        devLog(COMPONENT, "calling useEffect in App() - Fetching Store and Library")
 
         async function loadStoreOnlyServer() {
             devLog(COMPONENT, "loadStoreOnlyServer() called")
