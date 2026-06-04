@@ -311,6 +311,7 @@ DAY 22
 --- Added logic on "Login" page to request JWT token on successful login, storing it inside localStorage (for now).
 --- Implemented "/auth" endpoint to extract username from JWT token.
 --- Added logic inside App() to authenticate with server using token on app start up, provided there is a token.
+--- Token is cleared from localStorage when logging out from "Profile" page.
 
 What I learned today:
 - CSS
