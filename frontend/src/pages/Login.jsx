@@ -25,6 +25,9 @@ function Login() {
         const response_json = await apiRequest(COMPONENT, "login", "POST", { username: username, password: password })
         if (response_json.status == "Success") {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
+            // store JWT token received from server
+            localStorage.setItem("token", response_json.token)
+
             setCurrentUser(username.toUpperCase())
             navigate("/")
         } else {
