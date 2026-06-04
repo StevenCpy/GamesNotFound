@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { AuthContext } from "../contexts/AuthContext"
 import './NavbarMain.css'
@@ -10,17 +10,17 @@ function NavbarMain() {
     return (
         <nav id="main-navbar">
             <span id="main-navbar-left">
-                <Link to="/">GamesNotFound</Link>
-                <Link to="/store">STORE</Link>
-                {currentUser && <Link to="/library">LIBRARY</Link>}
-                <Link to="/news">What's NEW</Link>
+                <NavLink to="/">GamesNotFound</NavLink>
+                <NavLink to="/store">STORE</NavLink>
+                {currentUser && <NavLink to="/library">LIBRARY</NavLink>}
+                <NavLink to="/news">What's NEW</NavLink>
             </span>
 
             <span id="main-navbar-right">
-                {import.meta.env.DEV && <Link to="/games/HitTheTarget">LINK FOR TESTING</Link>}
+                {import.meta.env.DEV && <NavLink to="/games/HitTheTarget">LINK FOR TESTING</NavLink>}
                 {(!currentUser && import.meta.env.DEV) && <button onClick={() => setCurrentUser("Admin")}>Quick Login</button>}
                 {currentUser ?
-                    <Link to="/profile">{currentUser}</Link> : <Link to="/login">Login</Link>
+                    <NavLink to="/profile">{currentUser}</NavLink> : <NavLink to="/login">Login</NavLink>
                 }
             </span>
         </nav>
