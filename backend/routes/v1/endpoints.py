@@ -71,7 +71,7 @@ async def signup(user: User):
             return {"status": STATUS_SUCCESS_MESSAGE}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
     
 # API to authenticate user, returns "Success" or "Fail" with details if unsuccessful
 @router.post("/login")
@@ -108,7 +108,7 @@ async def login(user: User):
             return {"status": STATUS_FAIL_MESSAGE, "details": "User does not exist"}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
 
 # API to authenticate user using JWT token
 @router.get("/auth")
@@ -126,7 +126,7 @@ async def auth(Authorization_header: Annotated[str | None, Header(alias="Authori
         return {"status": STATUS_SUCCESS_MESSAGE, "username": username}
     except Exception as e:
         dev_error(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
 
 # API to return all games in the store
 @router.get("/store")
@@ -145,7 +145,7 @@ async def store():
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
 
 # API to return user's list of library games
 @router.get("/library/{username}")
@@ -166,7 +166,7 @@ async def library(username: str):
         return {"status": STATUS_SUCCESS_MESSAGE, "data": response.data}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
     
 # API to add game to user's library
 @router.post("/addToLibrary/{username}/{gameID}")
@@ -187,7 +187,7 @@ async def addToLibrary(username: str, gameID: int):
         return {"status": STATUS_SUCCESS_MESSAGE, "data": [game_added]}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
     
 # API to remove game from user's library
 @router.delete("/removeFromLibrary/{username}/{gameID}")
@@ -207,4 +207,4 @@ async def removeFromLibrary(username: str, gameID: int):
         return {"status": STATUS_SUCCESS_MESSAGE}
     except Exception as e:
         dev_error_database(endpoint, e)
-        return {"status": STATUS_FAIL_MESSAGE, "details": e}
+        return {"status": STATUS_FAIL_MESSAGE, "details": "Database error"}
