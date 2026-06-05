@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from routes.v1.endpoints import router as router_v1
+from routes.v2 import router as router_v2
 
 app = FastAPI()
 
@@ -26,3 +27,4 @@ app.add_middleware(
 )
 
 app.include_router(router_v1)
+app.include_router(router_v2, prefix="/api/v2")
