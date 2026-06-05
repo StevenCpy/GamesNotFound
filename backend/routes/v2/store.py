@@ -6,13 +6,15 @@ from ..supabase_client import supabase_client
 from ..supabase_client import GAMES_TABLE
 from ..status_message import status_success, status_fail
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/store"
+)
 
 # ----------------------------------------------------------------- #
 #                             /store                                #
 # ----------------------------------------------------------------- #
 # API to return all games in the store
-@router.get("/store")
+@router.get("/")
 async def store():
     endpoint = "store"
 
