@@ -325,14 +325,49 @@ https://pyjwt.readthedocs.io/en/stable/usage.html
 --- To decode using HS256, we need the encoded token and the same secret key.  For eg. "payload = jwt.decode(encoded, key, algorithms="HS256").
 -- On client
 --- To send token as part of header, we add the "headers" field to our request as follows:
-headers = {
-    "Authorization": `Bearer ${token}`
-}
+    headers = {
+        "Authorization": `Bearer ${token}`
+    }
 -- Back to server:
 --- On receiving a token in the header, we can access it as a param as follows:
-"Authorization: Annotated[str | None, Headers(convert_underscores=False)] = None"
-1. Annotated indicates where the data comes from.  It is of the form "Annotated[data | metadata]".
-2. convert_underscores=False is needed if the token uses "-", as fastAPI converts them to "_" by default.
-3. We can use a different param value by using an alias for eg. "another_name: Annotated[str | None, Headers(alias="Authorization", convert_underscores=False)] = None".
-4. To get the actual token, it is important to remove the "Bearer " from the header.
-5. Decode the token to get the payload.
+    "Authorization: Annotated[str | None, Headers(convert_underscores=False)] = None"
+    1. Annotated indicates where the data comes from.  It is of the form "Annotated[data | metadata]".
+    2. convert_underscores=False is needed if the token uses "-", as fastAPI converts them to "_" by default.
+    3. We can use a different param value by using an alias for eg. "another_name: Annotated[str | None, Headers(alias="Authorization", convert_underscores=False)] = None".
+    4. To get the actual token, it is important to remove the "Bearer " from the header.
+    5. Decode the token to get the payload.
+
+DAY 23
+- Refactored endpoints to make code cleaner and more readable.
+- Fixed security issue with exposing Supabase error messages in endpoint responses.
+- Create API version v2, and renamed endpoints with "/auth" and "/library" prefix.
+
+What I learned today:
+- BACKEND
+-- FASTAPI
+    We can organize endpoints into different files by using fastAPI's APIRouter() as follows:
+    1. Put the endpoints in separate files, each file creating a router as "router = APIRouter()".
+    2. We can add a prefix eg. "/auth" when defining the router.  All endpoints in the file automatically start with this prefix.
+        For eg. "/auth/signup" and "/auth/login" endpoints can then be changed to "/signup" and "/login" respectively.
+    3. Define the endpoints using "@router.[methodName]" instead of "@app.[methodName]".
+    4. In main.py, import the router.
+    5. Say the router is routerV1.  Add its routes to the main app using @app.include_router(routerV1).
+-- PYTHON IMPORTS
+    - "from .file_name import variable_name": checks current directory for file_name.
+        "from ..file_name import variable_name": checks parent directory for file_name.
+    - The . and .. notation cannot be used if searched directory is the root directory.
+    - "Implicit Namespace Packages": Since Python v3.3, directories are automatically treated as packages,
+        which allows using the . and .. notation without defining an "__init__.py" inside the directory.
+    - Having an "__init__.py" allows treating the folder as a package, which makes importing from the folder cleaner.
+-- API VERSIONING
+    We usually create a new API version when a change in the endpoints would cause the client to break.
+    When to create a new API version:
+    - Updated response format.  For eg. response's "data" field was a string, but is now an object.
+    - Updated API endpoint name.  For eg. moving from "/addToLibrary/{gameID}" to "/library/{gameID}".
+    When new API version is NOT needed:
+    - Fixing security issues.  For eg. response exposes specific Supabase error.
+        This should be fixed, otherwise clients using the old APIs can still see the leaked error message.
+    - Refactoring code.  This doesn't break the client, response stays the same.
+    - Switching authentication method.  For eg. "/library/{username}" endpoint receives a username to display the user's library.
+        When switching to JWT tokens, the endpoint becomes "/library" and receives the token in the request header instead.
+        This is more of a security issue, which should be fixed.  We don't want clients to use old APIs to bypass JWT authentication.
