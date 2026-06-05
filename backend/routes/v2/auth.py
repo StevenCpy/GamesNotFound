@@ -10,7 +10,9 @@ from ..supabase_client import USERS_TABLE
 from ..status_message import status_success, status_fail
 from .base_models import User
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/auth"
+)
 
 # ----------------------------------------------------------------- #
 #                             /signup                               #
@@ -89,9 +91,9 @@ async def login(user: User):
 #                               /me                                 #
 # ----------------------------------------------------------------- #
 # API to authenticate user using JWT token
-@router.get("/auth")
+@router.get("/me")
 async def auth(Authorization_header: Annotated[str | None, Header(alias="Authorization", convert_underscores=False)] = None):
-    endpoint = "auth"
+    endpoint = "me"
 
     dev_log(endpoint, "Endpoint called")
 
