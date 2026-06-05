@@ -7,13 +7,15 @@ from ..supabase_client import supabase_client
 from ..supabase_client import LIBRARY_TABLE
 from ..status_message import status_success, status_fail
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/library"
+)
 
 # ----------------------------------------------------------------- #
 #                             /library                              #
 # ----------------------------------------------------------------- #
 # API to return user's list of library games
-@router.get("/library/{username}")
+@router.get("/{username}")
 async def library(username: str):
     endpoint = "library"
 
@@ -37,7 +39,7 @@ async def library(username: str):
 #                          /addToLibrary                            #
 # ----------------------------------------------------------------- #
 # API to add game to user's library
-@router.post("/addToLibrary/{username}/{gameID}")
+@router.post("/{username}/{gameID}")
 async def addToLibrary(username: str, gameID: int):
     endpoint = "addToLibrary"
 
@@ -61,7 +63,7 @@ async def addToLibrary(username: str, gameID: int):
 #                        /removeFromLibrary                         #
 # ----------------------------------------------------------------- #
 # API to remove game from user's library
-@router.delete("/removeFromLibrary/{username}/{gameID}")
+@router.delete("/{username}/{gameID}")
 async def removeFromLibrary(username: str, gameID: int):
     endpoint = "removeFromLibrary"
 
