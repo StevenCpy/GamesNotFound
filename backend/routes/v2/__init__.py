@@ -7,7 +7,7 @@ from .library import router as router_library
 
 router = APIRouter()
 
-router.include_router(router_root)
-router.include_router(router_auth)
-router.include_router(router_store)
-router.include_router(router_library)
+router.include_router(router_root, tags=["v2 - root"])
+router.include_router(router_auth, tags=["v2 - auth"])
+router.include_router(router_store, tags=["v2 - store"])
+router.include_router(router_library, tags=["v2 - library"])
