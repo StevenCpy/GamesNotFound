@@ -1,1 +1,1 @@
-/library endpoint now uses JWT tokens to authenticate instead of username.
+/library endpoints now uses JWT tokens to authenticate instead of username.
