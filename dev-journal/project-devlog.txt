@@ -343,6 +343,7 @@ DAY 23
 - Created API version v2, renamed some endpoints and added "/auth", "/store" and "/library" prefix to related endpoints.
 - Updated library endpoints to use JWT authentication instead of username param.
 - Updated client to use new v2 API endpoints.
+- Fixed CSS/scroll bars appearing on deployed site.
 
 What I learned today:
 - BACKEND
