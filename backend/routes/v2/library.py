@@ -1,11 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
+from typing import Annotated
 
 from datetime import datetime, timezone
-from utils.logging import dev_log, dev_error_database
+from utils.logging import dev_log, dev_error, dev_error_database
 
 from ..supabase_client import supabase_client
 from ..supabase_client import LIBRARY_TABLE
 from ..status_message import status_success, status_fail
+from .utils import decode_payload_HS256
 
 router = APIRouter(
     prefix="/library"
@@ -15,12 +17,20 @@ router = APIRouter(
 #                             /library                              #
 # ----------------------------------------------------------------- #
 # API to return user's list of library games
-@router.get("/{username}")
-async def library(username: str):
+@router.get("/")
+async def library(Authorization: Annotated[str|None, Header()] = None):
     endpoint = "library"
-
     dev_log(endpoint, "Endpoint called")
-    username = username.upper()
+
+    # authenticate user using JWT token
+    try:
+        username = decode_payload_HS256(Authorization)["username"].upper()
+        dev_log(endpoint, f"'{username}' was extracted from token")
+    except Exception as e:
+        dev_error(endpoint, e)
+        return status_fail("Token could not be decoded")
+    
+    # query database for user's library games
     try:
         response = (
             supabase_client.table(LIBRARY_TABLE)
@@ -39,12 +49,20 @@ async def library(username: str):
 #                          /addToLibrary                            #
 # ----------------------------------------------------------------- #
 # API to add game to user's library
-@router.post("/{username}/{gameID}")
-async def addToLibrary(username: str, gameID: int):
+@router.post("/{gameID}")
+async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()] = None):
     endpoint = "addToLibrary"
-
     dev_log(endpoint, "Endpoint called")
-    username = username.upper()
+
+    # authenticate user using JWT token
+    try:
+        username = decode_payload_HS256(Authorization)["username"].upper()
+        dev_log(endpoint, f"'{username}' was extracted from token")
+    except Exception as e:
+        dev_error(endpoint, e)
+        return status_fail("Token could not be decoded")
+    
+    # add game to user's library
     added_at = datetime.now(timezone.utc).isoformat()
     try:
         response = supabase_client.table(LIBRARY_TABLE).insert({
@@ -63,12 +81,20 @@ async def addToLibrary(username: str, gameID: int):
 #                        /removeFromLibrary                         #
 # ----------------------------------------------------------------- #
 # API to remove game from user's library
-@router.delete("/{username}/{gameID}")
-async def removeFromLibrary(username: str, gameID: int):
+@router.delete("/{gameID}")
+async def removeFromLibrary(gameID: int, Authorization: Annotated[str|None, Header()] = None):
     endpoint = "removeFromLibrary"
-
     dev_log(endpoint, "Endpoint called")
-    username = username.upper()
+
+    # authenticate user using JWT token
+    try:
+        username = decode_payload_HS256(Authorization)["username"].upper()
+        dev_log(endpoint, f"'{username}' was extracted from token")
+    except Exception as e:
+        dev_error(endpoint, e)
+        return status_fail("Token could not be decoded")
+
+    # remove game from user's library
     try:
         supabase_client.table(LIBRARY_TABLE).delete().match({
             "username": username,
