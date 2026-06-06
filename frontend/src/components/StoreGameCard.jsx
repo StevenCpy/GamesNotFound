@@ -20,15 +20,16 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
     async function handleAddToLibrary() {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
-        // send addToLibrary POST request to server
-        const response_json = await apiRequest(COMPONENT, `addToLibrary/${currentUser}/${gameID}`, "POST")
+        // send POST request to server to add game to user's library
+        const token = localStorage.getItem("token") // get JWT token from localStorage
+        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "POST", null, token)
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {
             devLog(COMPONENT, `Server added "${gameName}" with game ID ${gameID} to ${currentUser}'s library`)
             // get entry for new game in library
             // we use server response to get server timestamp of when game was successfully added to library
-            const libraryEntry = response_json.data[0]
+            const libraryEntry = response_json.data
             devLog(COMPONENT, `new Library entry recorded`)
             console.log(libraryEntry)
 

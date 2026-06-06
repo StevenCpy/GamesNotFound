@@ -37,7 +37,7 @@ function Signup() {
             devLog(COMPONENT, "Valid password.  Initiating server-side sign up...")
 
             // send sign up POST request to server to handle sign up
-            const response_json = await apiRequest(COMPONENT, "signup", "POST", { username: username, password: password })
+            const response_json = await apiRequest(COMPONENT, "auth/signup", "POST", { username: username, password: password })
             if (response_json.status == "Success") {
                 devLog(COMPONENT, `User ${username} successfully signed up by server`)
                 setSignedUp(true)

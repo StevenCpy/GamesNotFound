@@ -2,11 +2,12 @@ import SERVER_URL from "../src/data/serverVariables"
 import devLog from "./logging/logging"
 
 const STATUS_FAIL_MESSAGE = "Fail"
+const API_VERSION = 2
 
 async function apiRequest(component, endpoint, method, body, token) {
     devLog(component, `Calling ${endpoint} API endpoint...`)
 
-    const URL = `${SERVER_URL}/${endpoint}`
+    const URL = `${SERVER_URL}/api/v${API_VERSION}/${endpoint}`
     const request = { method: method }
     if (body || token) {
         const headers = {}
@@ -14,6 +15,7 @@ async function apiRequest(component, endpoint, method, body, token) {
             headers["Content-Type"] = "application/json"
             request.body = JSON.stringify(body)
         }
+        // include JWT token in headers
         if (token) {
             headers["Authorization"] = `Bearer ${token}`
         }
