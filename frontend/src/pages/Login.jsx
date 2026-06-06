@@ -22,7 +22,7 @@ function Login() {
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
 
         // send login POST request to server to handle login
-        const response_json = await apiRequest(COMPONENT, "login", "POST", { username: username, password: password })
+        const response_json = await apiRequest(COMPONENT, "auth/login", "POST", { username: username, password: password })
         if (response_json.status == "Success") {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
             // store JWT token received from server

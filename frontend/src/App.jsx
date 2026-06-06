@@ -24,16 +24,14 @@ function App() {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
 
         async function getUsernameFromToken() {
+            // send GET request to fetch username from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
-            
-            if (token) {
-                const auth_response_json = await apiRequest(COMPONENT, "auth", "GET", null, token) // send GET request to fetch username from server
-                if (auth_response_json.status == "Success") {
-                    console.log(auth_response_json.username)
-                    setCurrentUser(auth_response_json.username)
-                }
+            const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET", null, token)
+            if (auth_response_json.status == "Success") {
+                setCurrentUser(auth_response_json.username)
             }
         }
+
         getUsernameFromToken()
     }, [])
 
@@ -54,8 +52,12 @@ function App() {
 
         async function loadStoreAndLibraryServer() {
             devLog(COMPONENT, "loadStoreAndLibraryServer() called")
-            const store_response_json = await apiRequest(COMPONENT, "store", "GET") // send GET request to fetch Store from server
-            const library_response_json = await apiRequest(COMPONENT, `library/${currentUser}`, "GET") // send GET request to fetch Library from server
+            // send GET request to fetch Store from server
+            const store_response_json = await apiRequest(COMPONENT, "store", "GET")
+
+            // send GET request to fetch Library from server
+            const token = localStorage.getItem("token") // get JWT token from localStorage
+            const library_response_json = await apiRequest(COMPONENT, `library`, "GET", null, token)
 
             if (store_response_json.status == "Success" && library_response_json.status == "Success") {
                 devLog(COMPONENT, "Store and Library fetched")

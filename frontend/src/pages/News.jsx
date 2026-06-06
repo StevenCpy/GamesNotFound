@@ -4,12 +4,12 @@ import './styling/News.css'
 
 function ComparisonContainer({ src1, alt1, src2, alt2 }) {
     return (
-        <div class="side-by-side-comparison">
-            <span class="layout-left">
+        <div className="side-by-side-comparison">
+            <span className="layout-left">
                 <h3>Old layout:</h3><br />
                 <img src={src1} alt={alt1}></img>
             </span>
-            <span class="layout-right">
+            <span className="layout-right">
                 <h3>New layout:</h3><br />
                 <img src={src2} alt={alt2}></img>
             </span>
@@ -35,6 +35,9 @@ function News() {
                         src1={`/news-images/Old Store layout.png`} alt1="Old Store layout"
                         src2={`/news-images/New Store layout.png`} alt2="New Store layout"
                     />
+                </li>
+                <li>
+                    Created v2 API endpoints and updated client to use the new endpoints.
                 </li>
             </ul>
             

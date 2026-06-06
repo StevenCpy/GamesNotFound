@@ -18,8 +18,9 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
     async function handleRemoveFromLibrary() {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
-        // send removeFromLibrary DELETE request to server
-        const response_json = await apiRequest(COMPONENT, `removeFromLibrary/${currentUser}/${gameID}`, "DELETE")
+        // // send DELETE request to server to remove game from user's library
+        const token = localStorage.getItem("token") // get JWT token from localStorage
+        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE", null, token)
 
         if (response_json.status == "Success") {
             devLog(COMPONENT, `Server removed "${gameName}" with game ID ${gameID} from ${currentUser}'s library`)
