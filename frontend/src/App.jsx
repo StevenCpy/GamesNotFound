@@ -40,7 +40,7 @@ function App() {
 
         async function loadStoreOnlyServer() {
             devLog(COMPONENT, "loadStoreOnlyServer() called")
-            const store_response_json = await apiRequest(COMPONENT, "store", "GET") // send GET request to fetch Store from server
+            const store_response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
 
             if (store_response_json.status == "Success") {
                 devLog(COMPONENT, "Store fetched")
@@ -53,11 +53,11 @@ function App() {
         async function loadStoreAndLibraryServer() {
             devLog(COMPONENT, "loadStoreAndLibraryServer() called")
             // send GET request to fetch Store from server
-            const store_response_json = await apiRequest(COMPONENT, "store", "GET")
+            const store_response_json = await apiRequest(COMPONENT, "store/", "GET")
 
             // send GET request to fetch Library from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
-            const library_response_json = await apiRequest(COMPONENT, `library`, "GET", null, token)
+            const library_response_json = await apiRequest(COMPONENT, `library/`, "GET", null, token)
 
             if (store_response_json.status == "Success" && library_response_json.status == "Success") {
                 devLog(COMPONENT, "Store and Library fetched")
