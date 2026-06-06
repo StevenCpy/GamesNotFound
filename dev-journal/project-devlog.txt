@@ -340,7 +340,7 @@ https://pyjwt.readthedocs.io/en/stable/usage.html
 DAY 23
 - Refactored endpoints to make code cleaner and more readable.
 - Fixed security issue with exposing Supabase error messages in endpoint responses.
-- Create API version v2, and renamed endpoints with "/auth" and "/library" prefix.
+- Create API version v2, and renamed endpoints with "/auth", "/store" and "/library" prefix.
 
 What I learned today:
 - BACKEND

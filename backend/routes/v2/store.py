@@ -17,8 +17,9 @@ router = APIRouter(
 @router.get("/")
 async def store():
     endpoint = "store"
-
     dev_log(endpoint, "Endpoint called")
+
+    # query database for store games
     try:
         response = (
             supabase_client.table(GAMES_TABLE)

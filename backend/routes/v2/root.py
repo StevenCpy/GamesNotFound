@@ -14,6 +14,6 @@ router = APIRouter()
 @router.api_route("/", methods=["GET", "HEAD"])
 async def root():
     endpoint = "root"
-
     dev_log(endpoint, "Endpoint called")
+
     return status_success()

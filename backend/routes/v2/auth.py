@@ -1,18 +1,25 @@
 from fastapi import APIRouter, Header
+from pydantic import BaseModel
 from typing import Annotated
 
-import os
 import jwt
 from utils.logging import dev_log, dev_error, dev_error_database
 
 from ..supabase_client import supabase_client
 from ..supabase_client import USERS_TABLE
 from ..status_message import status_success, status_fail
-from .base_models import User
+from .utils import encode_HS256, decode_payload_HS256
 
 router = APIRouter(
     prefix="/auth"
 )
+
+# ----------------------------------------------------------------- #
+#                            BASE MODELS                            #
+# ----------------------------------------------------------------- #
+class Auth(BaseModel):
+    username: str
+    password: str
 
 # ----------------------------------------------------------------- #
 #                             /signup                               #
@@ -24,21 +31,21 @@ def usernameAlreadyExists(username):
 
 # API to sign up user, returns "Success" or "Fail" with details if unsuccessful
 @router.post("/signup")
-async def signup(user: User):
+async def signup(auth: Auth):
     endpoint = "signup"
-
     dev_log(endpoint, "Endpoint called")
-    username = user.username.upper()
+
+    username = auth.username.upper()
     try:
         if usernameAlreadyExists(username):
             # return username already exists
             dev_log(endpoint, f"Sign up unsuccessful.  User '{username}' already exists")
             return status_fail({"details": "Username already exists"})
         else:
-            # insert username and password into table, return successful sign up
+            # insert username and password into table
             supabase_client.table(USERS_TABLE).insert({
                 "username": username,
-                "password": user.password
+                "password": auth.password
             }).execute()
 
             dev_log(endpoint, f"User '{username}' signed up")
@@ -52,12 +59,13 @@ async def signup(user: User):
 # ----------------------------------------------------------------- #
 # API to authenticate user, returns "Success" or "Fail" with details if unsuccessful
 @router.post("/login")
-async def login(user: User):
+async def login(auth: Auth):
     endpoint = "login"
-
     dev_log(endpoint, "Endpoint called")
-    username = user.username.upper()
+
+    username = auth.username.upper()
     try:
+        # query database for user's actual password
         response = (
             supabase_client.table(USERS_TABLE)
             .select("password")
@@ -68,14 +76,13 @@ async def login(user: User):
         if len(response.data):
             db_password = response.data[0]["password"]
             # if password matches the one in database
-            if db_password == user.password:
+            if db_password == auth.password:
                 dev_log(endpoint, f"User '{username}' logged in")
 
-                # create JWT token
-                key = os.environ.get("JWT_SECRET_KEY")
-                payload_encoded = jwt.encode({"username": username}, key, algorithm="HS256")
-
-                return status_success({"token": payload_encoded})
+                # encode payload
+                payload = {"username": username}
+                token = encode_HS256(payload)
+                return status_success({"token": token})
             else:
                 dev_log(endpoint, f"Password for '{username}' is incorrect")
                 return status_fail("Incorrect password")
@@ -92,17 +99,13 @@ async def login(user: User):
 # ----------------------------------------------------------------- #
 # API to authenticate user using JWT token
 @router.get("/me")
-async def auth(Authorization_header: Annotated[str | None, Header(alias="Authorization", convert_underscores=False)] = None):
+async def auth(Authorization: Annotated[str|None, Header()] = None):
     endpoint = "me"
-
     dev_log(endpoint, "Endpoint called")
 
-    # decode JWT token
-    key = os.environ.get("JWT_SECRET_KEY")
     try:
-        token = Authorization_header.replace("Bearer ", "")
-        payload_decoded = jwt.decode(token, key, algorithms="HS256")
-        username = payload_decoded["username"]
+        # decode payload
+        username = decode_payload_HS256(Authorization)["username"]
         return status_success({"username": username})
     except Exception as e:
         dev_error(endpoint, e)
