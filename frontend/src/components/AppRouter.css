@@ -1,7 +1,6 @@
 #page-container {
     flex: 1;
     padding: 50px 100px;
-    margin: 10px 0;
     background-color: #242424;
     border-radius: 30px;
 }
