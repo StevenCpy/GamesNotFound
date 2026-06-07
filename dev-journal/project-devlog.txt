@@ -375,3 +375,16 @@ What I learned today:
     - Switching authentication method.  For eg. "/library/{username}" endpoint receives a username to display the user's library.
         When switching to JWT tokens, the endpoint becomes "/library" and receives the token in the request header instead.
         This is more of a security issue, which should be fixed.  We don't want clients to use old APIs to bypass JWT authentication.
+
+DAY 24:
+- High score feature:
+    SERVER:
+    Created "/score/highscores" endpoint to return all games highscores of user.
+
+    CLIENT:
+    - Updated client to fetch high scores from server on app start.
+    - Game high scores are displayed on game cards.
+
+What I learned today:
+- Only use <span> to style parts of texts.  Its purpose is not to group elements that should be on the same line.
+For eg. use <div> if we want to group 2 buttons on the same line.
