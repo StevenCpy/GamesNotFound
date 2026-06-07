@@ -72,10 +72,26 @@ function App() {
             }
         }
 
-        if (!currentUser) {
-            loadStoreOnlyServer() // fetch only Store games if user logged out
-        } else { // user logged in
-            loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
+        async function loadHighScoresServer() {
+            devLog(COMPONENT, "loadHighScoresServer() called")
+
+            // send GET request to fetch high scores from server
+            const token = localStorage.getItem("token") // get JWT token from localStorage
+            const highscores_response_json = await apiRequest(COMPONENT, `score/highscores`, "GET", null, token)
+            if (highscores_response_json.status == "Success") {
+                devLog(COMPONENT, "High scores fetched")
+                // initialize high score list
+                setHighscoreList(highscores_response_json.data)
+            }
+        }
+
+        // user logged out
+        if (!currentUser) { 
+            loadStoreOnlyServer() // fetch only Store games
+        // user logged in
+        } else {
+            loadStoreAndLibraryServer() // fetch both Store and Library games
+            loadHighScoresServer() // fetch high scores
         }
 
     }, [currentUser]) // re-run code in case user logs in/logs out
