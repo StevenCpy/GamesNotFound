@@ -6,6 +6,7 @@ import App from './App.jsx'
 import { AuthProvider } from './components/contexts/AuthContext'
 import { StoreProvider } from './components/contexts/StoreContext'
 import { LibraryProvider } from './components/contexts/LibraryContext'
+import { ScoreProvider } from './components/contexts/ScoreContext'
 
 createRoot(document.getElementById('root')).render(
     /*
@@ -22,7 +23,9 @@ createRoot(document.getElementById('root')).render(
         <AuthProvider>
             <StoreProvider>
                 <LibraryProvider>
-                    <App />
+                    <ScoreProvider>
+                        <App />
+                    </ScoreProvider>
                 </LibraryProvider>
             </StoreProvider>
         </AuthProvider>

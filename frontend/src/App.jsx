@@ -7,6 +7,7 @@ import AppRouter from './components/AppRouter'
 import { AuthContext } from './components/contexts/AuthContext'
 import { StoreContext } from './components/contexts/StoreContext'
 import { LibraryContext } from './components/contexts/LibraryContext'
+import { ScoreContext } from './components/contexts/ScoreContext'
 
 // utils
 import devLog from '../utils/logging/logging'
@@ -19,6 +20,7 @@ function App() {
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
     const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
+    const { setHighscoreList } = useContext(ScoreContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
