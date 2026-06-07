@@ -49,7 +49,6 @@ function App() {
                 // initialize store games list
                 setStoreList(store_response_json.data)
             }
-            setLibraryList([])
         }
 
         async function loadStoreAndLibraryServer() {
@@ -78,6 +77,7 @@ function App() {
             // send GET request to fetch high scores from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
             const highscores_response_json = await apiRequest(COMPONENT, `score/highscores`, "GET", null, token)
+            console.log(highscores_response_json)
             if (highscores_response_json.status == "Success") {
                 devLog(COMPONENT, "High scores fetched")
                 // initialize high score list
@@ -88,6 +88,8 @@ function App() {
         // user logged out
         if (!currentUser) { 
             loadStoreOnlyServer() // fetch only Store games
+            setLibraryList([]) // clear Library
+            setHighscoreList([]) // clear high scores
         // user logged in
         } else {
             loadStoreAndLibraryServer() // fetch both Store and Library games

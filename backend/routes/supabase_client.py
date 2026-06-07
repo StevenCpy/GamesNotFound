@@ -7,7 +7,7 @@ import os
 USERS_TABLE = "users"
 GAMES_TABLE = "games"
 LIBRARY_TABLE = "library"
-SCORE_TABLE = "score"
+SCORE_TABLE = "scores"
 
 # Other constants
 SUPABASE_TIMEOUT_SECONDS = 10

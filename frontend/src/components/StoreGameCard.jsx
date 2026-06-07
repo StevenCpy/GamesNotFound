@@ -10,7 +10,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, description, author, gameVersion, isPlayable} ) {
+function StoreGameCard( {gameID, gameName, description, author, gameVersion, highScore, isPlayable} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
@@ -58,6 +58,7 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
                 <hr />
                 <p><b>AUTHOR: </b> { author }</p>
                 <p><b>VERSION: </b> { gameVersion }</p>
+                <p><b>HIGH SCORE: </b> { highScore }</p>
                 <hr />
                 <span id="store-gamecard-buttons">
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>
