@@ -12,12 +12,7 @@ const COMPONENT = "Store"
 function Store() {
     devLog(COMPONENT, "Store() called")
     const { storeList } = useContext(StoreContext)
-    const { highscoreList } = useContext(ScoreContext)
-
-    // convert list of high scores to hash map, with key = gameID
-    const highscoreHashMap = new Map(
-        highscoreList.map(game => [game.gameID, game])
-    )
+    const { highscoreHashMap } = useContext(ScoreContext)
 
     return (
         <div id="store-list">

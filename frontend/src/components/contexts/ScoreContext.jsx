@@ -3,10 +3,10 @@ import { createContext, useState } from "react"
 export const ScoreContext = createContext(null)
 
 export function ScoreProvider( {children} ) {
-    const [highscoreList, setHighscoreList] = useState([]) // list for displaying high scores
+    const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
 
     return (
-        <ScoreContext value={{ highscoreList, setHighscoreList }}>
+        <ScoreContext value={{ highscoreHashMap, setHighscoreHashMap }}>
             {children}
         </ScoreContext>
     )

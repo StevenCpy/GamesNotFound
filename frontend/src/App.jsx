@@ -20,7 +20,7 @@ function App() {
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
     const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
-    const { setHighscoreList } = useContext(ScoreContext)
+    const { setHighscoreHashMap } = useContext(ScoreContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -80,8 +80,12 @@ function App() {
             console.log(highscores_response_json)
             if (highscores_response_json.status == "Success") {
                 devLog(COMPONENT, "High scores fetched")
-                // initialize high score list
-                setHighscoreList(highscores_response_json.data)
+                // initialize high score hash map
+                const highscoreList = highscores_response_json.data
+                const highscoreHashMap = new Map(
+                    highscoreList.map(game => [game.gameID, game])
+                )
+                setHighscoreHashMap(highscoreHashMap)
             }
         }
 
@@ -89,7 +93,7 @@ function App() {
         if (!currentUser) { 
             loadStoreOnlyServer() // fetch only Store games
             setLibraryList([]) // clear Library
-            setHighscoreList([]) // clear high scores
+            setHighscoreHashMap(new Map()) // clear high scores
         // user logged in
         } else {
             loadStoreAndLibraryServer() // fetch both Store and Library games
