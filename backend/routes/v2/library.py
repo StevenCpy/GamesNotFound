@@ -69,11 +69,16 @@ async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()]
     # add game to user's library
     added_at = datetime.now(timezone.utc).isoformat()
     try:
-        response = supabase_client.table(LIBRARY_TABLE).insert({
-            "username": username,
-            "gameID": gameID,
-            "added_at": added_at
-        }).execute()
+        response = (
+            supabase_client.table(LIBRARY_TABLE)
+            .insert({
+                "username": username,
+                "gameID": gameID,
+                "added_at": added_at
+            })
+            .select("gameID,added_at")
+            .execute()
+        )
         game_added = {k:v for k,v in response.data[0].items() if k != "username"} # remove username field from response
         dev_log(endpoint, f"Game ID {gameID} added to {username}'s library")
         return status_success({"data": game_added})

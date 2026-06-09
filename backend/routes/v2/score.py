@@ -103,10 +103,11 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                     "high_score": score.score,
                     "last_played": last_played
                 })
+                .select("high_score,last_played")
                 .execute()
             )
             dev_log(endpoint, f"High score added for username: '{username}', gameID: '{score.gameID}'")
-            return status_success({"details": "Updated first high score for game"})
+            return status_success({"details": "Updated first high score for game", "data": response.data[0]})
         except Exception as e:
             dev_error_database(endpoint, e)
             return status_fail("Database error")
@@ -127,10 +128,11 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                         "username": username,
                         "gameID": score.gameID
                     })
+                    .select("high_score,last_played")
                     .execute()
                 )
                 dev_log(endpoint, f"Score for username: '{username}', gameID: '{score.gameID}' was less than high score")
-                return status_success({"details": "Score was less than high score"})
+                return status_success({"details": "Score was less than high score", "data": response.data[0]})
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")
@@ -149,10 +151,11 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                         "username": username,
                         "gameID": score.gameID
                     })
+                    .select("high_score,last_played")
                     .execute()
                 )
                 dev_log(endpoint, f"High score updated for username: '{username}', gameID: '{score.gameID}'")
-                return status_success({"details": "High score was updated"})
+                return status_success({"details": "High score was updated", "data": response.data[0]})
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")
