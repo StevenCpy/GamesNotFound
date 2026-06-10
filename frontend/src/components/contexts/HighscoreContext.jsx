@@ -9,6 +9,11 @@ export const HighscoreContext = createContext(null)
 export function HighscoreProvider( {children} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
 
+    function getHighscore(gameID) {
+        const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
+        return highScore
+    }
+
     async function submitScore(gameID, score) {
         const body = {
             "gameID": gameID,
@@ -28,7 +33,7 @@ export function HighscoreProvider( {children} ) {
     }
 
     return (
-        <HighscoreContext value={{ highscoreHashMap, setHighscoreHashMap, submitScore }}>
+        <HighscoreContext value={{ highscoreHashMap, setHighscoreHashMap, getHighscore, submitScore }}>
             {children}
         </HighscoreContext>
     )
