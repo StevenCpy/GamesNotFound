@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, createContext, useContext } from "react"
 import GameButton from "./components/GameButton"
 import './Hit the Target.css'
 
-const START_TIME_S = 5
+const START_TIME_S = 30
 
 const ScoreContext = createContext(null)
 const GameStatusContext = createContext(null)
