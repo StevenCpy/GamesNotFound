@@ -77,7 +77,6 @@ function App() {
             // send GET request to fetch high scores from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
             const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
-            console.log(highscores_response_json)
             if (highscores_response_json.status == "Success") {
                 devLog(COMPONENT, "High scores fetched")
                 // initialize high score hash map
