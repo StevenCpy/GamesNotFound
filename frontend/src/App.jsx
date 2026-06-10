@@ -7,7 +7,7 @@ import AppRouter from './components/AppRouter'
 import { AuthContext } from './components/contexts/AuthContext'
 import { StoreContext } from './components/contexts/StoreContext'
 import { LibraryContext } from './components/contexts/LibraryContext'
-import { ScoreContext } from './components/contexts/ScoreContext'
+import { HighscoreContext } from './components/contexts/HighscoreContext'
 
 // utils
 import devLog from '../utils/logging/logging'
@@ -20,7 +20,7 @@ function App() {
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
     const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
-    const { setHighscoreHashMap } = useContext(ScoreContext)
+    const { setHighscoreHashMap } = useContext(HighscoreContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -58,7 +58,7 @@ function App() {
 
             // send GET request to fetch Library from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
-            const library_response_json = await apiRequest(COMPONENT, `library/`, "GET", null, token)
+            const library_response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
 
             if (store_response_json.status == "Success" && library_response_json.status == "Success") {
                 devLog(COMPONENT, "Store and Library fetched")
@@ -76,7 +76,7 @@ function App() {
 
             // send GET request to fetch high scores from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
-            const highscores_response_json = await apiRequest(COMPONENT, `score/highscores`, "GET", null, token)
+            const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
             console.log(highscores_response_json)
             if (highscores_response_json.status == "Success") {
                 devLog(COMPONENT, "High scores fetched")

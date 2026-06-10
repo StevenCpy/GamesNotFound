@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
 import { StoreContext } from '../components/contexts/StoreContext'
-import { ScoreContext } from '../components/contexts/ScoreContext'
+import { HighscoreContext } from '../components/contexts/HighscoreContext'
 import StoreGameCard from '../components/StoreGameCard'
 import './styling/Store.css'
 
@@ -12,7 +12,7 @@ const COMPONENT = "Store"
 function Store() {
     devLog(COMPONENT, "Store() called")
     const { storeList } = useContext(StoreContext)
-    const { highscoreHashMap } = useContext(ScoreContext)
+    const { highscoreHashMap } = useContext(HighscoreContext)
 
     return (
         <div id="store-list">
