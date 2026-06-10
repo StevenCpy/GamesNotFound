@@ -38,27 +38,24 @@ function Target({ playableSize, onTargetHit }) {
     )
 }
 
-function Timer() {
+function Timer({ onTimerEnd }) {
     const [timeSeconds, setTimeSeconds] = useState(START_TIME_S)
     const { isGameOn, setIsGameOn, setIsGameOver } = useContext(GameStatusContext)
 
     useEffect(() => {
         if (!isGameOn) return // only start timer when "START" button is clicked
 
-        const interval = setInterval(() => {
-            setTimeSeconds(prev => {
-                const newTimeSeconds = prev-1
-                if (newTimeSeconds == 0) {
-                    setIsGameOn(false) // ends game
-                    setIsGameOver(true) // show "Game Over" screen
-                    return START_TIME_S // reset timer for next game
-                }
-                return newTimeSeconds
-            })
-        }, 1000)
+        const interval = setInterval(() => setTimeSeconds(prev => prev-1), 1000)
 
         return () => clearInterval(interval)
     }, [isGameOn])
+
+    useEffect(() => {
+        if (timeSeconds == 0) {
+            onTimerEnd()
+            setTimeSeconds(START_TIME_S) // reset timer for next game
+        }
+    }, [timeSeconds])
 
     return (
         <>
@@ -67,7 +64,7 @@ function Timer() {
     )
 }
 
-function HittheTarget() {
+function HittheTarget({ submitScore }) {
     const [score, setScore] = useState(0)
     const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
     const [refresh, setRefresh] = useState(0)
@@ -97,13 +94,19 @@ function HittheTarget() {
         )
     }
 
+    function handleOnTimerEnd() {
+        setIsGameOn(false) // ends game
+        setIsGameOver(true) // show "Game Over" screen
+        submitScore(score) // submit score to server
+    }
+
     return (
         <GameStatusContext value={{ isGameOn, setIsGameOn, setIsGameOver }}>
             <ScoreContext value={{ setScore }}>
                 <div id="playable-area" ref={playableAreaRef}>
                     <div id="score-timer-container">
                         <span>Score: {score}</span>
-                        <span><Timer onGameOver/></span>
+                        <span><Timer onTimerEnd={ handleOnTimerEnd } /></span>
                     </div>
                     {isGameOn ? 
                         <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />

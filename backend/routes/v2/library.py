@@ -1,11 +1,15 @@
+# fastAPI
 from fastapi import APIRouter, Header
 from typing import Annotated
 
-from datetime import datetime, timezone
-from utils.logging import dev_log, dev_error, dev_error_database
+# supabase
+from ..supabase_client import supabase_client, LIBRARY_TABLE
 
-from ..supabase_client import supabase_client
-from ..supabase_client import LIBRARY_TABLE
+# other libraries
+from datetime import datetime, timezone
+
+# utils
+from utils.logging import dev_log, dev_error, dev_error_database
 from ..status_message import status_success, status_fail
 from .utils import decode_payload_HS256
 
@@ -65,11 +69,16 @@ async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()]
     # add game to user's library
     added_at = datetime.now(timezone.utc).isoformat()
     try:
-        response = supabase_client.table(LIBRARY_TABLE).insert({
-            "username": username,
-            "gameID": gameID,
-            "added_at": added_at
-        }).execute()
+        response = (
+            supabase_client.table(LIBRARY_TABLE)
+            .insert({
+                "username": username,
+                "gameID": gameID,
+                "added_at": added_at
+            })
+            .select("gameID,added_at")
+            .execute()
+        )
         game_added = {k:v for k,v in response.data[0].items() if k != "username"} # remove username field from response
         dev_log(endpoint, f"Game ID {gameID} added to {username}'s library")
         return status_success({"data": game_added})

@@ -1,9 +1,9 @@
 import './GamePage.css'
 
-function GamePage({ gameName, game }) {
+function GamePage({ gameName, highScore, game }) {
     return (
         <div className="game-container">
-            <p>Playing... {gameName}</p>
+            <p>Playing... {gameName} (High Score: {highScore})</p>
             <div className="playable-area-container">
                 {game}
             </div>

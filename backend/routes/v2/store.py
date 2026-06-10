@@ -1,9 +1,11 @@
+# fastAPI
 from fastapi import APIRouter
 
-from utils.logging import dev_log, dev_error_database
+# supabase
+from ..supabase_client import supabase_client, GAMES_TABLE
 
-from ..supabase_client import supabase_client
-from ..supabase_client import GAMES_TABLE
+# utils
+from utils.logging import dev_log, dev_error_database
 from ..status_message import status_success, status_fail
 
 router = APIRouter(

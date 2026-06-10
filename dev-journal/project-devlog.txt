@@ -375,3 +375,48 @@ What I learned today:
     - Switching authentication method.  For eg. "/library/{username}" endpoint receives a username to display the user's library.
         When switching to JWT tokens, the endpoint becomes "/library" and receives the token in the request header instead.
         This is more of a security issue, which should be fixed.  We don't want clients to use old APIs to bypass JWT authentication.
+
+DAY 24:
+- High score feature:
+    SERVER:
+    - Created "/score/highscores" endpoint to return all games highscores of user.
+    - Created "/score" POST endpoint to update highscore.
+
+    CLIENT:
+    - Updated client to fetch high scores from server on app start.
+    - Game high scores are displayed on game cards.
+
+What I learned today:
+- Only use <span> to style parts of texts.  Its purpose is not to group elements that should be on the same line.
+For eg. use <div> if we want to group 2 buttons on the same line.
+
+DAY 25:
+- High score feature:
+    SERVER:
+    - Upgraded to Supabase Python client version 2.31.0.
+
+    CLIENT:
+    - Added high score update to client.
+        - Store game cards updated with new high scores.
+        - Game page displays high score for game currently being played.
+
+What I learned today:
+- State updater functions should be pure.  It shouldn't cause side effects, for eg.
+    const interval = setInterval(() => {
+        setTimeSeconds(prev => {
+            const newTimeSeconds = prev-1
+            if (newTimeSeconds == 0) {
+                setIsGameOn(false) // ends game
+                setIsGameOver(true) // show "Game Over" screen
+                return START_TIME_S // reset timer for next game
+            }
+            return newTimeSeconds
+        })
+    }, 1000)
+    throws this error: "Cannot update a component (`HittheTarget`) while rendering a different component (`Timer`)"
+    because I'm using a setter function inside another setter function.
+- Upsert can be used to modify record or create new record if it doesn't exist.
+    It prevents having to check database if record already exists.
+- React component functions have function signature "function functionName({ params })".
+    Normal functions have function signature "function functionName( params )".
+- Supabase ".single()" can be used to return an object in its response.data field instead of an array of objects.

@@ -7,6 +7,7 @@ import AppRouter from './components/AppRouter'
 import { AuthContext } from './components/contexts/AuthContext'
 import { StoreContext } from './components/contexts/StoreContext'
 import { LibraryContext } from './components/contexts/LibraryContext'
+import { HighscoreContext } from './components/contexts/HighscoreContext'
 
 // utils
 import devLog from '../utils/logging/logging'
@@ -19,6 +20,7 @@ function App() {
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
     const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
+    const { setHighscoreHashMap } = useContext(HighscoreContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -47,7 +49,6 @@ function App() {
                 // initialize store games list
                 setStoreList(store_response_json.data)
             }
-            setLibraryList([])
         }
 
         async function loadStoreAndLibraryServer() {
@@ -57,7 +58,7 @@ function App() {
 
             // send GET request to fetch Library from server
             const token = localStorage.getItem("token") // get JWT token from localStorage
-            const library_response_json = await apiRequest(COMPONENT, `library/`, "GET", null, token)
+            const library_response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
 
             if (store_response_json.status == "Success" && library_response_json.status == "Success") {
                 devLog(COMPONENT, "Store and Library fetched")
@@ -70,10 +71,32 @@ function App() {
             }
         }
 
-        if (!currentUser) {
-            loadStoreOnlyServer() // fetch only Store games if user logged out
-        } else { // user logged in
-            loadStoreAndLibraryServer() // fetch both Store and Library games if user logged in
+        async function loadHighScoresServer() {
+            devLog(COMPONENT, "loadHighScoresServer() called")
+
+            // send GET request to fetch high scores from server
+            const token = localStorage.getItem("token") // get JWT token from localStorage
+            const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
+            if (highscores_response_json.status == "Success") {
+                devLog(COMPONENT, "High scores fetched")
+                // initialize high score hash map
+                const highscoreList = highscores_response_json.data
+                const highscoreHashMap = new Map(
+                    highscoreList.map(game => [game.gameID, game])
+                )
+                setHighscoreHashMap(highscoreHashMap)
+            }
+        }
+
+        // user logged out
+        if (!currentUser) { 
+            loadStoreOnlyServer() // fetch only Store games
+            setLibraryList([]) // clear Library
+            setHighscoreHashMap(new Map()) // clear high scores
+        // user logged in
+        } else {
+            loadStoreAndLibraryServer() // fetch both Store and Library games
+            loadHighScoresServer() // fetch high scores
         }
 
     }, [currentUser]) // re-run code in case user logs in/logs out

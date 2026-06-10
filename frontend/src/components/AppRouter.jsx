@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { AuthContext } from "./contexts/AuthContext"
 import { StoreContext } from "./contexts/StoreContext"
+import { HighscoreContext } from "./contexts/HighscoreContext.jsx"
 import NavbarMain from "./navigation/NavbarMain"
 import * as games from "../games/index.js"
 import './AppRouter.css'
@@ -22,6 +23,7 @@ import GamePage from "../games/GamePage"
 function AppRouter() {
     const { currentUser } = useContext(AuthContext)
     const { storeList } = useContext(StoreContext)
+    const { submitScore, getHighscore } = useContext(HighscoreContext)
 
     return (
         <BrowserRouter>
@@ -44,16 +46,18 @@ function AppRouter() {
                         if (game["is_playable"]) {
                             const gameFileName = game["name"].replaceAll(" ","")
                             const Component = games[gameFileName]
+                            const gameID = game["gameID"]
+                            const highScore = getHighscore(gameID)
+
                             return (
                                 <Route path={`games/${gameFileName}`}
-                                        element={<GamePage gameName={game["name"]} game={<Component />} />}
+                                        element={<GamePage gameName={game["name"]} highScore={highScore} game={<Component submitScore={(score) => submitScore(gameID, score) } />} />}
                                 />
                             )
                         }
                     })}
                 </Routes>
             </div>
-            
         </BrowserRouter>
     )
 }

@@ -7,8 +7,9 @@ import os
 USERS_TABLE = "users"
 GAMES_TABLE = "games"
 LIBRARY_TABLE = "library"
+SCORE_TABLE = "scores"
 
-# Other constants
+# other constants
 SUPABASE_TIMEOUT_SECONDS = 10
 
 # ---------------- DEFINE SUPABASE CLIENT -------------------
