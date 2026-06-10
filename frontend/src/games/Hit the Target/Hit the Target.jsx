@@ -12,18 +12,31 @@ function Target({ playableAreaSize, onTargetHit }) {
 
     const targetRef = useRef(null)
 
-    function handleTargetClicked() {
-        // measure current component DOM size
-        const currentTargetSize = {width: targetRef.current.clientWidth, height: targetRef.current.clientHeight}
-        setTargetSize(currentTargetSize)
-
-        // generate new random (x,y) for target
-        setPos({
-            x: Math.random() * (playableAreaSize.width - currentTargetSize.width),
-            y: Math.random() * (playableAreaSize.height - currentTargetSize.height)
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(entries => {
+            const entry = entries[0]
+            const initialTargetSize = {width: entry.borderBoxSize[0].inlineSize, height: entry.borderBoxSize[0].blockSize}
+            setTargetSize(initialTargetSize)
+            setPos({
+                x: Math.random() * (playableAreaSize.width - initialTargetSize.width),
+                y: Math.random() * (playableAreaSize.height - initialTargetSize.height)
+            })
         })
-        
-        onTargetHit() // refresh playableArea to get new window dimension in case it was resized
+        resizeObserver.observe(targetRef.current)
+
+        return () => { // cleanup
+            resizeObserver.disconnect()
+        }
+    }, [])
+
+    function handleTargetClicked() {
+        onTargetHit()
+
+        // respawn target in new random (x,y) position
+        setPos({
+            x: Math.random() * (playableAreaSize.width - targetSize.width),
+            y: Math.random() * (playableAreaSize.height - targetSize.height)
+        })
     }
 
     return (
