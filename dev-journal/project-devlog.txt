@@ -399,6 +399,10 @@ DAY 25:
     - Added high score update to client.
         - Store game cards updated with new high scores.
         - Game page displays high score for game currently being played.
+    - Hit The Target:
+        - Fixed target spawning outside playable area.
+        - Refactoring to make code cleaner.
+        - Added ResizeObserver to watch window resize more accurately.
 
 What I learned today:
 - State updater functions should be pure.  It shouldn't cause side effects, for eg.

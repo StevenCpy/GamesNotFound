@@ -12,14 +12,13 @@ function Target({ playableAreaSize, onTargetHit }) {
 
     const targetRef = useRef(null)
 
+    // watch for target resize when window resizes
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
             const entry = entries[0]
-            const initialTargetSize = {width: entry.borderBoxSize[0].inlineSize, height: entry.borderBoxSize[0].blockSize}
-            setTargetSize(initialTargetSize)
-            setPos({
-                x: Math.random() * (playableAreaSize.width - initialTargetSize.width),
-                y: Math.random() * (playableAreaSize.height - initialTargetSize.height)
+            setTargetSize({
+                width: entry.borderBoxSize[0].inlineSize,
+                height: entry.borderBoxSize[0].blockSize
             })
         })
         resizeObserver.observe(targetRef.current)
@@ -28,6 +27,15 @@ function Target({ playableAreaSize, onTargetHit }) {
             resizeObserver.disconnect()
         }
     }, [])
+
+    // respawn Target on window resize
+    useEffect(() => {
+        setPos({
+            x: Math.random() * (playableAreaSize.width - targetSize.width),
+            y: Math.random() * (playableAreaSize.height - targetSize.height)
+        })
+    }, [playableAreaSize, targetSize])
+    
 
     function handleTargetClicked() {
         onTargetHit()
