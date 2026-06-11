@@ -4,27 +4,47 @@ import './Hit the Target.css'
 
 const START_TIME_S = 30
 
-const ScoreContext = createContext(null)
 const GameStatusContext = createContext(null)
 
-function Target({ playableSize, onTargetHit }) {
+function Target({ playableAreaSize, onTargetHit }) {
     const [targetSize, setTargetSize] = useState({width: 0, height: 0})
-    const [pos, setPos] = useState({x: Math.random() * playableSize.width, y: Math.random() * playableSize.height})
-    const { setScore } = useContext(ScoreContext)
+    const [pos, setPos] = useState({x: 0, y: 0})
 
     const targetRef = useRef(null)
 
-    function handleTargetClicked() {
-        // measure current component DOM size
-        const currentTargetSize = {width: targetRef.current.clientWidth, height: targetRef.current.clientHeight}
-        setTargetSize(currentTargetSize)
+    // watch for target resize when window resizes
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(entries => {
+            const entry = entries[0]
+            setTargetSize({
+                width: entry.borderBoxSize[0].inlineSize,
+                height: entry.borderBoxSize[0].blockSize
+            })
+        })
+        resizeObserver.observe(targetRef.current)
 
-        // generate new random (x,y) for target
-        setPos({x: Math.random() * (playableSize.width - currentTargetSize.width), y: Math.random() * (playableSize.height - currentTargetSize.height)})
-        // increment score
-        setScore(prev => prev + 1)
-        
-        onTargetHit() // refresh playableArea to get new window dimension in case it was resized
+        return () => { // cleanup
+            resizeObserver.disconnect()
+        }
+    }, [])
+
+    // respawn Target on window resize
+    useEffect(() => {
+        setPos({
+            x: Math.random() * (playableAreaSize.width - targetSize.width),
+            y: Math.random() * (playableAreaSize.height - targetSize.height)
+        })
+    }, [playableAreaSize, targetSize])
+    
+
+    function handleTargetClicked() {
+        onTargetHit()
+
+        // respawn target in new random (x,y) position
+        setPos({
+            x: Math.random() * (playableAreaSize.width - targetSize.width),
+            y: Math.random() * (playableAreaSize.height - targetSize.height)
+        })
     }
 
     return (
@@ -40,7 +60,7 @@ function Target({ playableSize, onTargetHit }) {
 
 function Timer({ onTimerEnd }) {
     const [timeSeconds, setTimeSeconds] = useState(START_TIME_S)
-    const { isGameOn, setIsGameOn, setIsGameOver } = useContext(GameStatusContext)
+    const { isGameOn } = useContext(GameStatusContext)
 
     useEffect(() => {
         if (!isGameOn) return // only start timer when "START" button is clicked
@@ -50,6 +70,7 @@ function Timer({ onTimerEnd }) {
         return () => clearInterval(interval)
     }, [isGameOn])
 
+    // watch for timer running out
     useEffect(() => {
         if (timeSeconds == 0) {
             onTimerEnd()
@@ -66,16 +87,26 @@ function Timer({ onTimerEnd }) {
 
 function HittheTarget({ submitScore }) {
     const [score, setScore] = useState(0)
-    const [playableSize, setPlayableSize] = useState({width: 0, height: 0})
-    const [refresh, setRefresh] = useState(0)
+    const [playableAreaSize, setPlayableAreaSize] = useState({width: 0, height: 0})
     const [isGameOn, setIsGameOn] = useState(false)
     const [isGameOver, setIsGameOver] = useState(false)
 
     const playableAreaRef = useRef(null)
-
+    
     useEffect(() => {
-        setPlayableSize({width: playableAreaRef.current.clientWidth, height: playableAreaRef.current.clientHeight})
-    }, [refresh])
+        const resizeObserver = new ResizeObserver(entries => {
+            const entry = entries[0]
+            setPlayableAreaSize({
+                width: entry.contentBoxSize[0].inlineSize,
+                height: entry.contentBoxSize[0].blockSize
+            })
+        })
+        resizeObserver.observe(playableAreaRef.current)
+
+        return () => { // cleanup
+            resizeObserver.disconnect()
+        }
+    }, [])
 
     function StartScreen() {
         return (
@@ -100,23 +131,25 @@ function HittheTarget({ submitScore }) {
         submitScore(score) // submit score to server
     }
 
+    function handleOnTargetHit() {
+        setScore(prev=>prev+1) // increment score
+    }
+
     return (
-        <GameStatusContext value={{ isGameOn, setIsGameOn, setIsGameOver }}>
-            <ScoreContext value={{ setScore }}>
-                <div id="playable-area" ref={playableAreaRef}>
-                    <div id="score-timer-container">
-                        <span>Score: {score}</span>
-                        <span><Timer onTimerEnd={ handleOnTimerEnd } /></span>
-                    </div>
-                    {isGameOn ? 
-                        <Target playableSize={playableSize} onTargetHit={() => setRefresh(refresh+1)} />
-                        :
-                        <>
-                            {isGameOver ? <GameOverScreen /> : <StartScreen />}
-                        </>
-                    }
+        <GameStatusContext value={{ isGameOn }}>
+            <div id="playable-area" ref={playableAreaRef}>
+                <div id="score-timer-container">
+                    <span>Score: {score}</span>
+                    <span><Timer onTimerEnd={ handleOnTimerEnd } /></span>
                 </div>
-            </ScoreContext>
+                {isGameOn ?
+                    <Target playableAreaSize={ playableAreaSize } onTargetHit={ handleOnTargetHit } />
+                    :
+                    <>
+                        {isGameOver ? <GameOverScreen /> : <StartScreen />}
+                    </>
+                }
+            </div>
         </GameStatusContext>
     )
 }
