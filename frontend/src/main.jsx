@@ -15,7 +15,6 @@ createRoot(document.getElementById('root')).render(
     currentUser:
     -- NavbarMain.jsx: Display certain nav links if the user is logged in.
     -- AppRouter.jsx: Create route for Library component if user is logged in, restrict access otherwise.
-    -- LibraryGameCard.jsx: Only for debug logs.
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if logged out.
     -- Home.jsx: Welcome message.
     -- Login.jsx: Set user on successful login.
@@ -24,22 +23,23 @@ createRoot(document.getElementById('root')).render(
     setCurrentUser:
     -- NavbarMain.jsx: "Quick Login" nav link in development mode.
     -- Profile.jsx: Remove current user on log out.
-    -- App.jsx: Authenticate using token on app start.
+    authenticateUsingToken:
+    -- App.jsx to authenticate using JWT token on app start.
 
     # --- StoreProvider --- #
     storeList:
     -- AppRouter.jsx: Create a route for each playable game in the list.
     -- Library.jsx: Get game info since LibraryList doesn't have game info attached.
-    setStoreList:
-    -- App.jsx: Set Store list fetched from server.
+    loadStore:
+    -- App.jsx: Load Store games.
 
     # --- LibraryProvider --- #
     libraryList:
     -- Library.jsx: Get list of library games.
-    setLibraryList:
-    -- App.jsx: Set Library list fetched from server.
     librarySet:
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
+    loadLibrary:
+    -- App.jsx: Load Library games.
     handleAddToLibrary:
     -- StoreGameCard.jsx: Add game to Library.
     handleRemoveLibrary:

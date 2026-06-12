@@ -15,6 +15,27 @@ export function LibraryProvider( {children} ) {
         // convert libraryList to a set containing only gameIDs
         new Set(libraryList.map(game => game.gameID)), [libraryList])
 
+    async function loadLibrary() {
+        devLog(COMPONENT, "loadLibrary() called")
+
+        // send GET request to fetch Library from server
+        const token = localStorage.getItem("token") // get JWT token from localStorage
+        const library_response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
+
+        if (library_response_json.status == "Success") {
+            devLog(COMPONENT, "Library fetched")
+            // initialize library games list
+            setLibraryList(library_response_json.data)
+        }
+        console.log(library_response_json)
+        return library_response_json.status
+    }
+
+    function clearLibrary() {
+        devLog(COMPONENT, "clearLibrary() called")
+        setLibraryList([])
+    }
+
     // add gameID to library using optimistic update
     async function handleAddToLibrary(gameID) {
         devLog(COMPONENT, "handleAddToLibrary() called")
@@ -62,7 +83,7 @@ export function LibraryProvider( {children} ) {
     }
 
     return (
-        <LibraryContext value={{ libraryList, setLibraryList, librarySet, handleAddToLibrary, handleRemoveFromLibrary }}>
+        <LibraryContext value={{ libraryList, librarySet, loadLibrary, clearLibrary, handleAddToLibrary, handleRemoveFromLibrary }}>
             {children}
         </LibraryContext>
     )
