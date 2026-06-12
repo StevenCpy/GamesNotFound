@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { AuthContext } from '../components/contexts/AuthContext'
 
 import './styling/Auth.css'
 
@@ -15,6 +17,7 @@ function Signup() {
     const [password, setPassword] = useState("")
     const [signedUp, setSignedUp] = useState(false)
     const [warning, setWarning] = useState(null)
+    const { signupServer } = useContext(AuthContext)
     
     const usernameMaxLength = 30
     //const emailMaxLength = 320
@@ -56,17 +59,14 @@ function Signup() {
 
     function WarningMessage({ message }) {
         return (
-            <p className="text-fail"> {
-                (message == INVALID_PASSWORD_WARNING) ?
-                    (<ul className="text-fail"> Password must contain at least
-                        <li>a lowercase letter.</li>
-                        <li>an uppercase letter.</li>
-                        <li>a number.</li>
-                        <li>a special character: !, @.</li>
-                    </ul>)
-                    : message
-            }
-            </p>      
+            (message == INVALID_PASSWORD_WARNING) ?
+                <ul className="text-fail"> Password must contain at least
+                    <li>a lowercase letter.</li>
+                    <li>an uppercase letter.</li>
+                    <li>a number.</li>
+                    <li>a special character: !, @.</li>
+                </ul>
+                : <p className="textFail">{message}</p>   
         )
     }
 
@@ -79,15 +79,11 @@ function Signup() {
         if (passwordIsValid(password)) {
             devLog(COMPONENT, "Valid password.  Initiating server-side sign up...")
 
-            // send sign up POST request to server to handle sign up
-            const response_json = await apiRequest(COMPONENT, "auth/signup", "POST", { username: username, password: password })
-            console.log(response_json)
+            const response_json = await signupServer(username, password)
             if (response_json.status == "Success") {
-                devLog(COMPONENT, `User ${username} successfully signed up by server`)
                 setSignedUp(true)
                 setWarning(null)
             } else {
-                devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
                 setSignedUp(false)
                 setWarning(response_json.details)
             }

@@ -33,11 +33,22 @@ export function AuthProvider( {children} ) {
         } else {
             devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
         }
-        return response_json.status
+        return response_json
+    }
+
+    async function signupServer(username, password) {
+        // send sign up POST request to server to handle sign up
+        const response_json = await apiRequest(COMPONENT, "auth/signup", "POST", { username: username, password: password })
+        if (response_json.status == "Success") {
+            devLog(COMPONENT, `User ${username} successfully signed up by server`)
+        } else {
+            devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
+        }
+        return response_json
     }
 
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, quickLogin, loginServer }}>
+        <AuthContext value={{ currentUser, setCurrentUser, signupServer, authenticateUsingToken, quickLogin, loginServer }}>
             {children}
         </AuthContext>
     )

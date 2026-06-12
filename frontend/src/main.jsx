@@ -21,12 +21,14 @@ createRoot(document.getElementById('root')).render(
     -- App.jsx: Fetch Library if user is logged.
     setCurrentUser:
     -- Profile.jsx: Remove current user on log out.
+    signupServer:
+    -- Signup.jsx: Initiate server-side sign up.
     authenticateUsingToken:
     -- App.jsx to authenticate using JWT token on app start.
     quickLogin:
     -- NavbarMain.jsx: "Quick Login" nav link in development mode.
     loginServer:
-    -- Login.jsx: Set currentUser on successful login.
+    -- Login.jsx: Initiate server-side login.
 
     # --- StoreProvider --- #
     storeList:

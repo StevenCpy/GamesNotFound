@@ -21,8 +21,8 @@ function Login() {
         devLog(COMPONENT, "handleLogin() called.  Initiating server-side login...")
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
 
-        const status = await loginServer(username, password)
-        if (status == "Success") {
+        const response_json = await loginServer(username, password)
+        if (response_json.status == "Success") {
             navigate("/")
         } else {
             setLoginError(true)
