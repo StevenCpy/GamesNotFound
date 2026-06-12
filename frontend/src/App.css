@@ -1,5 +1,7 @@
 #app-container {
     display: flex;
     flex-direction: column;
-    padding: 1rem clamp(1rem, 10vw, 5rem) 2rem
+    height: 100%;
+    padding: 1rem clamp(1rem, 10vw, 5rem) 2rem;
+    box-sizing: border-box;
 }
