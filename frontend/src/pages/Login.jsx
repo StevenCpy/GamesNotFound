@@ -14,24 +14,17 @@ function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState(false)
-    const { setCurrentUser } = useContext(AuthContext)
+    const { loginServer } = useContext(AuthContext)
     const navigate = useNavigate()
 
     async function handleLogin(e) {
         devLog(COMPONENT, "handleLogin() called.  Initiating server-side login...")
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
 
-        // send login POST request to server to handle login
-        const response_json = await apiRequest(COMPONENT, "auth/login", "POST", { username: username, password: password })
-        if (response_json.status == "Success") {
-            devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
-            // store JWT token received from server
-            localStorage.setItem("token", response_json.token)
-
-            setCurrentUser(username.toUpperCase())
+        const status = await loginServer(username, password)
+        if (status == "Success") {
             navigate("/")
         } else {
-            devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
             setLoginError(true)
         }
     }
@@ -57,7 +50,7 @@ function Login() {
                 Don't have an account?{" "}
                 <Link to="/signup">Sign up</Link>
             </span>
-            {loginError && <p className="text-fail"> Incorrect username or password!  Please try again.</p>}
+            {loginError && <p className="text-fail">Incorrect username or password!  Please try again.</p>}
         </form>
     )
 }

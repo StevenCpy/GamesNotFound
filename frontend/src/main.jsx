@@ -17,14 +17,16 @@ createRoot(document.getElementById('root')).render(
     -- AppRouter.jsx: Create route for Library component if user is logged in, restrict access otherwise.
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if logged out.
     -- Home.jsx: Welcome message.
-    -- Login.jsx: Set user on successful login.
     -- Profile.jsx: Display current user.
     -- App.jsx: Fetch Library if user is logged.
     setCurrentUser:
-    -- NavbarMain.jsx: "Quick Login" nav link in development mode.
     -- Profile.jsx: Remove current user on log out.
     authenticateUsingToken:
     -- App.jsx to authenticate using JWT token on app start.
+    quickLogin:
+    -- NavbarMain.jsx: "Quick Login" nav link in development mode.
+    loginServer:
+    -- Login.jsx: Set currentUser on successful login.
 
     # --- StoreProvider --- #
     storeList:

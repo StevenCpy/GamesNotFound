@@ -21,8 +21,23 @@ export function AuthProvider( {children} ) {
 
     const quickLogin = (username) => setCurrentUser(username)
 
+    async function loginServer(username, password) {
+        // send login POST request to server to handle login
+        const response_json = await apiRequest(COMPONENT, "auth/login", "POST", { username: username, password: password })
+        if (response_json.status == "Success") {
+            devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
+            // store JWT token received from server
+            localStorage.setItem("token", response_json.token)
+
+            setCurrentUser(username.toUpperCase())
+        } else {
+            devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
+        }
+        return response_json.status
+    }
+
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, quickLogin }}>
+        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, quickLogin, loginServer }}>
             {children}
         </AuthContext>
     )
