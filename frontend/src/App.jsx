@@ -11,7 +11,6 @@ import { HighscoreContext } from './components/contexts/HighscoreContext'
 
 // utils
 import devLog from '../utils/logging/logging'
-import apiRequest from '../utils/apiRequest'
 
 const COMPONENT = "App"
 
@@ -31,8 +30,8 @@ function App() {
         devLog(COMPONENT, "calling useEffect in App() - Fetching Store, Library and High scores")
 
         async function loadStoreAndLibrary() {
-            const store_response = await loadStore()
-            if (store_response == "Success") {
+            const store_response_json = await loadStore()
+            if (store_response_json.status == "Success") {
                 loadLibrary()
             }
         }

@@ -21,20 +21,20 @@ createRoot(document.getElementById('root')).render(
     -- App.jsx: Fetch Library if user is logged.
     setCurrentUser:
     -- Profile.jsx: Remove current user on log out.
-    signupServer:
+    signupServer():
     -- Signup.jsx: Initiate server-side sign up.
     authenticateUsingToken:
     -- App.jsx to authenticate using JWT token on app start.
-    quickLogin:
+    quickLogin():
     -- NavbarMain.jsx: "Quick Login" nav link in development mode.
-    loginServer:
+    loginServer():
     -- Login.jsx: Initiate server-side login.
 
     # --- StoreProvider --- #
     storeList:
     -- AppRouter.jsx: Create a route for each playable game in the list.
     -- Library.jsx: Get game info since LibraryList doesn't have game info attached.
-    loadStore:
+    loadStore():
     -- App.jsx: Load Store games.
 
     # --- LibraryProvider --- #
@@ -42,25 +42,25 @@ createRoot(document.getElementById('root')).render(
     -- Library.jsx: Iterate through Library games to display game cards.
     librarySet:
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
-    loadLibrary:
+    loadLibrary():
     -- App.jsx: Load Library games.
-    handleAddToLibrary:
+    handleAddToLibrary():
     -- StoreGameCard.jsx: Add game to Library.
-    handleRemoveLibrary:
+    handleRemoveLibrary():
     -- LibraryGameCard.jsx: Remove game from Library.
 
     # --- HighscoreProvider --- #
-    loadHighScores:
+    loadHighScores():
     -- App.jsx: Fetch high score list from server.
-    clearHighScores:
+    clearHighScores():
     -- App.jsx: Clear score list.
-    getHighScore:
+    getHighScore():
     -- Store.jsx: Display high score on game cards.
     -- Library.jsx: Display high score on game cards.
     -- AppRouter.jsx: Pass high score to GamePage component.
-    getLastPlayed:
+    getLastPlayed():
     -- Library.jsx: Display last played on game cards.
-    submitScore:
+    submitScore():
     -- AppRouter.jsx: Pass submitScore handler to GamePage component.
 
     */

@@ -5,7 +5,6 @@ import { AuthContext } from '../components/contexts/AuthContext'
 import './styling/Auth.css'
 
 import devLog from "../../utils/logging/logging"
-import apiRequest from '../../utils/apiRequest'
 
 const COMPONENT = "Login"
 

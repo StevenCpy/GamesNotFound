@@ -1,7 +1,8 @@
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { AuthContext } from "../components/contexts/AuthContext"
-import { useNavigate } from "react-router-dom"
+
 import './styling/Profile.css'
 
 import devLog from "../../utils/logging/logging"
