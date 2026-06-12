@@ -9,9 +9,29 @@ export const HighscoreContext = createContext(null)
 export function HighscoreProvider( {children} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
 
-    function getHighscore(gameID) {
+    function getHighScore(gameID) {
         const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
         return highScore
+    }
+
+    function isoToLocaleDateString(isoDate) {
+        const date = new Date(isoDate)
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+        return date.toLocaleDateString("en-CA", options)
+    }
+
+    function getLastPlayed(gameID) {
+        if (highscoreHashMap.has(gameID)) {
+            const lastPlayed_iso = highscoreHashMap.get(gameID)["last_played"]
+            const lastPlayed = isoToLocaleDateString(lastPlayed_iso)
+            return lastPlayed
+        } else {
+            return "N/A"
+        }
     }
 
     async function submitScore(gameID, score) {
@@ -33,7 +53,7 @@ export function HighscoreProvider( {children} ) {
     }
 
     return (
-        <HighscoreContext value={{ highscoreHashMap, setHighscoreHashMap, getHighscore, submitScore }}>
+        <HighscoreContext value={{ setHighscoreHashMap, getHighScore, getLastPlayed, submitScore }}>
             {children}
         </HighscoreContext>
     )

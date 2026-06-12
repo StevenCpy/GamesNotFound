@@ -14,7 +14,7 @@ function Library() {
     devLog(COMPONENT, "Library() called")
     const { storeList } = useContext(StoreContext)
     const { libraryList } = useContext(LibraryContext)
-    const { highscoreHashMap } = useContext(HighscoreContext)
+    const { getHighScore, getLastPlayed } = useContext(HighscoreContext)
 
     const storeHashMap = new Map(
         storeList.map(game => [game.gameID, game]) // creates key-value pair with key = gameID
@@ -24,8 +24,8 @@ function Library() {
         <div id="library-list">
             {libraryList.map(game => {
                 const gameID = game.gameID
-                const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
-                const lastPlayed = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["last_played"] : "N/A"
+                const highScore = getHighScore(gameID)
+                const lastPlayed = getLastPlayed(gameID)
 
                 return (
                     <LibraryGameCard key={gameID}
