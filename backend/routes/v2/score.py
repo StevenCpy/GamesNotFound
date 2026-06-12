@@ -117,7 +117,6 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
 
         # score <= highscore
         if score.score <= highscore:
-            print(score.score <= highscore)
             try:
                 # update last_played on database
                 response = (

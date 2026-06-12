@@ -26,8 +26,8 @@ function Store() {
                                     description={game.description}
                                     author={game.author}
                                     gameVersion={game.version}
-                                    highScore={highScore}
-                                    isPlayable={game.is_playable} />
+                                    isPlayable={game.is_playable}
+                                    highScore={highScore} />
                 )
             })}
         </div>

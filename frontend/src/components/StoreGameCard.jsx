@@ -10,7 +10,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, description, author, gameVersion, highScore, isPlayable} ) {
+function StoreGameCard( {gameID, gameName, description, author, gameVersion, isPlayable, highScore} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)

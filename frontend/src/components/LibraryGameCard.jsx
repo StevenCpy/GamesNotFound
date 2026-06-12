@@ -9,7 +9,7 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "LibraryGameCard"
 
-function LibraryGameCard( {gameID, gameName, description, author, gameVersion, isPlayable} ) {
+function LibraryGameCard( {gameID, gameName, description, author, gameVersion, isPlayable, highScore, lastPlayed} ) {
     devLog(COMPONENT, "LibraryGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { libraryList, setLibraryList, librarySet, setLibrarySet } = useContext(LibraryContext)
@@ -44,8 +44,18 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
                 <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>
                 <hr />
-                <p><b>AUTHOR: </b>{ author }</p>
-                <p><b>VERSION: </b>{ gameVersion }</p>
+
+                <div id="library-gamecard-info-metadata">
+                    <div id="library-gamecard-info-metadata-left">
+                        <p><b>AUTHOR: </b>{ author }</p>
+                        <p><b>VERSION: </b>{ gameVersion }</p>
+                    </div>
+                    <div id="library-gamecard-info-metadata-right">
+                        <p><b>HIGH SCORE: </b>{ highScore }</p>
+                        <p><b>LAST PLAYED: </b>{ lastPlayed }</p>
+                    </div>
+                </div>
+ 
                 <hr />
                 <span id="library-gamecard-buttons">
                     <button onClick={ handleRemoveFromLibrary }> Remove from Library </button>
