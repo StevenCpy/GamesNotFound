@@ -424,3 +424,33 @@ What I learned today:
 - React component functions have function signature "function functionName({ params })".
     Normal functions have function signature "function functionName( params )".
 - Supabase ".single()" can be used to return an object in its response.data field instead of an array of objects.
+
+DAY 26:
+- Fixed mobile CSS layout.
+    - Major refactor of CSS code.
+    - Fixed CSS issues with "Hit the Target" game.
+    - Finally fixed scroll bars appearing on deployed site.
+- Added getter for "last_played" in HighscoreContext.  Updated code to make context consumers use getter for "high_score".
+- Major refactor of codebase mostly dealing with contexts.
+    - Moved JWT authentication logic from App to AuthContext.
+    - Moved Store and Library loading from App to StoreContext and LibraryContext respectively.
+    - Moved "+ Add to Library" and "Remove from Library" logic from Store and Library respectively to LibraryContext.
+    - Got rid of librarySet state, instead keeping libraryList as source of truth.
+    - Moved High score fetching logic from App to HighscoreContext.
+    - Less passing of setter functions in context, such as setLibraryList().
+        Instead I created functions in the related context to deal with it, such as loadLibrary() in LibraryContext.
+        This reduced a lot of clutter in App.
+        I also created wrapper functions with more meaningful names to replace setters, like creating and passing
+        clearLibrary() in LibraryContext instead of just passing setLibraryList() for App to evaluate setLibraryList([]).
+
+What I learned today:
+- CSS
+    - Responsible layouts
+        - Use "dvh" units instead of "vh" if viewport height is required, else it can cause weird scroll bars.
+        - Better to use relative units like "rem" instead of "px" especially for mobile responsiveness.
+        - Use clamp(min, preferred, max) to make layout responsive to different screen sizes.
+    - <hr /> elements in flexbox become flex items.  We need to indicate full width or height in CSS, otherwise they shrink.
+- iso dates can be converted to date strings like "June 12, 2026" by doing:
+    const date = new Date(isoString)
+    const date_string = date.toLocaleDateString("en-CA", options).
+- const variable = useMemo(() => {}, [dependencies]), variable only updates when dependencies change during component re-render.
