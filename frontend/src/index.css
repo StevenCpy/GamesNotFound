@@ -13,10 +13,31 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#root {
-    width: 100vw;
-    height: 100vh;
+body {
     margin: 0;
+    height: 100dvh;
+}
+
+#root {
+    height: 100%;
+}
+
+/* texts */
+p {
+    margin: 0;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.header-title {
+    text-align: center;
+}
+
+/* buttons */
+button {
+    font-size: inherit;
 }

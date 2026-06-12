@@ -41,11 +41,11 @@ function LibraryGameCard( {gameID, gameName, description, author, gameVersion, i
         <div id="library-gamecard">
             <img id="library-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
             <div id="library-gamecard-info">
-                <p><b>{ gameName }</b></p>
+                <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>
                 <hr />
-                <p><b>AUTHOR: </b> { author }</p>
-                <p><b>VERSION: </b> { gameVersion }</p>
+                <p><b>AUTHOR: </b>{ author }</p>
+                <p><b>VERSION: </b>{ gameVersion }</p>
                 <hr />
                 <span id="library-gamecard-buttons">
                     <button onClick={ handleRemoveFromLibrary }> Remove from Library </button>

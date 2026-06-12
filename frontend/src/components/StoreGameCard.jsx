@@ -53,12 +53,12 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, hig
         <div id="store-gamecard">
             <img id="store-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
             <div id="store-gamecard-info">
-                <p><b>{ gameName }</b></p>
+                <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>
                 <hr />
-                <p><b>AUTHOR: </b> { author }</p>
-                <p><b>VERSION: </b> { gameVersion }</p>
-                <p><b>HIGH SCORE: </b> { highScore }</p>
+                <p><b>AUTHOR: </b>{ author }</p>
+                <p><b>VERSION: </b>{ gameVersion }</p>
+                <p><b>HIGH SCORE: </b>{ highScore }</p>
                 <hr />
                 <span id="store-gamecard-buttons">
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ handleAddToLibrary }> + Add to Library </button>

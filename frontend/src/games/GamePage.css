@@ -3,13 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    font-size: 5vh;
-}
-
-/* Name of game being played */
-.game-container p:first-of-type {
-    text-align: center;
-    margin: 0;
+    font-size: clamp(1rem, 5vw, 3rem);
 }
 
 .playable-area-container {
