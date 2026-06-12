@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/AuthContext"
 import './NavbarMain.css'
 
 function NavbarMain() {
-    const { currentUser, setCurrentUser } = useContext(AuthContext)
+    const { currentUser, quickLogin } = useContext(AuthContext)
 
     return (
         <nav id="main-navbar">
@@ -18,7 +18,7 @@ function NavbarMain() {
 
             <span id="main-navbar-right">
                 {import.meta.env.DEV && <NavLink to="/games/HitTheTarget">LINK FOR TESTING</NavLink>}
-                {(!currentUser && import.meta.env.DEV) && <button onClick={() => setCurrentUser("Admin")}>Quick Login</button>}
+                {(!currentUser && import.meta.env.DEV) && <button onClick={() => quickLogin("Admin")}>Quick Login</button>}
                 {currentUser ?
                     <NavLink to="/profile">{currentUser}</NavLink> : <NavLink to="/login">Login</NavLink>
                 }

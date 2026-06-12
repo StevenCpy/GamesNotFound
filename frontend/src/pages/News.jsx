@@ -39,6 +39,16 @@ function News() {
                 <li>
                     Created v2 API endpoints and updated client to use the new endpoints.
                 </li>
+                <li>
+                    Added "High Score" feature for playable games.  Scores are submitted automatically on game completion
+                    and high score updated accordingly.
+                </li>
+                <li>
+                    Added "Last Played" to game cards which gives the last time you submitted a score.
+                </li>
+                <li>
+                    Fixed CSS layout issues for mobile devices and smaller screen sizes.
+                </li>
             </ul>
             
         </div>

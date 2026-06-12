@@ -12,12 +12,12 @@ const COMPONENT = "Store"
 function Store() {
     devLog(COMPONENT, "Store() called")
     const { storeList } = useContext(StoreContext)
-    const { highscoreHashMap } = useContext(HighscoreContext)
+    const { getHighScore } = useContext(HighscoreContext)
 
     return (
         <div id="store-list">
             {storeList.map(game => {
-                const highScore = highscoreHashMap.has(game.gameID) ? highscoreHashMap.get(game.gameID)["high_score"] : 0
+                const highScore = getHighScore(game.gameID)
                 
                 return (
                     <StoreGameCard key={game.gameID}
@@ -26,8 +26,8 @@ function Store() {
                                     description={game.description}
                                     author={game.author}
                                     gameVersion={game.version}
-                                    highScore={highScore}
-                                    isPlayable={game.is_playable} />
+                                    isPlayable={game.is_playable}
+                                    highScore={highScore} />
                 )
             })}
         </div>

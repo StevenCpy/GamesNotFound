@@ -1,6 +1,8 @@
 import { createContext, useState } from "react"
 
+import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
+import isoToLocaleDateString from "../../../utils/isoToLocaleDateString"
 
 const COMPONENT = "HighscoreContext"
 
@@ -9,9 +11,38 @@ export const HighscoreContext = createContext(null)
 export function HighscoreProvider( {children} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
 
-    function getHighscore(gameID) {
+    async function loadHighScores() {
+        devLog(COMPONENT, "loadHighScores() called")
+
+        // send GET request to fetch high scores from server
+        const token = localStorage.getItem("token") // get JWT token from localStorage
+        const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
+        if (highscores_response_json.status == "Success") {
+            devLog(COMPONENT, "High scores fetched")
+            // initialize high score hash map
+            const highscoreList = highscores_response_json.data
+            const highscoreHashMap = new Map(
+                highscoreList.map(game => [game.gameID, game])
+            )
+            setHighscoreHashMap(highscoreHashMap)
+        }
+    }
+
+    const clearHighScores = () => setHighscoreHashMap(new Map())
+
+    function getHighScore(gameID) {
         const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
         return highScore
+    }
+
+    function getLastPlayed(gameID) {
+        if (highscoreHashMap.has(gameID)) {
+            const lastPlayed_iso = highscoreHashMap.get(gameID)["last_played"]
+            const lastPlayed = isoToLocaleDateString(lastPlayed_iso)
+            return lastPlayed
+        } else {
+            return "N/A"
+        }
     }
 
     async function submitScore(gameID, score) {
@@ -33,7 +64,7 @@ export function HighscoreProvider( {children} ) {
     }
 
     return (
-        <HighscoreContext value={{ highscoreHashMap, setHighscoreHashMap, getHighscore, submitScore }}>
+        <HighscoreContext value={{ loadHighScores, clearHighScores, getHighScore, getLastPlayed, submitScore }}>
             {children}
         </HighscoreContext>
     )
