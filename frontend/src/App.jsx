@@ -20,7 +20,7 @@ function App() {
     const { currentUser, authenticateUsingToken } = useContext(AuthContext)
     const { loadStore } = useContext(StoreContext)
     const { loadLibrary, clearLibrary } = useContext(LibraryContext)
-    const { setHighscoreHashMap } = useContext(HighscoreContext)
+    const { loadHighScores, clearHighScores } = useContext(HighscoreContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -28,24 +28,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        devLog(COMPONENT, "calling useEffect in App() - Fetching Store and Library")
-
-        async function loadHighScoresServer() {
-            devLog(COMPONENT, "loadHighScoresServer() called")
-
-            // send GET request to fetch high scores from server
-            const token = localStorage.getItem("token") // get JWT token from localStorage
-            const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
-            if (highscores_response_json.status == "Success") {
-                devLog(COMPONENT, "High scores fetched")
-                // initialize high score hash map
-                const highscoreList = highscores_response_json.data
-                const highscoreHashMap = new Map(
-                    highscoreList.map(game => [game.gameID, game])
-                )
-                setHighscoreHashMap(highscoreHashMap)
-            }
-        }
+        devLog(COMPONENT, "calling useEffect in App() - Fetching Store, Library and High scores")
 
         async function loadStoreAndLibrary() {
             const store_response = await loadStore()
@@ -54,18 +37,16 @@ function App() {
             }
         }
 
-        // user logged out
-        if (!currentUser) { 
-            loadStore() // fetch Store games
-            clearLibrary() // clear Library
-            setHighscoreHashMap(new Map()) // clear high scores
-        // user logged in
-        } else {
-            loadStoreAndLibrary() // fetch Store and Library games
-            loadHighScoresServer() // fetch high scores
+        if (!currentUser) { // user logged out
+            loadStore()
+            clearLibrary()
+            clearHighScores()
+        } else { // user logged in
+            loadStoreAndLibrary()
+            loadHighScores()
         }
 
-    }, [currentUser]) // re-run code in case user logs in/logs out
+    }, [currentUser]) // re-run code when user logs in/out
 
     return (
         <div id="app-container">

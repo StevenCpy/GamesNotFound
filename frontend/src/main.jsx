@@ -35,7 +35,7 @@ createRoot(document.getElementById('root')).render(
 
     # --- LibraryProvider --- #
     libraryList:
-    -- Library.jsx: Get list of library games.
+    -- Library.jsx: Iterate through Library games to display game cards.
     librarySet:
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
     loadLibrary:
@@ -46,15 +46,18 @@ createRoot(document.getElementById('root')).render(
     -- LibraryGameCard.jsx: Remove game from Library.
 
     # --- HighscoreProvider --- #
-    setHighscoreHashMap:
-    -- App.jsx to convert high score list to hash map after fetching the list from server.
+    loadHighScores:
+    -- App.jsx: Fetch high score list from server.
+    clearHighScores:
+    -- App.jsx: Clear score list.
     getHighScore:
-    -- Store.jsx and Library.jsx to display high score on game cards.
-    -- AppRouter.jsx to pass high score to GamePage component.
+    -- Store.jsx: Display high score on game cards.
+    -- Library.jsx: Display high score on game cards.
+    -- AppRouter.jsx: Pass high score to GamePage component.
     getLastPlayed:
-    -- Library.jsx to display last played on game cards.
+    -- Library.jsx: Display last played on game cards.
     submitScore:
-    -- AppRouter.jsx to pass submitScore handler to GamePage component.
+    -- AppRouter.jsx: Pass submitScore handler to GamePage component.
 
     */
 

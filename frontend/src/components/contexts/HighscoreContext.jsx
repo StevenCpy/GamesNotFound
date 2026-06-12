@@ -1,6 +1,8 @@
 import { createContext, useState } from "react"
 
+import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
+import isoToLocaleDateString from "../../../utils/isoToLocaleDateString"
 
 const COMPONENT = "HighscoreContext"
 
@@ -9,19 +11,28 @@ export const HighscoreContext = createContext(null)
 export function HighscoreProvider( {children} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
 
+    async function loadHighScores() {
+        devLog(COMPONENT, "loadHighScores() called")
+
+        // send GET request to fetch high scores from server
+        const token = localStorage.getItem("token") // get JWT token from localStorage
+        const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
+        if (highscores_response_json.status == "Success") {
+            devLog(COMPONENT, "High scores fetched")
+            // initialize high score hash map
+            const highscoreList = highscores_response_json.data
+            const highscoreHashMap = new Map(
+                highscoreList.map(game => [game.gameID, game])
+            )
+            setHighscoreHashMap(highscoreHashMap)
+        }
+    }
+
+    const clearHighScores = () => setHighscoreHashMap(new Map())
+
     function getHighScore(gameID) {
         const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
         return highScore
-    }
-
-    function isoToLocaleDateString(isoDate) {
-        const date = new Date(isoDate)
-        const options = {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        }
-        return date.toLocaleDateString("en-CA", options)
     }
 
     function getLastPlayed(gameID) {
@@ -53,7 +64,7 @@ export function HighscoreProvider( {children} ) {
     }
 
     return (
-        <HighscoreContext value={{ setHighscoreHashMap, getHighScore, getLastPlayed, submitScore }}>
+        <HighscoreContext value={{ loadHighScores, clearHighScores, getHighScore, getLastPlayed, submitScore }}>
             {children}
         </HighscoreContext>
     )
