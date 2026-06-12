@@ -439,7 +439,7 @@ DAY 26:
     - Moved High score fetching logic from App to HighscoreContext.
     - Less passing of setter functions in context, such as setLibraryList().
         Instead I created functions in the related context to deal with it, such as loadLibrary() in LibraryContext.
-        This reduced a lot of clutter in App.
+        This reduced a lot of clutter in App, StoreGameCard and LibraryGameCard especially.
         I also created wrapper functions with more meaningful names to replace setters, like creating and passing
         clearLibrary() in LibraryContext instead of just passing setLibraryList() for App to evaluate setLibraryList([]).
 
@@ -453,4 +453,13 @@ What I learned today:
 - iso dates can be converted to date strings like "June 12, 2026" by doing:
     const date = new Date(isoString)
     const date_string = date.toLocaleDateString("en-CA", options).
-- const variable = useMemo(() => {}, [dependencies]), variable only updates when dependencies change during component re-render.
+- In "const variable = useMemo(() => {}, [dependencies])", variable only updates when dependencies change during component re-render.
+
+DAY 27:
+- Added "Empty library" message on Library page when no games in library.
+- LOGIN AND SIGNUP PAGE
+    - Moved Login and Signup server logic to AuthContext.
+    - Refactored Login and Signup components code for readability.
+
+What I learned today:
+- Bad practice to store components inside state, even if possible.
