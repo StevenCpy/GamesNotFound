@@ -1,3 +1,12 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
 :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -13,10 +22,22 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#root {
-    width: 100vw;
-    height: 100vh;
+/* texts */
+p {
     margin: 0;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.header-title {
+    text-align: center;
+}
+
+/* buttons */
+button {
+    font-size: inherit;
 }

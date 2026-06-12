@@ -19,10 +19,7 @@ function Library() {
     )
 
     return (
-        <div style={{
-            display:"flex",
-            flexDirection: "column",
-        }}>
+        <div id="library-list">
             {libraryList.map(game =>
                 <LibraryGameCard key={game.gameID}
                             gameID={game.gameID}
