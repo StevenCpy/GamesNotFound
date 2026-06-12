@@ -16,33 +16,35 @@ createRoot(document.getElementById('root')).render(
     -- NavbarMain.jsx: Display certain nav links if the user is logged in.
     -- AppRouter.jsx: Create route for Library component if user is logged in, restrict access otherwise.
     -- LibraryGameCard.jsx: Only for debug logs.
-    -- StoreGameCard.jsx: Only for debug logs.
+    -- StoreGameCard.jsx: Disable "+ Add to Library" button if logged out.
     -- Home.jsx: Welcome message.
     -- Login.jsx: Set user on successful login.
     -- Profile.jsx: Display current user.
+    -- App.jsx: Fetch Library if user is logged.
     setCurrentUser:
     -- NavbarMain.jsx: "Quick Login" nav link in development mode.
     -- Profile.jsx: Remove current user on log out.
+    -- App.jsx: Authenticate using token on app start.
 
     # --- StoreProvider --- #
     storeList:
     -- AppRouter.jsx: Create a route for each playable game in the list.
     -- Library.jsx: Get game info since LibraryList doesn't have game info attached.
+    setStoreList:
+    -- App.jsx: Set Store list fetched from server.
 
     # --- LibraryProvider --- #
     libraryList:
-    -- LibraryGameCard.jsx: Remove from Library and create new Library list.
-    -- StoreGameCard.jsx: Add to Library and create new Library list.
     -- Library.jsx: Get list of library games.
     setLibraryList:
-    -- LibraryGameCard.jsx: Remove from Library and create new Library list.
-    -- StoreGameCard.jsx: Add to Library and create new Library list.
+    -- App.jsx: Set Library list fetched from server.
     librarySet:
-    -- LibraryGameCard.jsx: Remove from Library and create new Library set.
-    -- StoreGameCard.jsx: Add to Library and create new Library set.
+    -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
     setLibrarySet:
-    -- LibraryGameCard.jsx: Remove from Library and create new Library set.
-    -- StoreGameCard.jsx: Add to Library and create new Library set.
+    -- App.jsx: Set Library list fetched from server.
+    handleAddToLibrary:
+    -- StoreGameCard.jsx: Add game to Library.
+    -- LibraryGameCard.jsx: Remove game from Library.
 
     # --- HighscoreProvider --- #
     setHighscoreHashMap:
