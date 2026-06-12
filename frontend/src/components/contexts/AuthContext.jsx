@@ -1,5 +1,6 @@
 import { createContext, useState } from "react"
 
+import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
 
 const COMPONENT = "AuthContext"
@@ -18,8 +19,10 @@ export function AuthProvider( {children} ) {
         }
     }
 
+    const quickLogin = (username) => setCurrentUser(username)
+
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken }}>
+        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, quickLogin }}>
             {children}
         </AuthContext>
     )

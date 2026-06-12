@@ -51,7 +51,10 @@ function AppRouter() {
 
                             return (
                                 <Route path={`games/${gameFileName}`}
-                                        element={<GamePage gameName={game["name"]} highScore={highScore} game={<Component submitScore={(score) => submitScore(gameID, score) } />} />}
+                                        element={<GamePage gameName={game["name"]}
+                                                            highScore={highScore}
+                                                            game={<Component submitScore={(score) => submitScore(gameID, score) } />}
+                                                />}
                                 />
                             )
                         }
