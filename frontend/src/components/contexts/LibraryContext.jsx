@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useEffect, useMemo } from "react"
 
 import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
@@ -9,7 +9,11 @@ export const LibraryContext = createContext(null)
 
 export function LibraryProvider( {children} ) {
     const [libraryList, setLibraryList] = useState([]) // list for displaying library games in order
-    const [librarySet, setLibrarySet] = useState(new Set()) // set for quick lookups of library games
+
+    // // convert libraryList to a set containing only gameIDs for quick lookups of library games
+    const librarySet = useMemo(() =>
+        // convert libraryList to a set containing only gameIDs
+        new Set(libraryList.map(game => game.gameID)), [libraryList])
 
     // add gameID to library using optimistic update
     async function handleAddToLibrary(gameID) {
@@ -30,7 +34,7 @@ export function LibraryProvider( {children} ) {
 
             // add the game to libraryList and librarySet
             setLibraryList([...libraryList, libraryEntry])
-            setLibrarySet(new Set(librarySet).add(gameID))
+            // setLibrarySet(new Set(librarySet).add(gameID))
         }
     }
 
@@ -49,16 +53,16 @@ export function LibraryProvider( {children} ) {
             setLibraryList(libraryList.filter(game =>
                 game.gameID != gameID)
             )
-            setLibrarySet(librarySet => {
-                const newLibrarySet = new Set(librarySet)
-                newLibrarySet.delete(gameID)
-                return newLibrarySet
-            })
+            // setLibrarySet(librarySet => {
+            //     const newLibrarySet = new Set(librarySet)
+            //     newLibrarySet.delete(gameID)
+            //     return newLibrarySet
+            // })
         }
     }
 
     return (
-        <LibraryContext value={{ libraryList, setLibraryList, librarySet, setLibrarySet, handleAddToLibrary, handleRemoveFromLibrary }}>
+        <LibraryContext value={{ libraryList, setLibraryList, librarySet, handleAddToLibrary, handleRemoveFromLibrary }}>
             {children}
         </LibraryContext>
     )

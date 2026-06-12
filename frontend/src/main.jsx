@@ -40,10 +40,9 @@ createRoot(document.getElementById('root')).render(
     -- App.jsx: Set Library list fetched from server.
     librarySet:
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
-    setLibrarySet:
-    -- App.jsx: Set Library list fetched from server.
     handleAddToLibrary:
     -- StoreGameCard.jsx: Add game to Library.
+    handleRemoveLibrary:
     -- LibraryGameCard.jsx: Remove game from Library.
 
     # --- HighscoreProvider --- #

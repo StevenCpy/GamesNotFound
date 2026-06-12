@@ -19,7 +19,7 @@ function App() {
     devLog(COMPONENT, "App() called")
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const { setStoreList } = useContext(StoreContext)
-    const { setLibraryList, setLibrarySet } = useContext(LibraryContext)
+    const { setLibraryList } = useContext(LibraryContext)
     const { setHighscoreHashMap } = useContext(HighscoreContext)
 
     useEffect(() => {
@@ -65,9 +65,6 @@ function App() {
                 // initialize store and library games lists
                 setStoreList(store_response_json.data)
                 setLibraryList(library_response_json.data)
-
-                // convert libraryList to a set containing only gameIDs
-                setLibrarySet(new Set(library_response_json.data.map(game => game.gameID)))
             }
         }
 
