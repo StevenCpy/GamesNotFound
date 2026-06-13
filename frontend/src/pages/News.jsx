@@ -42,6 +42,7 @@ function News() {
                 <li> Fixed CSS layout issues for mobile devices and smaller screen sizes. </li>
                 <li> Added toasts to actions like JWT authentication, log in, log out, and adding & removing games from Library. </li>
                 <li> Updated Homepage with current and upcoming features. </li>
+                <li> Added Loading page & delays to allow time for Store & Library resources to load, making initial UI loading smoother. </li>
             </ul>
             
         </div>
