@@ -1,12 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+
+// components
 import App from './App.jsx'
 
+// providers
 import { AuthProvider } from './components/contexts/AuthContext'
 import { StoreProvider } from './components/contexts/StoreContext'
 import { LibraryProvider } from './components/contexts/LibraryContext'
 import { HighscoreProvider } from './components/contexts/HighscoreContext'
+import { LoadingProvider } from './components/contexts/LoadingContext'
 
 createRoot(document.getElementById('root')).render(
     /*
@@ -63,6 +67,14 @@ createRoot(document.getElementById('root')).render(
     submitScore():
     -- AppRouter.jsx: Pass submitScore handler to GamePage component.
 
+    # --- LoadingProvider --- #
+    isLoading
+    -- AppRouter.jsx: Check whether to display loading page.
+    startLoadingScreen()
+    -- App.jsx: Indicate to open loading screen when authenticating user and fetching Store & Library.
+    stopLoadingScreen()
+    -- App.jsx: Indicate to close loading screen after authenticating user and fetching Store & Library.
+
     */
 
     // <StrictMode>
@@ -71,7 +83,9 @@ createRoot(document.getElementById('root')).render(
             <StoreProvider>
                 <LibraryProvider>
                     <HighscoreProvider>
-                        <App />
+                        <LoadingProvider>
+                            <App />
+                        </LoadingProvider>
                     </HighscoreProvider>
                 </LibraryProvider>
             </StoreProvider>
