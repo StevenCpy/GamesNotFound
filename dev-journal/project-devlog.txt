@@ -464,6 +464,21 @@ DAY 27:
     - Added "sonner" package to codebase.
     - Added toasts for automatic JWT authentication, log in, log out, and adding & removing games from Library.
 - Updated Homepage with current and upcoming features.
+- Created LoadingContext and loading page to indicate that resources are being fetched.  This makes UI smoother instead of
+    for eg. showing an empty Library while Library games list is still being fetched.
+- Added delays to allow time for Store & Library resources to load.
 
 What I learned today:
 - Bad practice to store components inside state, even if possible.
+- Adding a delay before sending API calls on App refresh to prevent spam is bad practice, it just makes the UI slower.
+    It is better to address the issue on the server by limiting request rate for a given IP address.
+- To create a Promise for eg. for a delay:
+    new Promise((resolve,reject) => {
+        setTimeout(resolve, timeout)
+    })
+    "resolve" and "reject" are used to tell whether the promise was successful or failed.
+    setTimeout(callback, timeout) runs callback after "timeout" milliseconds elapsed.
+- Running an async function doesn't block the thread of execution even if there is "await" inside it.
+    For eg. assume we have "async function delay() { await promise_fn() }".  Running:
+    delay(); doSomething();
+    runs delay then runs doSomething() immediately after, it doesn't wait for delay() to finish.
