@@ -1,5 +1,7 @@
-import { createContext, useState } from "react"
+import { createContext, useState } from 'react'
+import { toast } from 'sonner'
 
+// utils
 import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
 
@@ -16,6 +18,8 @@ export function AuthProvider( {children} ) {
         const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET", null, token)
         if (auth_response_json.status == "Success") {
             setCurrentUser(auth_response_json.username)
+
+            toast(`Logged in as ${auth_response_json.username}`)
         }
     }
 
@@ -28,8 +32,9 @@ export function AuthProvider( {children} ) {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
             // store JWT token received from server
             localStorage.setItem("token", response_json.token)
-
             setCurrentUser(username.toUpperCase())
+
+            toast(`Successfully logged in.  Welcome back ${username.toUpperCase()}!`)
         } else {
             devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
         }

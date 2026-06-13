@@ -1,5 +1,7 @@
-import { createContext, useState, useEffect, useMemo } from "react"
+import { createContext, useState, useEffect, useMemo } from 'react'
+import { toast } from 'sonner'
 
+// utils
 import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
 
@@ -55,6 +57,8 @@ export function LibraryProvider( {children} ) {
             // add the game to libraryList and librarySet
             setLibraryList([...libraryList, libraryEntry])
             // setLibrarySet(new Set(librarySet).add(gameID))
+
+            toast("Game added to Library")
         }
     }
 
@@ -78,6 +82,8 @@ export function LibraryProvider( {children} ) {
             //     newLibrarySet.delete(gameID)
             //     return newLibrarySet
             // })
+
+            toast("Game removed from Library")
         }
     }
 

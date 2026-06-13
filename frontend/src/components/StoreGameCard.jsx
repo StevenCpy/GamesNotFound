@@ -1,10 +1,12 @@
-import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
-
-import { AuthContext } from "./contexts/AuthContext"
-import { LibraryContext } from "./contexts/LibraryContext"
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './StoreGameCard.css'
 
+// contexts
+import { AuthContext } from "./contexts/AuthContext"
+import { LibraryContext } from "./contexts/LibraryContext"
+
+// utils
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "StoreGameCard"

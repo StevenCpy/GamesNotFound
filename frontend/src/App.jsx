@@ -1,6 +1,8 @@
 import { useEffect, useContext } from 'react'
+import { Toaster } from 'sonner'
 import './App.css'
 
+// components
 import AppRouter from './components/AppRouter'
 
 // contexts
@@ -49,6 +51,7 @@ function App() {
 
     return (
         <div id="app-container">
+            <Toaster theme="dark" visibleToasts={1} />
             <AppRouter />
         </div>
     )
