@@ -37,6 +37,16 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
+.text-green {
+    color: green;
+    font-weight: bold;
+}
+
+.text-red {
+    color: red;
+    font-weight: bold;
+}
+
 /* buttons */
 button {
     font-size: inherit;

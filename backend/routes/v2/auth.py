@@ -41,7 +41,7 @@ async def signup(auth: Auth):
         if usernameAlreadyExists(username):
             # return username already exists
             dev_log(endpoint, f"Sign up unsuccessful.  User '{username}' already exists")
-            return status_fail({"details": "Username already exists"})
+            return status_fail("Username already exists")
         else:
             # insert username and password into table
             supabase_client.table(USERS_TABLE).insert({

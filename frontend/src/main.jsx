@@ -1,12 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+
+// components
 import App from './App.jsx'
 
+// providers
 import { AuthProvider } from './components/contexts/AuthContext'
 import { StoreProvider } from './components/contexts/StoreContext'
 import { LibraryProvider } from './components/contexts/LibraryContext'
 import { HighscoreProvider } from './components/contexts/HighscoreContext'
+import { LoadingProvider } from './components/contexts/LoadingContext'
 
 createRoot(document.getElementById('root')).render(
     /*
@@ -17,20 +21,24 @@ createRoot(document.getElementById('root')).render(
     -- AppRouter.jsx: Create route for Library component if user is logged in, restrict access otherwise.
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if logged out.
     -- Home.jsx: Welcome message.
-    -- Login.jsx: Set user on successful login.
     -- Profile.jsx: Display current user.
     -- App.jsx: Fetch Library if user is logged.
     setCurrentUser:
-    -- NavbarMain.jsx: "Quick Login" nav link in development mode.
     -- Profile.jsx: Remove current user on log out.
+    signupServer():
+    -- Signup.jsx: Initiate server-side sign up.
     authenticateUsingToken:
     -- App.jsx to authenticate using JWT token on app start.
+    quickLogin():
+    -- NavbarMain.jsx: "Quick Login" nav link in development mode.
+    loginServer():
+    -- Login.jsx: Initiate server-side login.
 
     # --- StoreProvider --- #
     storeList:
     -- AppRouter.jsx: Create a route for each playable game in the list.
     -- Library.jsx: Get game info since LibraryList doesn't have game info attached.
-    loadStore:
+    loadStore():
     -- App.jsx: Load Store games.
 
     # --- LibraryProvider --- #
@@ -38,26 +46,34 @@ createRoot(document.getElementById('root')).render(
     -- Library.jsx: Iterate through Library games to display game cards.
     librarySet:
     -- StoreGameCard.jsx: Disable "+ Add to Library" button if game already in Library.
-    loadLibrary:
+    loadLibrary():
     -- App.jsx: Load Library games.
-    handleAddToLibrary:
+    handleAddToLibrary():
     -- StoreGameCard.jsx: Add game to Library.
-    handleRemoveLibrary:
+    handleRemoveLibrary():
     -- LibraryGameCard.jsx: Remove game from Library.
 
     # --- HighscoreProvider --- #
-    loadHighScores:
+    loadHighScores():
     -- App.jsx: Fetch high score list from server.
-    clearHighScores:
+    clearHighScores():
     -- App.jsx: Clear score list.
-    getHighScore:
+    getHighScore():
     -- Store.jsx: Display high score on game cards.
     -- Library.jsx: Display high score on game cards.
     -- AppRouter.jsx: Pass high score to GamePage component.
-    getLastPlayed:
+    getLastPlayed():
     -- Library.jsx: Display last played on game cards.
-    submitScore:
+    submitScore():
     -- AppRouter.jsx: Pass submitScore handler to GamePage component.
+
+    # --- LoadingProvider --- #
+    isLoading
+    -- AppRouter.jsx: Check whether to display loading page.
+    startLoadingScreen()
+    -- App.jsx: Indicate to open loading screen when authenticating user and fetching Store & Library.
+    stopLoadingScreen()
+    -- App.jsx: Indicate to close loading screen after authenticating user and fetching Store & Library.
 
     */
 
@@ -67,7 +83,9 @@ createRoot(document.getElementById('root')).render(
             <StoreProvider>
                 <LibraryProvider>
                     <HighscoreProvider>
-                        <App />
+                        <LoadingProvider>
+                            <App />
+                        </LoadingProvider>
                     </HighscoreProvider>
                 </LibraryProvider>
             </StoreProvider>

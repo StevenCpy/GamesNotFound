@@ -1,5 +1,7 @@
-import { createContext, useState, useEffect, useMemo } from "react"
+import { createContext, useState, useEffect, useMemo } from 'react'
+import { toast } from 'sonner'
 
+// utils
 import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
 
@@ -20,15 +22,14 @@ export function LibraryProvider( {children} ) {
 
         // send GET request to fetch Library from server
         const token = localStorage.getItem("token") // get JWT token from localStorage
-        const library_response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
+        const response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
 
-        if (library_response_json.status == "Success") {
+        if (response_json.status == "Success") {
             devLog(COMPONENT, "Library fetched")
             // initialize library games list
-            setLibraryList(library_response_json.data)
+            setLibraryList(response_json.data)
         }
-        console.log(library_response_json)
-        return library_response_json.status
+        return response_json
     }
 
     function clearLibrary() {
@@ -56,6 +57,8 @@ export function LibraryProvider( {children} ) {
             // add the game to libraryList and librarySet
             setLibraryList([...libraryList, libraryEntry])
             // setLibrarySet(new Set(librarySet).add(gameID))
+
+            toast("Game added to Library")
         }
     }
 
@@ -79,6 +82,8 @@ export function LibraryProvider( {children} ) {
             //     newLibrarySet.delete(gameID)
             //     return newLibrarySet
             // })
+
+            toast("Game removed from Library")
         }
     }
 

@@ -1,23 +1,35 @@
 # GamesNotFound
 Personal project, definitely not a knock-off of Steam
 
-<b>GOAL:</b> Platform for playing JavaScript games on the browser.  Eventually, will move to allow downloading non-JS games.
+<b>GOAL:</b> Platform for playing JavaScript games on the browser.  Eventually, will move to allow downloading non-JS games.<br>
+<b>WEBSITE:</b> [www.gamesnotfound.com](https://www.gamesnotfound.com)
 
-If you're an employer, please see "dev-journal/" if you're interested to see my notes and progress during development.
+<b>CURRENT FEATURES:</b>
+<ul>
+    <li><b>Auth:</b> Register, Login, and persistent login using JWT authentication</li>
+    <li><b>STORE:</b> Browse games written in JS</li>
+    <li><b>LIBRARY SYSTEM:</b> Add & remove games from Library</li>
+    <li><b>PLAYABLE GAMES:</b> Play game from the Store by clicking on "Play"
+            (Hit the Target is currently the only game but more to come!)</li>
+    <li><b>HIGH SCORE SYSTEM:</b> Your best score for each game is saved</li>
+</ul>
 
-<b><u>OVERALL ARCHITECTURE RIGHT NOW:</u></b><br>
+See "dev-journal/" if you're interested to see my notes and progress during development.<br>
+- Project Development Logs: [Project devlogs](https://github.com/StevenCpy/GamesNotFound/blob/main/dev-journal/project-devlog.txt)<br>
+- How to run server and client locally: [How to run](https://github.com/StevenCpy/GamesNotFound/blob/main/HOW_TO_RUN.md)<br>
+- System design: [Design Notes](https://github.com/StevenCpy/GamesNotFound/blob/main/dev-journal/design_notes.md)<br>
+
+<b><u>CURRENT OVERALL ARCHITECTURE:</u></b><br>
 Database - PostgreSQL(Supabase) -> Backend - Python,fastAPI(Render) -> Frontend - ReactJS(Vercel)
 
 <b>FRONTEND:</b><br>
 Frontend is a Vite project written in JavaScript using React.<br>
 Frontend is deployed on Vercel at https://www.gamesnotfound.com.<br>
-To run code locally, "npm run dev" inside frontend folder.<br>
 <b>Frontend hosting COST (Vercel "Hobby" tier + CloudFlare domain name):</b> 0 + 10/year = $10/year
 
 <b>BACKEND:</b><br>
 Server (Backend) is in Python and built using fastAPI to define API endpoints.<br>
 Server is deployed on Render at https://gamesnotfound-server.onrender.com.  See https://gamesnotfound-server.onrender.com/docs for API schema.<br>
-To run code locally from backend folder, install dependencies from requirements.txt and run "fastapi run".
 
 Reasons for using Render:
 - Simple to deploy - add link to GitHub branch, and either deploy manually or allow automatic deployment on branch commits.

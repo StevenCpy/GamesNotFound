@@ -1,5 +1,6 @@
-import { createContext, useState } from "react"
+import { createContext, useState } from 'react'
 
+// utils
 import devLog from "../../../utils/logging/logging"
 import apiRequest from "../../../utils/apiRequest"
 
@@ -12,14 +13,14 @@ export function StoreProvider( {children} ) {
 
     async function loadStore() {
         devLog(COMPONENT, "loadStore() called")
-        const store_response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
+        const response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
 
-        if (store_response_json.status == "Success") {
+        if (response_json.status == "Success") {
             devLog(COMPONENT, "Store fetched")
             // initialize store games list
-            setStoreList(store_response_json.data)
+            setStoreList(response_json.data)
         }
-        return store_response_json.status
+        return response_json
     }
 
     return (

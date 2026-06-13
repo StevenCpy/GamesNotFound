@@ -439,7 +439,7 @@ DAY 26:
     - Moved High score fetching logic from App to HighscoreContext.
     - Less passing of setter functions in context, such as setLibraryList().
         Instead I created functions in the related context to deal with it, such as loadLibrary() in LibraryContext.
-        This reduced a lot of clutter in App.
+        This reduced a lot of clutter in App, StoreGameCard and LibraryGameCard especially.
         I also created wrapper functions with more meaningful names to replace setters, like creating and passing
         clearLibrary() in LibraryContext instead of just passing setLibraryList() for App to evaluate setLibraryList([]).
 
@@ -453,4 +453,32 @@ What I learned today:
 - iso dates can be converted to date strings like "June 12, 2026" by doing:
     const date = new Date(isoString)
     const date_string = date.toLocaleDateString("en-CA", options).
-- const variable = useMemo(() => {}, [dependencies]), variable only updates when dependencies change during component re-render.
+- In "const variable = useMemo(() => {}, [dependencies])", variable only updates when dependencies change during component re-render.
+
+DAY 27:
+- Added "Empty library" message on Library page when no games in library.
+- LOGIN AND SIGNUP PAGE
+    - Moved Login and Signup server logic to AuthContext.
+    - Refactored Login and Signup components code for readability.
+- TOASTS:
+    - Added "sonner" package to codebase.
+    - Added toasts for automatic JWT authentication, log in, log out, and adding & removing games from Library.
+- Updated Homepage with current and upcoming features.
+- Created LoadingContext and loading page to indicate that resources are being fetched.  This makes UI smoother instead of
+    for eg. showing an empty Library while Library games list is still being fetched.
+- Added delays to allow time for Store & Library resources to load.
+
+What I learned today:
+- Bad practice to store components inside state, even if possible.
+- Adding a delay before sending API calls on App refresh to prevent spam is bad practice, it just makes the UI slower.
+    It is better to address the issue on the server by limiting request rate for a given IP address.
+- To create a Promise for eg. for a delay:
+    new Promise((resolve,reject) => {
+        setTimeout(resolve, timeout)
+    })
+    "resolve" and "reject" are used to tell whether the promise was successful or failed.
+    setTimeout(callback, timeout) runs callback after "timeout" milliseconds elapsed.
+- Running an async function doesn't block the thread of execution even if there is "await" inside it.
+    For eg. assume we have "async function delay() { await promise_fn() }".  Running:
+    delay(); doSomething();
+    runs delay then runs doSomething() immediately after, it doesn't wait for delay() to finish.
