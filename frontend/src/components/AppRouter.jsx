@@ -1,12 +1,16 @@
-import { useContext } from "react"
+import { useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './AppRouter.css'
 
+// contexts
 import { AuthContext } from "./contexts/AuthContext"
 import { StoreContext } from "./contexts/StoreContext"
-import { HighscoreContext } from "./contexts/HighscoreContext.jsx"
+import { HighscoreContext } from "./contexts/HighscoreContext"
+import { LoadingContext } from './contexts/LoadingContext'
+
+// components
 import NavbarMain from "./navigation/NavbarMain"
 import * as games from "../games/index.js"
-import './AppRouter.css'
 
 // pages
 import Home from "../pages/Home"
@@ -18,12 +22,14 @@ import Signup from "../pages/Signup"
 import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
+import LoadingPage from "../pages/LoadingPage.jsx"
 import GamePage from "../games/GamePage"
 
 function AppRouter() {
     const { currentUser } = useContext(AuthContext)
     const { storeList } = useContext(StoreContext)
     const { getHighScore, submitScore } = useContext(HighscoreContext)
+    const { isLoading } = useContext(LoadingContext)
 
     return (
         <BrowserRouter>
@@ -31,34 +37,39 @@ function AppRouter() {
 
             <div id="page-container">
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/store" element={<Store />} />
-                    <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/news" element={<News />} />
+                    {isLoading ?
+                    <Route path="*" element={<LoadingPage />} />
+                    : (<>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/store" element={<Store />} />
+                        <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/news" element={<News />} />
 
-                    <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
+                        <Route path="*" element={<Error404 />} /> {/* Error page for invalid URLs */}
 
-                    {/* Dynamically define routes for playable games */}
-                    {storeList.map(game => {
-                        if (game["is_playable"]) {
-                            const gameFileName = game["name"].replaceAll(" ","")
-                            const Component = games[gameFileName]
-                            const gameID = game["gameID"]
-                            const highScore = getHighScore(gameID)
+                        {/* Dynamically define routes for playable games */}
+                        {storeList.map(game => {
+                            if (game["is_playable"]) {
+                                const gameFileName = game["name"].replaceAll(" ","")
+                                const Component = games[gameFileName]
+                                const gameID = game["gameID"]
+                                const highScore = getHighScore(gameID)
 
-                            return (
-                                <Route path={`games/${gameFileName}`}
-                                        element={<GamePage gameName={game["name"]}
-                                                            highScore={highScore}
-                                                            game={<Component submitScore={(score) => submitScore(gameID, score) } />}
-                                                />}
-                                />
-                            )
-                        }
-                    })}
+                                return (
+                                    <Route path={`games/${gameFileName}`}
+                                            element={<GamePage gameName={game["name"]}
+                                                                highScore={highScore}
+                                                                game={<Component submitScore={(score) => submitScore(gameID, score) } />}
+                                                    />}
+                                    />
+                                )
+                            }
+                        })}
+
+                    </>)}
                 </Routes>
             </div>
         </BrowserRouter>

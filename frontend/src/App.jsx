@@ -10,9 +10,11 @@ import { AuthContext } from './components/contexts/AuthContext'
 import { StoreContext } from './components/contexts/StoreContext'
 import { LibraryContext } from './components/contexts/LibraryContext'
 import { HighscoreContext } from './components/contexts/HighscoreContext'
+import { LoadingContext } from './components/contexts/LoadingContext'
 
 // utils
 import devLog from '../utils/logging/logging'
+import delay from '../utils/delay'
 
 const COMPONENT = "App"
 
@@ -22,6 +24,7 @@ function App() {
     const { loadStore } = useContext(StoreContext)
     const { loadLibrary, clearLibrary } = useContext(LibraryContext)
     const { loadHighScores, clearHighScores } = useContext(HighscoreContext)
+    const { isLoading, startLoadingScreen, stopLoadingScreen } = useContext(LoadingContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -38,13 +41,27 @@ function App() {
             }
         }
 
-        if (!currentUser) { // user logged out
+        const DELAY = 2000
+        async function initLoggedOut() {
             loadStore()
             clearLibrary()
             clearHighScores()
-        } else { // user logged in
+            await delay(DELAY)
+            stopLoadingScreen()
+        }
+
+        async function initLoggedIn() {
             loadStoreAndLibrary()
             loadHighScores()
+            await delay(DELAY)
+            stopLoadingScreen()
+        }
+
+        startLoadingScreen()
+        if (!currentUser) { // user logged out
+            initLoggedOut()
+        } else { // user logged in
+            initLoggedIn()
         }
 
     }, [currentUser]) // re-run code when user logs in/out
