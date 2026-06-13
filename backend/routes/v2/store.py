@@ -25,7 +25,7 @@ async def store():
     try:
         response = (
             supabase_client.table(GAMES_TABLE)
-            .select("gameID,name,description,author,version,is_playable,library_adds")
+            .select("gameID,name,cover_image_url,description,author,version,is_playable,library_adds")
             .order("gameID", desc=False)
             .execute()
         )

@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef, createContext, useContext } from "react"
-import GameButton from "./components/GameButton"
+import { useState, useEffect, useRef, createContext, useContext } from 'react'
 import './Hit the Target.css'
+
+// components
+import GameButton from "./components/GameButton"
 
 const START_TIME_S = 30
 

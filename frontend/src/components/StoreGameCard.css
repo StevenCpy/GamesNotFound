@@ -9,8 +9,13 @@
     padding: 0.5rem;
 }
 
-#store-gamecard-cover, #store-gamecard-info {
+#store-gamecard-cover {
     flex: 1;
+    min-width: 0;
+}
+
+#store-gamecard-info {
+    flex: 2;
     min-width: 0;
 }
 

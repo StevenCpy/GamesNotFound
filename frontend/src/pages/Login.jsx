@@ -1,9 +1,11 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-import { AuthContext } from '../components/contexts/AuthContext'
 import './styling/Auth.css'
 
+// contexts
+import { AuthContext } from '../components/contexts/AuthContext'
+
+// utils
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Login"
