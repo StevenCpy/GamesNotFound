@@ -11,7 +11,7 @@ import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, description, author, gameVersion, isPlayable, highScore} ) {
+function StoreGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore} ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useContext(AuthContext)
     const { librarySet, handleAddToLibrary } = useContext(LibraryContext)
@@ -29,7 +29,7 @@ function StoreGameCard( {gameID, gameName, description, author, gameVersion, isP
 
     return (
         <div id="store-gamecard">
-            <img id="store-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
+            <img id="store-gamecard-cover" src={ coverImageURL } alt={ gameName } />
             <div id="store-gamecard-info">
                 <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>

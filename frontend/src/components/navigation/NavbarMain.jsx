@@ -1,8 +1,9 @@
 import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-
-import { AuthContext } from "../contexts/AuthContext"
 import './NavbarMain.css'
+
+// contexts
+import { AuthContext } from "../contexts/AuthContext"
 
 function NavbarMain() {
     const { currentUser, quickLogin } = useContext(AuthContext)

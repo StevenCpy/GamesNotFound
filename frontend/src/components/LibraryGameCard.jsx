@@ -1,19 +1,21 @@
-import { useContext } from "react"
-
-import { LibraryContext } from "./contexts/LibraryContext"
+import { useContext } from 'react'
 import './LibraryGameCard.css'
 
+// contexts
+import { LibraryContext } from "./contexts/LibraryContext"
+
+// utils
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "LibraryGameCard"
 
-function LibraryGameCard( {gameID, gameName, description, author, gameVersion, isPlayable, highScore, lastPlayed} ) {
+function LibraryGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore, lastPlayed} ) {
     devLog(COMPONENT, "LibraryGameCard() called")
     const { handleRemoveFromLibrary } = useContext(LibraryContext)
 
     return (
         <div id="library-gamecard">
-            <img id="library-gamecard-cover" src={`/game-cover-images/${gameName}.jpg`} alt={ gameName } />
+            <img id="library-gamecard-cover" src={ coverImageURL } alt={ gameName } />
             <div id="library-gamecard-info">
                 <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>

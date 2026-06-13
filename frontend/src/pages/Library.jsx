@@ -1,11 +1,15 @@
-import { useContext } from "react"
+import { useContext } from 'react'
+import './styling/Library.css'
 
+// contexts
 import { StoreContext } from "../components/contexts/StoreContext"
 import { LibraryContext } from "../components/contexts/LibraryContext"
 import { HighscoreContext } from "../components/contexts/HighscoreContext"
-import LibraryGameCard from "../components/LibraryGameCard"
-import './styling/Library.css'
 
+// components
+import LibraryGameCard from "../components/LibraryGameCard"
+
+// utils
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Library"
@@ -43,6 +47,7 @@ function Library() {
                         <LibraryGameCard key={gameID}
                                         gameID={gameID}
                                         gameName={storeHashMap.get(gameID)["name"]}
+                                        coverImageURL={storeHashMap.get(gameID)["cover_image_url"]}
                                         description={storeHashMap.get(gameID)["description"]}
                                         author={storeHashMap.get(gameID)["author"]}
                                         gameVersion={storeHashMap.get(gameID)["version"]}

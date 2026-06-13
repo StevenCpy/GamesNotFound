@@ -1,10 +1,14 @@
 import { useContext } from 'react'
-
-import { StoreContext } from '../components/contexts/StoreContext'
-import { HighscoreContext } from '../components/contexts/HighscoreContext'
-import StoreGameCard from '../components/StoreGameCard'
 import './styling/Store.css'
 
+// contexts
+import { StoreContext } from '../components/contexts/StoreContext'
+import { HighscoreContext } from '../components/contexts/HighscoreContext'
+
+// components
+import StoreGameCard from '../components/StoreGameCard'
+
+// utils
 import devLog from "../../utils/logging/logging"
 
 const COMPONENT = "Store"
@@ -23,6 +27,7 @@ function Store() {
                     <StoreGameCard key={game.gameID}
                                     gameID={game.gameID}
                                     gameName={game.name}
+                                    coverImageURL={game.cover_image_url}
                                     description={game.description}
                                     author={game.author}
                                     gameVersion={game.version}
