@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom"
-
+import { Link } from 'react-router-dom'
 import './styling/News.css'
 
 function ComparisonContainer({ src1, alt1, src2, alt2 }) {
@@ -22,9 +21,7 @@ function News() {
         <div id="news-page">
             <h1> What's NEW! </h1>
             <ul className="ul-dash">
-                <li>
-                    Created "What's NEW" page to share new features and changelogs.
-                </li>
+                <li> Created "What's NEW" page to share new features and changelogs. </li>
                 <li>
                     Created first game called "Hit the Target".{" "}
                     <Link style={{ color: "green" }} to="/games/HitTheTarget">Quick link to game</Link>
@@ -36,19 +33,15 @@ function News() {
                         src2={`/news-images/New Store layout.png`} alt2="New Store layout"
                     />
                 </li>
-                <li>
-                    Created v2 API endpoints and updated client to use the new endpoints.
-                </li>
+                <li> Created v2 API endpoints and updated client to use the new endpoints. </li>
                 <li>
                     Added "High Score" feature for playable games.  Scores are submitted automatically on game completion
                     and high score updated accordingly.
                 </li>
-                <li>
-                    Added "Last Played" to game cards which gives the last time you submitted a score.
-                </li>
-                <li>
-                    Fixed CSS layout issues for mobile devices and smaller screen sizes.
-                </li>
+                <li> Added "Last Played" to game cards which gives the last time you submitted a score. </li>
+                <li> Fixed CSS layout issues for mobile devices and smaller screen sizes. </li>
+                <li> Added toasts to actions like JWT authentication, log in, log out, and adding & removing games from Library. </li>
+                <li> Updated Homepage with current and upcoming features. </li>
             </ul>
             
         </div>

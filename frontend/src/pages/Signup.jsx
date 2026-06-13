@@ -65,7 +65,7 @@ function Signup() {
                     <li>a number.</li>
                     <li>a special character: !, @.</li>
                 </ul>
-                : <p className="textFail">{message}</p>   
+                : <p className="text-fail">{message}</p>   
         )
     }
 

@@ -460,6 +460,10 @@ DAY 27:
 - LOGIN AND SIGNUP PAGE
     - Moved Login and Signup server logic to AuthContext.
     - Refactored Login and Signup components code for readability.
+- TOASTS:
+    - Added "sonner" package to codebase.
+    - Added toasts for automatic JWT authentication, log in, log out, and adding & removing games from Library.
+- Updated Homepage with current and upcoming features.
 
 What I learned today:
 - Bad practice to store components inside state, even if possible.
