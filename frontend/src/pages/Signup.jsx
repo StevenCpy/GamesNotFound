@@ -19,16 +19,10 @@ function Signup() {
     const [warning, setWarning] = useState(null)
     const { signupServer } = useContext(AuthContext)
     
-    const usernameMaxLength = 30
-    //const emailMaxLength = 320
-    const passwordMaxLength = 128
+    const USERNAME_MAX_LENGTH = 10
+    //const EMAIL_MAX_LENGTH = 320
+    const PASSWORD_MAX_LENGTH = 128
     const INVALID_PASSWORD_WARNING = "Invalid password"
-
-    function handleField(e, setField, fieldMaxLength) {
-        if (e.target.value.length < fieldMaxLength) {
-            setField(e.target.value)
-        }
-    }
 
     // check if password follows rules
     function passwordIsValid(password) {
@@ -92,19 +86,22 @@ function Signup() {
             <input
                 type="text"
                 value={username}
-                onChange={(e) => handleField(e, setUsername, usernameMaxLength)}
+                maxLength={USERNAME_MAX_LENGTH}
+                onChange={(e) => setUsername(e.target.value)}
             />
             {/* <label>Email:</label>
             <input
                 type="text"
                 value={email}
-                onChange={(e) => handleField(e, setEmail, emailMaxLength)}
+                maxLength={EMAIL_MAX_LENGTH}
+                onChange={(e) => setEmail(e.target.value)}
             /> */}
             <label>Password:</label>
             <input
-                type="text"
+                type="password"
                 value={password}
-                onChange={(e) => handleField(e, setPassword, passwordMaxLength)}
+                maxLength={PASSWORD_MAX_LENGTH}
+                onChange={(e) => setPassword(e.target.value)}
             />
             {/* show this text only if username or password is blank */}
             {!(username && password) && <p className="text-fail">Fill in all fields!</p>}
