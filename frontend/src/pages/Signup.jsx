@@ -33,28 +33,12 @@ function Signup() {
     // check if password follows rules
     function passwordIsValid(password) {
         devLog(COMPONENT, "passwordIsValid() called")
-        let hasLowercase = false
-        let hasUppercase = false
-        let hasNumber = false
-        let hasSpecial = false
+        const lowercaseRe = /[a-z]+/
+        const uppercaseRe = /[A-Z]+/
+        const digitRe = /\d+/
+        const specialCharRe = /[!@#$%^&*()]+/
 
-        const special_chars = ['!', '@']
-
-        for (let i = 0; i < password.length; i++) {
-            if ('a' <= password[i] && password[i] <= 'z') {
-                hasLowercase = true
-            } else if ('A' <= password[i] && password[i] <= 'Z') {
-                hasUppercase = true
-            } else if ('0' <= password[i] && password[i] <= '9') {
-                hasNumber = true
-            } else if (special_chars.includes(password[i])) {
-                hasSpecial = true
-            } else {
-                return false
-            }
-            // do not stop loop early even if all conditions true, as we need to check for invalid characters
-        }
-        return (hasLowercase && hasUppercase && hasNumber && hasSpecial)
+        return (lowercaseRe.test(password) && uppercaseRe.test(password) && digitRe.test(password) && specialCharRe.test(password))
     }
 
     function WarningMessage({ message }) {
