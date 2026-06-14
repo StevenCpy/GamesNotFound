@@ -15,13 +15,14 @@ const COMPONENT = "Signup"
 
 function Signup() {
     devLog(COMPONENT, "Signup() called")
+    const { signupServer } = useContext(AuthContext)
+
     const [username, setUsername] = useState("")
     //const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [signedUp, setSignedUp] = useState(false)
     const [warning, setWarning] = useState(null)
-    const { signupServer } = useContext(AuthContext)
-    
+
     const USERNAME_MAX_LENGTH = 10
     //const EMAIL_MAX_LENGTH = 320
     const PASSWORD_MAX_LENGTH = 128
@@ -47,7 +48,7 @@ function Signup() {
                     <li>a number.</li>
                     <li>a special character: !, @.</li>
                 </ul>
-                : <p className="text-fail">{message}</p>   
+                : <p className="text-fail">{message}</p>
         )
     }
 
@@ -77,13 +78,8 @@ function Signup() {
 
     return (
         <form id="auth-form">
-            <p>
-                WARNING:<br />
-                Passwords not currently encrypted so I can see them in the database.  Please consider this.<br />
-                I will remove this warning after I implement password hashing.
-            </p>
-
-            <h3>SIGN UP</h3>
+            <p className="text-success">Passwords are encrypted so even I cannot see them in the database!</p>
+            <h3 className="header-title">SIGN UP</h3>
 
             <label>Username:</label>
             <input
@@ -108,12 +104,12 @@ function Signup() {
             />
             {/* show this text only if username or password is blank */}
             {!(username && password) && <p className="text-fail">Fill in all fields!</p>}
-            <button disabled={!(username && password)} onClick={ handleSignUp }>Sign up</button>
-            <span>
+            <button disabled={!(username && password)} onClick={handleSignUp}>Sign up</button>
+            <div>
                 Already have an account?{" "}
                 <Link to="/login">Login</Link>
-            </span>
-            { signedUp ?
+            </div>
+            {signedUp ?
                 <p className="text-success">Signed up successfully.  You can now login!</p>
                 : <WarningMessage message={warning} />
             }

@@ -15,10 +15,12 @@ const COMPONENT = "Login"
 
 function Login() {
     devLog(COMPONENT, "Login() called")
+    const { loginServer } = useContext(AuthContext)
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState(false)
-    const { loginServer } = useContext(AuthContext)
+    
     const navigate = useNavigate()
 
     async function handleLogin(e) {
@@ -35,7 +37,7 @@ function Login() {
 
     return (
         <form id="auth-form">
-            <h3>LOGIN</h3>
+            <h3 className="header-title">LOGIN</h3>
 
             <label>Username:</label>
             <input
