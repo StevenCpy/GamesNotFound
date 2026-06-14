@@ -43,8 +43,8 @@ function Store() {
     }, [sortBy])
 
     const searchedStoreList = useMemo(() => {
-        const regex = new RegExp(`^${searchStr}`) // game name should start with searchStr
-        return [...storeList].filter(game => regex.test(game.name))
+        const regex = new RegExp(searchStr.toUpperCase()) // game name should start with searchStr
+        return [...storeList].filter(game => regex.test(game.name.toUpperCase()))
     }, [searchStr, storeList])
 
     return (

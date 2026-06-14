@@ -496,6 +496,9 @@ PASSWORD:
 - Sorting:
     - Created sort dropdown component.
     - Implemented sorting logic and added option to Store to sort games.
+- Game search bar:
+    - Created search bar component.
+    - Implemented game search logic and added option to Store to search games.
 
 What I learned today:
 - Input fields have prop "type" that we can set to "password" instead of "text", which automatically masks the password.
