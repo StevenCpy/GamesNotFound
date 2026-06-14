@@ -5,17 +5,20 @@
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #232730;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --primary-bg-color: #232730;
+    --secondary-bg-color: #242424;
 }
 
 body {
     margin: 0;
     height: 100dvh;
+    background-color: var(--primary-bg-color);
 }
 
 #root {

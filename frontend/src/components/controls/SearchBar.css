@@ -1,4 +1,4 @@
-.search-bar {
+.search-bar-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,9 +7,8 @@
     flex: 1;
 }
 
-.search-bar input {
+.search-bar-container input {
     padding: 0.2rem 0.5rem;
     border: 0;
-    background-color: #242424;
     outline: none;
 }

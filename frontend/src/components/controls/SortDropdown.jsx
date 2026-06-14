@@ -2,7 +2,7 @@ import './SortDropdown.css'
 
 function SortDropdown( {sortBy, onChange, options} ) {
     return (
-        <div className="sort-container">
+        <div className="sort-dropdown-container">
             <label>Sort:</label>
 
             <select value={sortBy} onChange={onChange}>
