@@ -493,6 +493,9 @@ PASSWORD:
     - Added input with toggle for password to Login and Signup forms, and removed max length handler functions.
 - Password Encryption:
     Added password encryption using bcrypt on server.
+- Sorting:
+    - Created sort dropdown component.
+    - Implemented sorting logic and added option to Store to sort games.
 
 What I learned today:
 - Input fields have prop "type" that we can set to "password" instead of "text", which automatically masks the password.
@@ -514,3 +517,8 @@ What I learned today:
     - Salt makes each password unique, even if they are the same.
         For eg. If 2 people sign up with password "123", their salt will be different, which make their hashes different.
         This reduces risks of attacks.
+- CSS:
+    - "width: fit-content" makes component width only as wide as its content.
+    - We can use variables in CSS as follows:
+        For eg. Define in some element, --bg-color: red
+        Access it in child element using background-color: var(--bg-color)

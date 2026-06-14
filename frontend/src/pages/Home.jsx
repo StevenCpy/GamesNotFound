@@ -33,7 +33,7 @@ function Home() {
             <div>
                 <h2 className="header-title text-red">CURRENT FEATURES:</h2>
                 <ul>
-                    <li><span className="text-green">Auth:</span> Register, Login, and persistent login using JWT authentication</li>
+                    <li><span className="text-green">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green">STORE:</span> Browse games written in JS</li>
                     <li><span className="text-green">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
                     <li><span className="text-green">PLAYABLE GAMES:</span> Play game from the Store by clicking on "Play"<br />
@@ -47,7 +47,7 @@ function Home() {
                 <h2 className="header-title text-red">UPCOMING FEATURES AND IMPROVEMENTS:</h2>
                 <ul>
                     <li>
-                        <span className="text-green">Password Security: </span> Password encryption in database and
+                        <span className="text-green">✅Password Security: </span> Password encryption in database and
                         password masking & toggle when typing password
                     </li>
                     <li>
