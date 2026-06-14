@@ -5,6 +5,9 @@ import './styling/Auth.css'
 // contexts
 import { AuthContext } from '../components/contexts/AuthContext'
 
+// components
+import InputWithToggle from "../components/forms/InputWithToggle"
+
 // utils
 import devLog from "../../utils/logging/logging"
 
@@ -97,11 +100,11 @@ function Signup() {
                 onChange={(e) => setEmail(e.target.value)}
             /> */}
             <label>Password:</label>
-            <input
+            <InputWithToggle
                 type="password"
                 value={password}
                 maxLength={PASSWORD_MAX_LENGTH}
-                onChange={(e) => setPassword(e.target.value)}
+                setValue={setPassword}
             />
             {/* show this text only if username or password is blank */}
             {!(username && password) && <p className="text-fail">Fill in all fields!</p>}
