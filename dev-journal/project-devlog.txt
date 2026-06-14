@@ -493,6 +493,12 @@ PASSWORD:
     - Added input with toggle for password to Login and Signup forms, and removed max length handler functions.
 - Password Encryption:
     Added password encryption using bcrypt on server.
+- Sorting:
+    - Created sort dropdown component.
+    - Implemented sorting logic and added option to Store to sort games.
+- Game search bar:
+    - Created search bar component.
+    - Implemented game search logic and added option to Store to search games.
 
 What I learned today:
 - Input fields have prop "type" that we can set to "password" instead of "text", which automatically masks the password.
@@ -509,8 +515,13 @@ What I learned today:
     - Encode password to bytes.
     - Add salt (which is basically noise).
     - Encrypt using bcrypt.hashpw(bytes, salt).
-    - To compare password, first decode input password and use bcrypt.checkpw(input_bytes, hash).
-        bcrypt extracts salt from hash, then uses it to encrypt input_bytes, then compares the result to hash.\
+    - To compare password, first encode input password to input_bytes and use bcrypt.checkpw(input_bytes, hash).
+        bcrypt extracts salt from hash, then uses it to encrypt input_bytes, then compares the result to hash.
     - Salt makes each password unique, even if they are the same.
         For eg. If 2 people sign up with password "123", their salt will be different, which make their hashes different.
         This reduces risks of attacks.
+- CSS:
+    - "width: fit-content" makes component width only as wide as its content.
+    - We can use variables in CSS as follows:
+        For eg. Define in some element, --bg-color: red
+        Access it in child element using background-color: var(--bg-color)

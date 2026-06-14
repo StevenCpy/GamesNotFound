@@ -33,13 +33,15 @@ function Home() {
             <div>
                 <h2 className="header-title text-red">CURRENT FEATURES:</h2>
                 <ul>
-                    <li><span className="text-green">Auth:</span> Register, Login, and persistent login using JWT authentication</li>
+                    <li><span className="text-green">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green">STORE:</span> Browse games written in JS</li>
                     <li><span className="text-green">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
                     <li><span className="text-green">PLAYABLE GAMES:</span> Play game from the Store by clicking on "Play"<br />
                         (Hit the Target is currently the only game but more to come!)
                     </li>
                     <li><span className="text-green">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
+                    <li><span className="text-green">STORE SORTING:</span> Sort games by ID or name</li>
+                    <li><span className="text-green">GAME SEARCHING:</span> Search games by name</li>
                 </ul>
             </div>
 
@@ -47,19 +49,19 @@ function Home() {
                 <h2 className="header-title text-red">UPCOMING FEATURES AND IMPROVEMENTS:</h2>
                 <ul>
                     <li>
-                        <span className="text-green">Password Security: </span> Password encryption in database and
+                        <span className="text-green">✅Password Security:</span> Password encryption in database and
                         password masking & toggle when typing password
                     </li>
                     <li>
-                        <span className="text-green">JWT Security: </span> JWT token expiration and 
+                        <span className="text-green">JWT Security:</span> JWT token expiration and 
                         switching to HTTPOnly cookie JWT authentication
                     </li>
 
-                    <li><span className="text-green">Even more Security: </span> Better protected routes for restricted resources</li>
-                    <li><span className="text-green">UI: </span> Dark mode and Profile page overhaul</li>
-                    <li><span className="text-green">UX: </span> Sorting games in Store & Library, and search bar</li>
-                    <li><span className="text-green">Feature: </span> Leaderboard system to compete with others!</li>
-                    <li><span className="text-green">UI: </span> Complete overhaul of the site's layout</li>
+                    <li><span className="text-green">Even more Security:</span> Better protected routes for restricted resources</li>
+                    <li><span className="text-green">UI:</span> Dark mode and Profile page overhaul</li>
+                    <li><span className="text-green">✅UX:</span> Sorting games in Store & Library, and search bar</li>
+                    <li><span className="text-green">Feature:</span> Leaderboard system to compete with others!</li>
+                    <li><span className="text-green">UI:</span> Complete overhaul of the site's layout</li>
                 </ul>
             </div>
 

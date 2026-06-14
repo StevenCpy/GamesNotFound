@@ -1,3 +1,23 @@
+#store-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#store-search-bar-container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: right;
+    gap: 1rem;
+
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    border: 3px solid lightblue;
+    border-radius: 0.7rem;
+    background-color: #232730;
+}
+
 #store-list {
     display: flex;
     flex-direction: column;

@@ -23,8 +23,47 @@ export function StoreProvider( {children} ) {
         return response_json
     }
 
+    // sort function, ascending order relative to field
+    function sortAscFn(a, b, field) {
+        if (typeof storeList[0][field] === "string") {
+            return a[field].localeCompare(b[field])
+        } else {
+            if (a[field] < b[field]) {
+                return -1
+            } else if (a[field] > b[field]) {
+                return 1
+            }
+            return 0
+        }
+    }
+
+    // sort function, descending order relative to field
+    function sortDescFn(a, b, field) {
+        if (typeof storeList[0][field] === "string") {
+            return b[field].localeCompare(a[field])
+        } else {
+            if (a[field] > b[field]) {
+                return -1
+            } else if (a[field] < b[field]) {
+                return 1
+            }
+            return 0
+        } 
+    }
+
+    function sortStoreList(fieldToSortBy, asc) {
+        const storeListSorted = [...storeList] // copy list
+
+        if (asc) {
+            storeListSorted.sort((a,b) => sortAscFn(a,b,fieldToSortBy))
+        } else {
+            storeListSorted.sort((a,b) => sortDescFn(a,b,fieldToSortBy))
+        }
+        setStoreList(storeListSorted)  
+    }
+
     return (
-        <StoreContext value={{ storeList, loadStore }}>
+        <StoreContext value={{ storeList, loadStore, sortStoreList }}>
             {children}
         </StoreContext>
     )
