@@ -117,7 +117,7 @@ JS: `This is ${var1}`
 - CONTEXT
 -- Using contexts prevents prop-drilling.
 -- Pass values to context eg. <AuthContext value = {{ currentUser, setCurrentUser }}> </AuthContext>
-Extracting specific variable is possible (Selective object destructuring) eg. const setCurrentUser = useContext(AuthContext).
+-- Extracting specific variable is possible (Selective object destructuring) eg. const setCurrentUser = useContext(AuthContext).
 
 DAY 13
 - Created Profile page.
@@ -467,6 +467,7 @@ DAY 27:
 - Created LoadingContext and loading page to indicate that resources are being fetched.  This makes UI smoother instead of
     for eg. showing an empty Library while Library games list is still being fetched.
 - Added delays to allow time for Store & Library resources to load.
+- Modified game cards to use cover image URL to display game cover image.
 
 What I learned today:
 - Bad practice to store components inside state, even if possible.
@@ -482,3 +483,34 @@ What I learned today:
     For eg. assume we have "async function delay() { await promise_fn() }".  Running:
     delay(); doSomething();
     runs delay then runs doSomething() immediately after, it doesn't wait for delay() to finish.
+
+DAY 28:
+PASSWORD:
+- Password validation:
+    Switched from looping through password to regex for enforcing password validity rules.
+- Password masking:
+    - Created input with toggle reusable component for passwords, to show/hide password.
+    - Added input with toggle for password to Login and Signup forms, and removed max length handler functions.
+- Password Encryption:
+    Added password encryption using bcrypt on server.
+
+What I learned today:
+- Input fields have prop "type" that we can set to "password" instead of "text", which automatically masks the password.
+    So no need to implement password masking algorithms.
+- Input fields also have a prop "maxLength" that limits the input length, so no need to create a handler
+    specifically to enforce for eg. max username length.
+- Object Initialization shorthand:
+    Say we have "const var1 = "foo"", { var1 } is the same as { var1: "foo" }.
+- Spread operation "..." can be used to destructure object into props.
+    For eg. "<Component {...{prop1, prop2}} />" is the same as "<Component prop1={prop1} prop2={prop2} />".
+    The outer "{}" means that it's jsx logic.  "{prop1, prop2}" is shorthand object initialization.
+    "..." means turn that object into props.
+- To encrypt password using bcrypt:
+    - Encode password to bytes.
+    - Add salt (which is basically noise).
+    - Encrypt using bcrypt.hashpw(bytes, salt).
+    - To compare password, first decode input password and use bcrypt.checkpw(input_bytes, hash).
+        bcrypt extracts salt from hash, then uses it to encrypt input_bytes, then compares the result to hash.\
+    - Salt makes each password unique, even if they are the same.
+        For eg. If 2 people sign up with password "123", their salt will be different, which make their hashes different.
+        This reduces risks of attacks.
