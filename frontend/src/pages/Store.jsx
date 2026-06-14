@@ -8,6 +8,7 @@ import { HighscoreContext } from "../components/contexts/HighscoreContext"
 // components
 import StoreGameCard from "../components/StoreGameCard"
 import SortDropdown from "../components/controls/SortDropdown"
+import SearchBar from "../components/controls/searchBar"
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -20,6 +21,7 @@ function Store() {
     const { getHighScore } = useContext(HighscoreContext)
 
     const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "Default")
+    const [searchStr, setSearchStr] = useState("")
 
     // to display sort options on UI
     const sortOptions = useMemo(() => [{value: "Default", label: "Default"},
@@ -43,7 +45,8 @@ function Store() {
 
     return (
         <div id="store-container">
-            <div id="store-search-bar">
+            <div id="store-search-bar-container">
+                <SearchBar setSearchStr={setSearchStr} />
                 <SortDropdown sortBy={sortBy}
                                 onChange={(e) => {
                                     setSortBy(e.target.value)
