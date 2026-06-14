@@ -7,9 +7,10 @@ from typing import Annotated
 from ..supabase_client import supabase_client, USERS_TABLE
 
 # utils
-from utils.logging import dev_log, dev_error, dev_error_database
 from ..status_message import status_success, status_fail
-from .utils import encode_HS256, decode_payload_HS256
+from utils.logging import dev_log, dev_error, dev_error_database
+from utils.encryption.jwt_encryption import encode_HS256, decode_payload_HS256
+from utils.encryption.password_encryption import hash_password, check_password
 
 router = APIRouter(
     prefix="/auth"
@@ -46,7 +47,7 @@ async def signup(auth: Auth):
             # insert username and password into table
             supabase_client.table(USERS_TABLE).insert({
                 "username": username,
-                "password": auth.password
+                "password_hash_str": hash_password(auth.password).decode('utf-8')
             }).execute()
 
             dev_log(endpoint, f"User '{username}' signed up")
@@ -69,15 +70,15 @@ async def login(auth: Auth):
         # query database for user's actual password
         response = (
             supabase_client.table(USERS_TABLE)
-            .select("password")
+            .select("password_hash_str")
             .eq("username",username)
             .execute()
         )
         # if user exists in database
         if len(response.data):
-            db_password = response.data[0]["password"]
+            db_password_hash = response.data[0]["password_hash_str"].encode('utf-8')
             # if password matches the one in database
-            if db_password == auth.password:
+            if check_password(db_password_hash, auth.password):
                 dev_log(endpoint, f"User '{username}' logged in")
 
                 # encode payload

@@ -2,8 +2,8 @@
 from fastapi import APIRouter
 
 # utils
-from utils.logging import dev_log
 from ..status_message import status_success
+from utils.logging import dev_log
 
 router = APIRouter()
 

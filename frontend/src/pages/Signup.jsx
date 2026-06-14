@@ -5,6 +5,9 @@ import './styling/Auth.css'
 // contexts
 import { AuthContext } from '../components/contexts/AuthContext'
 
+// components
+import InputWithToggle from "../components/forms/InputWithToggle"
+
 // utils
 import devLog from "../../utils/logging/logging"
 
@@ -19,42 +22,20 @@ function Signup() {
     const [warning, setWarning] = useState(null)
     const { signupServer } = useContext(AuthContext)
     
-    const usernameMaxLength = 30
-    //const emailMaxLength = 320
-    const passwordMaxLength = 128
+    const USERNAME_MAX_LENGTH = 10
+    //const EMAIL_MAX_LENGTH = 320
+    const PASSWORD_MAX_LENGTH = 128
     const INVALID_PASSWORD_WARNING = "Invalid password"
-
-    function handleField(e, setField, fieldMaxLength) {
-        if (e.target.value.length < fieldMaxLength) {
-            setField(e.target.value)
-        }
-    }
 
     // check if password follows rules
     function passwordIsValid(password) {
         devLog(COMPONENT, "passwordIsValid() called")
-        let hasLowercase = false
-        let hasUppercase = false
-        let hasNumber = false
-        let hasSpecial = false
+        const lowercaseRe = /[a-z]+/
+        const uppercaseRe = /[A-Z]+/
+        const digitRe = /\d+/
+        const specialCharRe = /[!@#$%^&*()]+/
 
-        const special_chars = ['!', '@']
-
-        for (let i = 0; i < password.length; i++) {
-            if ('a' <= password[i] && password[i] <= 'z') {
-                hasLowercase = true
-            } else if ('A' <= password[i] && password[i] <= 'Z') {
-                hasUppercase = true
-            } else if ('0' <= password[i] && password[i] <= '9') {
-                hasNumber = true
-            } else if (special_chars.includes(password[i])) {
-                hasSpecial = true
-            } else {
-                return false
-            }
-            // do not stop loop early even if all conditions true, as we need to check for invalid characters
-        }
-        return (hasLowercase && hasUppercase && hasNumber && hasSpecial)
+        return (lowercaseRe.test(password) && uppercaseRe.test(password) && digitRe.test(password) && specialCharRe.test(password))
     }
 
     function WarningMessage({ message }) {
@@ -108,19 +89,22 @@ function Signup() {
             <input
                 type="text"
                 value={username}
-                onChange={(e) => handleField(e, setUsername, usernameMaxLength)}
+                maxLength={USERNAME_MAX_LENGTH}
+                onChange={(e) => setUsername(e.target.value)}
             />
             {/* <label>Email:</label>
             <input
                 type="text"
                 value={email}
-                onChange={(e) => handleField(e, setEmail, emailMaxLength)}
+                maxLength={EMAIL_MAX_LENGTH}
+                onChange={(e) => setEmail(e.target.value)}
             /> */}
             <label>Password:</label>
-            <input
-                type="text"
+            <InputWithToggle
+                type="password"
                 value={password}
-                onChange={(e) => handleField(e, setPassword, passwordMaxLength)}
+                maxLength={PASSWORD_MAX_LENGTH}
+                setValue={setPassword}
             />
             {/* show this text only if username or password is blank */}
             {!(username && password) && <p className="text-fail">Fill in all fields!</p>}

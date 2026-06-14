@@ -1,1 +1,3 @@
-/library endpoints now uses JWT tokens to authenticate instead of username.
+- /library endpoints now use JWT tokens to authenticate instead of username.
+- Created /score endpoints for high scores.
+- /login and /signup endpoints now use bcrypt-encrypted password.

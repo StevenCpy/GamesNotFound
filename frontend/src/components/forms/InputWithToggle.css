@@ -1,0 +1,10 @@
+#input-with-toggle-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#toggle-and-text {
+   display: flex;
+   flex-direction: row;
+   gap: 0.5rem;
+}

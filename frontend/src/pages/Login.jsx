@@ -3,7 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import './styling/Auth.css'
 
 // contexts
-import { AuthContext } from '../components/contexts/AuthContext'
+import { AuthContext } from "../components/contexts/AuthContext"
+
+// components
+import InputWithToggle from "../components/forms/InputWithToggle"
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -41,10 +44,10 @@ function Login() {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <label>Password:</label>
-            <input
-                type="text"
+            <InputWithToggle
+                type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                setValue={setPassword}
             />
             <button disabled={!(username && password)} onClick={ handleLogin }>Login</button>
             <span>
