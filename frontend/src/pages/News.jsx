@@ -60,7 +60,8 @@ function News() {
                 <li> Password masking + Show/Hide password toggle in Signup/Login forms, and server-side password encryption.</li>
 
                 <h2 className="header-title text-green">JUNE 14, 2026</h2>
-                <li> Sorting dropdown on Store page to sort games, preference saved on browser.</li>
+                <li> Sorting dropdown on Store page to sort games by ID or name, preference saved on browser.</li>
+                <li> Game search on Store page to search games by name.</li>
 
             </ul>
         </div>

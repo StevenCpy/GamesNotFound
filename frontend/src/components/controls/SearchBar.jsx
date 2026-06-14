@@ -6,9 +6,9 @@ function SearchBar( {setSearchStr} ) {
 
     return (
         <form onSubmit={(e) => {e.preventDefault(); setSearchStr(value)}} className="search-bar">
-            <label>Search:</label>
             <input 
                 type="text"
+                placeholder="Search a game..."
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
             />

@@ -6,12 +6,14 @@ Personal project, definitely not a knock-off of Steam
 
 <b>CURRENT FEATURES:</b>
 <ul>
-    <li><b>Auth:</b> Register, Login, and persistent login using JWT authentication</li>
+    <li><b>AUTH:</b> Register, Login, and persistent login using JWT authentication</li>
     <li><b>STORE:</b> Browse games written in JS</li>
     <li><b>LIBRARY SYSTEM:</b> Add & remove games from Library</li>
     <li><b>PLAYABLE GAMES:</b> Play game from the Store by clicking on "Play"
             (Hit the Target is currently the only game but more to come!)</li>
     <li><b>HIGH SCORE SYSTEM:</b> Your best score for each game is saved</li>
+    <li><b>STORE SORTING:</b> Sort games by ID or name</li>
+    <li><b>GAME SEARCHING:</b> Search games by name</li>
 </ul>
 
 See "dev-journal/" if you're interested to see my notes and progress during development.<br>
