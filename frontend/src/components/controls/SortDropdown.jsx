@@ -1,4 +1,4 @@
-import './SearchBar.css'
+import './SortDropdown.css'
 
 function SortDropdown( {sortBy, onChange, options} ) {
     return (

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import './styling/Store.css'
 
 // contexts
@@ -7,7 +7,7 @@ import { HighscoreContext } from "../components/contexts/HighscoreContext"
 
 // components
 import StoreGameCard from "../components/StoreGameCard"
-import SortDropdown from "../components/controls/searchBar"
+import SortDropdown from "../components/controls/SortDropdown"
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -16,14 +16,30 @@ const COMPONENT = "Store"
 
 function Store() {
     devLog(COMPONENT, "Store() called")
-    const { storeList } = useContext(StoreContext)
+    const { storeList, sortStoreList } = useContext(StoreContext)
     const { getHighScore } = useContext(HighscoreContext)
 
-    const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "default")
+    const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "Default")
 
-    const sortOptions = useMemo(() => [{value: "default", label: "Default"},
+    // to display sort options on UI
+    const sortOptions = useMemo(() => [{value: "Default", label: "Default"},
                                         {value: "NameAsc", label: "Name (Ascending)"},
                                         {value: "NameDesc", label: "Name (Descending)"}])
+    
+    // to check which field to sort by
+    const values = {Default: {field: "gameID", asc: true},
+                    NameAsc: {field: "name", asc: true},
+                    NameDesc: {field: "name", asc: false}}
+
+
+    useEffect(() => {
+        const fieldToSortBy = values[sortBy].field
+        const asc = values[sortBy].asc
+
+        console.log("Store", fieldToSortBy, asc)
+
+        sortStoreList(fieldToSortBy, asc)
+    }, [sortBy])
 
     return (
         <div id="store-container">
