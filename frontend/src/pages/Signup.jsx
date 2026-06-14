@@ -42,13 +42,13 @@ function Signup() {
     function WarningMessage({ message }) {
         return (
             (message == INVALID_PASSWORD_WARNING) ?
-                <ul className="text-fail"> Password must contain at least
+                <ul className="text-red"> Password must contain at least
                     <li>a lowercase letter.</li>
                     <li>an uppercase letter.</li>
                     <li>a number.</li>
                     <li>a special character: !, @.</li>
                 </ul>
-                : <p className="text-fail">{message}</p>
+                : <p className="text-red">{message}</p>
         )
     }
 
@@ -78,7 +78,7 @@ function Signup() {
 
     return (
         <form id="auth-form">
-            <p className="text-success">Passwords are encrypted so even I cannot see them in the database!</p>
+            <p className="text-green">Passwords are encrypted so even I cannot see them in the database!</p>
             <h3 className="header-title">SIGN UP</h3>
 
             <label>Username:</label>
@@ -103,14 +103,14 @@ function Signup() {
                 setValue={setPassword}
             />
             {/* show this text only if username or password is blank */}
-            {!(username && password) && <p className="text-fail">Fill in all fields!</p>}
+            {!(username && password) && <p className="text-red">Fill in all fields!</p>}
             <button disabled={!(username && password)} onClick={handleSignUp}>Sign up</button>
             <div>
                 Already have an account?{" "}
                 <Link to="/login">Login</Link>
             </div>
             {signedUp ?
-                <p className="text-success">Signed up successfully.  You can now login!</p>
+                <p className="text-green">Signed up successfully.  You can now login!</p>
                 : <WarningMessage message={warning} />
             }
         </form>

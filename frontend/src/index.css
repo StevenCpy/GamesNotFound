@@ -27,28 +27,33 @@ body {
 }
 
 /* texts */
-p {
+p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    font-size: clamp(0.7rem, 2vw, 1rem);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    font-weight: bold;
+p {
+    font-size: clamp(0.7rem, 2vw, 1rem);
 }
 
 .header-title {
     text-align: center;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+ul {
+    padding: 0;
+}
+
+/* text colors */
 .text-green {
     color: green;
-    font-weight: bold;
 }
 
 .text-red {
     color: red;
-    font-weight: bold;
 }
 
 /* buttons */

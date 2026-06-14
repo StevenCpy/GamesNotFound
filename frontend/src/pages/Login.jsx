@@ -56,7 +56,7 @@ function Login() {
                 Don't have an account?{" "}
                 <Link to="/signup">Sign up</Link>
             </span>
-            {loginError && <p className="text-fail">Incorrect username or password!  Please try again.</p>}
+            {loginError && <p className="text-red">Incorrect username or password!  Please try again.</p>}
         </form>
     )
 }

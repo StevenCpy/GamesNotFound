@@ -10,11 +10,3 @@
     border: var(--border);
     background-color: var(--primary-bg-color);
 }
-
-.text-success {
-    color: green;
-}
-
-.text-fail {
-    color: red;
-}

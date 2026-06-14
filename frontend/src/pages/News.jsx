@@ -19,13 +19,13 @@ function ComparisonContainer({ src1, alt1, src2, alt2 }) {
 function News() {
     return (
         <div id="news-page">
-            <h1> What's NEW! </h1>
+            <h1 className="header-title text-green"> What's NEW! </h1>
             <ul className="ul-dash">
                 <h2 className="header-title text-green">JUNE 3, 2026</h2>
                 <li> Created "What's NEW" page to share new features and changelogs. </li>
                 <li>
                     Created first game called "Hit the Target".{" "}
-                    <Link className="text-green" to="/games/HitTheTarget">Quick link to game</Link>
+                    <Link className="text-green" to="/games/HitTheTarget">Link to game</Link>
                 </li>
                 <li>
                     Improved site layout.<br />
