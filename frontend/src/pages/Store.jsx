@@ -8,7 +8,7 @@ import { HighscoreContext } from "../components/contexts/HighscoreContext"
 // components
 import StoreGameCard from "../components/StoreGameCard"
 import SortDropdown from "../components/controls/SortDropdown"
-import SearchBar from "../components/controls/searchBar"
+import SearchBar from "../components/controls/SearchBar"
 
 // utils
 import devLog from "../../utils/logging/logging"
