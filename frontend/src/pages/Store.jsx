@@ -34,14 +34,18 @@ function Store() {
                     NameDesc: {field: "name", asc: false}}
 
 
+    // re-render when new sorting option chosen
     useEffect(() => {
         const fieldToSortBy = values[sortBy].field
         const asc = values[sortBy].asc
 
-        console.log("Store", fieldToSortBy, asc)
-
         sortStoreList(fieldToSortBy, asc)
     }, [sortBy])
+
+    const searchedStoreList = useMemo(() => {
+        const regex = new RegExp(`^${searchStr}`) // game name should start with searchStr
+        return [...storeList].filter(game => regex.test(game.name))
+    }, [searchStr, storeList])
 
     return (
         <div id="store-container">
@@ -56,7 +60,7 @@ function Store() {
             </div>
         
             <div id="store-list">
-                {storeList.map(game => {
+                {searchedStoreList.map(game => {
                     const highScore = getHighScore(game.gameID)
                     
                     return (
