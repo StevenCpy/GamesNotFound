@@ -19,7 +19,7 @@ function Store() {
     const { storeList } = useContext(StoreContext)
     const { getHighScore } = useContext(HighscoreContext)
 
-    const [sortBy, setSortBy] = useState("default")
+    const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "default")
 
     const sortOptions = useMemo(() => [{value: "default", label: "Default"},
                                         {value: "NameAsc", label: "Name (Ascending)"},
@@ -28,7 +28,12 @@ function Store() {
     return (
         <div id="store-container">
             <div id="store-search-bar">
-                <SortDropdown sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} />
+                <SortDropdown sortBy={sortBy}
+                                onChange={(e) => {
+                                    setSortBy(e.target.value)
+                                    localStorage.setItem("sortBy", e.target.value) // save "Sort By" preference
+                                }}
+                                options={sortOptions} />
             </div>
         
             <div id="store-list">

@@ -1,14 +1,14 @@
 import './SearchBar.css'
 
-function SortDropdown( {sortBy, setSortBy, options} ) {
+function SortDropdown( {sortBy, onChange, options} ) {
     return (
         <div className="sort-container">
             <label>Sort:</label>
 
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <select value={sortBy} onChange={onChange}>
                 <option disabled>SORT BY</option>
                 {options.map(option => 
-                    <option value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value}>{option.label}</option>
                 )}
             </select>
         </div>
