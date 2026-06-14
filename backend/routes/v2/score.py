@@ -10,9 +10,9 @@ from ..supabase_client import supabase_client, SCORE_TABLE
 from datetime import datetime, timezone
 
 # utils
-from utils.logging import dev_log, dev_error, dev_error_database
 from ..status_message import status_success, status_fail
-from .utils import decode_payload_HS256
+from utils.logging import dev_log, dev_error, dev_error_database
+from utils.encryption.jwt_encryption import decode_payload_HS256
 
 router = APIRouter(
     prefix="/score"
