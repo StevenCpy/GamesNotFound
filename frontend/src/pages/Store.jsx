@@ -40,10 +40,10 @@ function Store() {
         const asc = values[sortBy].asc
 
         sortStoreList(fieldToSortBy, asc)
-    }, [sortBy])
+    }, [sortBy, storeList])
 
     const searchedStoreList = useMemo(() => {
-        const regex = new RegExp(searchStr.toUpperCase()) // game name should start with searchStr
+        const regex = new RegExp(searchStr.toUpperCase()) // create new regex for searchStr, searchStr can be anywhere within game name
         return [...storeList].filter(game => regex.test(game.name.toUpperCase()))
     }, [searchStr, storeList])
 

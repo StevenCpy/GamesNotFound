@@ -24,7 +24,7 @@ function App() {
     const { loadStore } = useContext(StoreContext)
     const { loadLibrary, clearLibrary } = useContext(LibraryContext)
     const { loadHighScores, clearHighScores } = useContext(HighscoreContext)
-    const { isLoading, startLoadingScreen, stopLoadingScreen } = useContext(LoadingContext)
+    const { startLoadingScreen, stopLoadingScreen } = useContext(LoadingContext)
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")
@@ -41,7 +41,7 @@ function App() {
             }
         }
 
-        const DELAY = 2000
+        const DELAY = 1500
         async function initLoggedOut() {
             loadStore()
             clearLibrary()

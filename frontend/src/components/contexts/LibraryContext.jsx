@@ -37,7 +37,7 @@ export function LibraryProvider( {children} ) {
         setLibraryList([])
     }
 
-    // add gameID to library using optimistic update
+    // add gameID to library using pessimistic update
     async function handleAddToLibrary(gameID) {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
@@ -62,7 +62,7 @@ export function LibraryProvider( {children} ) {
         }
     }
 
-    // remove gameID from library using optimistic update
+    // remove gameID from library using pessimistic update
     async function handleRemoveFromLibrary(gameID) {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
