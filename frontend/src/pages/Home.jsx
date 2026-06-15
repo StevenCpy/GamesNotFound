@@ -4,6 +4,9 @@ import './styling/Home.css'
 // contexts
 import { AuthContext } from "../components/contexts/AuthContext"
 
+// components
+import Section from "../components/texts/Section"
+
 // utils
 import devLog from "../../utils/logging/logging"
 
@@ -19,51 +22,48 @@ function Home() {
                 {currentUser && <h1>Welcome back, {currentUser}!</h1>}
                 <p>
                     Welcome to GamesNotFound!<br />
-                    This platform allows users to play games on the browser.<br />
-                    It is still under development.  Feel free to message me if you find any issues.
+                    This platform allows users to play browser games and is currently under development.<br />
                 </p>
-                
+                <br />
                 <p>
+                    Feel free to message me if you find any issues.<br />
                     Thank you,<br />
                     Steven
                 </p>
             </div>
-            
 
-            <div>
-                <h2 className="header-title text-red">CURRENT FEATURES:</h2>
+            <Section title="CURRENT FEATURES:">
                 <ul>
-                    <li><span className="text-green">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
-                    <li><span className="text-green">STORE:</span> Browse games written in JS</li>
-                    <li><span className="text-green">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
-                    <li><span className="text-green">PLAYABLE GAMES:</span> Play game from the Store by clicking on "Play"<br />
+                    <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
+                    <li><span className="text-green bold">STORE:</span> Browse games written in JS</li>
+                    <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
+                    <li><span className="text-green bold">PLAYABLE GAMES:</span> Play game from the Store by clicking on "Play"<br />
                         (Hit the Target is currently the only game but more to come!)
                     </li>
-                    <li><span className="text-green">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
-                    <li><span className="text-green">STORE SORTING:</span> Sort games by ID or name</li>
-                    <li><span className="text-green">GAME SEARCHING:</span> Search games by name</li>
+                    <li><span className="text-green bold">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
+                    <li><span className="text-green bold">STORE SORTING:</span> Sort games by ID or name</li>
+                    <li><span className="text-green bold">GAME SEARCHING:</span> Search games by name</li>
                 </ul>
-            </div>
+            </Section>
 
-            <div>
-                <h2 className="header-title text-red">UPCOMING FEATURES AND IMPROVEMENTS:</h2>
+            <Section title="UPCOMING FEATURES AND IMPROVEMENTS:">
                 <ul>
                     <li>
-                        <span className="text-green">✅Password Security:</span> Password encryption in database and
+                        <span className="text-green bold">✅Password Security:</span> Password encryption in database and
                         password masking & toggle when typing password
                     </li>
                     <li>
-                        <span className="text-green">JWT Security:</span> JWT token expiration and 
+                        <span className="text-green bold">JWT Security:</span> JWT token expiration and 
                         switching to HTTPOnly cookie JWT authentication
                     </li>
 
-                    <li><span className="text-green">Even more Security:</span> Better protected routes for restricted resources</li>
-                    <li><span className="text-green">UI:</span> Dark mode and Profile page overhaul</li>
-                    <li><span className="text-green">✅UX:</span> Sorting games in Store & Library, and search bar</li>
-                    <li><span className="text-green">Feature:</span> Leaderboard system to compete with others!</li>
-                    <li><span className="text-green">UI:</span> Complete overhaul of the site's layout</li>
+                    <li><span className="text-green bold">Even more Security:</span> Better protected routes for restricted resources</li>
+                    <li><span className="text-green bold">UI:</span> Dark mode and Profile page overhaul</li>
+                    <li><span className="text-green bold">✅UX:</span> Sorting games in Store & Library, and search bar</li>
+                    <li><span className="text-green bold">Feature:</span> Leaderboard system to compete with others!</li>
+                    <li><span className="text-green bold">UI:</span> Complete overhaul of the site's layout</li>
                 </ul>
-            </div>
+            </Section>
 
         </div>
     )

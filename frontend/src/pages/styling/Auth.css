@@ -1,23 +1,12 @@
 #auth-form {
     width: 15rem;
-    height: 20rem;
+    height: fit-content;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-}
+    margin: auto;
+    padding: 2rem;
+    border-radius: 2rem;
 
-#auth-form h3 {
-    text-align: center;
-}
-
-#auth-form p {
-    margin: 0;
-}
-
-.text-success {
-    color: green;
-}
-
-.text-fail {
-    color: red;
+    border: var(--border);
+    background-color: var(--primary-bg-color);
 }

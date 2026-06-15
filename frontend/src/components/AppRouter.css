@@ -1,6 +1,6 @@
 #page-container {
     flex: 1;
     padding: 3rem clamp(1rem, 5vw, 6rem);
-    background-color: #242424;
+    background-color: var(--secondary-bg-color);
     border-radius: 2rem;
 }

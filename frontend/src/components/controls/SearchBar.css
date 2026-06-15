@@ -1,15 +1,26 @@
-.search-bar {
+.search-bar-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     
     min-width: 0;
     flex: 1;
+
+    --hover-outline: 1px solid grey;
+    --focus-outline: 1px solid lightgrey;
 }
 
-.search-bar input {
+.search-bar-container input {
     padding: 0.2rem 0.5rem;
-    border: 0;
-    background-color: #242424;
-    outline: none;
+    border-radius: 1rem;
+    border-color: transparent;
+    outline: transparent;
+}
+ 
+.search-bar-container input:hover {
+    outline: var(--hover-outline);
+}
+
+.search-bar-container input:focus {
+    outline: var(--focus-outline);
 }

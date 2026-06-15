@@ -49,7 +49,7 @@ function Store() {
 
     return (
         <div id="store-container">
-            <div id="store-search-bar-container">
+            <div id="store-sort-and-search-bar-container">
                 <SearchBar setSearchStr={setSearchStr} />
                 <SortDropdown sortBy={sortBy}
                                 onChange={(e) => {

@@ -5,7 +5,7 @@ function SearchBar( {setSearchStr} ) {
     const [value, setValue] = useState("")
 
     return (
-        <form onSubmit={(e) => {e.preventDefault(); setSearchStr(value)}} className="search-bar">
+        <form onSubmit={(e) => {e.preventDefault(); setSearchStr(value)}} className="search-bar-container">
             <input 
                 type="text"
                 placeholder="Search a game..."

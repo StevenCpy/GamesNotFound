@@ -525,3 +525,6 @@ What I learned today:
     - We can use variables in CSS as follows:
         For eg. Define in some element, --bg-color: red
         Access it in child element using background-color: var(--bg-color)
+
+DAY 29:
+- Site CSS layout improvements.
