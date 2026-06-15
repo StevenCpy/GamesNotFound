@@ -1,14 +1,8 @@
 import { Link } from 'react-router-dom'
 import './styling/News.css'
 
-function Section( {title, children} ) {
-    return (
-        <p>
-            <h2 className="header-title text-green">{title}</h2>
-            {children}
-        </p>
-    )
-}
+// components
+import Section from "../components/texts/Section"
 
 function ComparisonContainer({ src1, alt1, src2, alt2 }) {
     return (
@@ -39,8 +33,8 @@ function News() {
                     <li>
                         Improved site layout.<br />
                         <ComparisonContainer
-                            src1={`/news-images/Old Store layout.png`} alt1="Old Store layout"
-                            src2={`/news-images/New Store layout.png`} alt2="New Store layout"
+                            src1={`/news-images/Store page Old.png`} alt1="Store page Old"
+                            src2={`/news-images/Store page New.png`} alt2="Store page New"
                         />
                     </li>
                 </Section>
@@ -77,6 +71,17 @@ function News() {
                 <Section title="JUNE 14, 2026">
                     <li> Sorting dropdown on Store page to sort games by ID or name, preference saved on browser.</li>
                     <li> Game search on Store page to search games by name.</li>
+                    <li> Site UI improvements.</li>
+                    <h2 className="header-title text-green">Signup form</h2>
+                    <ComparisonContainer
+                        src1={`/news-images/Signup form Old.png`} alt1="Signup form Old"
+                        src2={`/news-images/Signup form New.png`} alt2="Signup form New"
+                    />
+                    <h2 className="header-title text-green">News page</h2>
+                    <ComparisonContainer
+                        src1={`/news-images/News page Old.png`} alt1="News page Old"
+                        src2={`/news-images/News page New.png`} alt2="News page New"
+                    />
                 </Section>
 
             </ul>

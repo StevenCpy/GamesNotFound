@@ -1,9 +1,12 @@
 #news-list {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-    border-radius: 2rem;
     gap: 1rem;
+}
+
+#news-list .section {
+    padding: 1rem 2rem;
+    border-radius: 1rem;
 
     border: var(--border);
     background-color: var(--primary-bg-color);

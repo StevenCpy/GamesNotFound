@@ -11,6 +11,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    font-size: clamp(0.7rem, 2vw, 1rem);
+
     --primary-bg-color: #232730;
     --secondary-bg-color: #242424;
     --tertiary-bg-color: #1a1919;
@@ -30,10 +32,6 @@ body {
 /* texts */
 p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
-}
-
-p {
-    font-size: clamp(0.7rem, 2vw, 1rem);
 }
 
 .header-title {

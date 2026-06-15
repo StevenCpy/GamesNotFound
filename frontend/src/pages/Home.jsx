@@ -4,6 +4,9 @@ import './styling/Home.css'
 // contexts
 import { AuthContext } from "../components/contexts/AuthContext"
 
+// components
+import Section from "../components/texts/Section"
+
 // utils
 import devLog from "../../utils/logging/logging"
 
@@ -19,19 +22,17 @@ function Home() {
                 {currentUser && <h1>Welcome back, {currentUser}!</h1>}
                 <p>
                     Welcome to GamesNotFound!<br />
-                    This platform allows users to play games on the browser.<br />
-                    It is still under development.  Feel free to message me if you find any issues.
+                    This platform allows users to play browser games and is currently under development.<br />
                 </p>
-                
+                <br />
                 <p>
+                    Feel free to message me if you find any issues.<br />
                     Thank you,<br />
                     Steven
                 </p>
             </div>
-            
 
-            <div>
-                <h2 className="header-title text-red">CURRENT FEATURES:</h2>
+            <Section title="CURRENT FEATURES:">
                 <ul>
                     <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green bold">STORE:</span> Browse games written in JS</li>
@@ -43,10 +44,9 @@ function Home() {
                     <li><span className="text-green bold">STORE SORTING:</span> Sort games by ID or name</li>
                     <li><span className="text-green bold">GAME SEARCHING:</span> Search games by name</li>
                 </ul>
-            </div>
+            </Section>
 
-            <div>
-                <h2 className="header-title text-red">UPCOMING FEATURES AND IMPROVEMENTS:</h2>
+            <Section title="UPCOMING FEATURES AND IMPROVEMENTS:">
                 <ul>
                     <li>
                         <span className="text-green bold">✅Password Security:</span> Password encryption in database and
@@ -63,7 +63,7 @@ function Home() {
                     <li><span className="text-green bold">Feature:</span> Leaderboard system to compete with others!</li>
                     <li><span className="text-green bold">UI:</span> Complete overhaul of the site's layout</li>
                 </ul>
-            </div>
+            </Section>
 
         </div>
     )
