@@ -19,7 +19,7 @@ function Home() {
     return (
         <div id="homepage-container">
             <div id="homepage-message">
-                {currentUser && <h1>Welcome back, {currentUser}!</h1>}
+                {currentUser && <h1>Welcome back, {currentUser["username"]}!</h1>}
                 <p>
                     Welcome to GamesNotFound!<br />
                     This platform allows users to play browser games and is currently under development.<br />

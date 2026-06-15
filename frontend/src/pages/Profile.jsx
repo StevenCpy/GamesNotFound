@@ -8,6 +8,7 @@ import { AuthContext } from "../components/contexts/AuthContext"
 
 // utils
 import devLog from "../../utils/logging/logging"
+import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
 
 const COMPONENT = "Profile"
 
@@ -28,9 +29,13 @@ function Profile() {
         // clear JWT cookie + tell server that user logged out so it can invalidate token
     }
 
+    const username = currentUser ? currentUser["username"] : null
+    const createdAt = currentUser ? isoToLocaleDateString(currentUser["created_at"]) : null
+
     return (
         <div id="profile-container">
-            {currentUser}<br />
+            Welcome back, {username}!<br />
+            <b>ACCOUNT CREATED ON: </b>{createdAt}<br />
             <button onClick={ handleLogout }>Log out</button>
         </div>
     )

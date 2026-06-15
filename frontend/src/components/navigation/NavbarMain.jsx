@@ -21,7 +21,7 @@ function NavbarMain() {
                 {import.meta.env.DEV && <NavLink to="/games/HitTheTarget">LINK FOR TESTING</NavLink>}
                 {(!currentUser && import.meta.env.DEV) && <button onClick={() => quickLogin("Admin")}>Quick Login</button>}
                 {currentUser ?
-                    <NavLink to="/profile">{currentUser}</NavLink> : <NavLink to="/login">Login</NavLink>
+                    <NavLink to="/profile">{currentUser["username"]}</NavLink> : <NavLink to="/login">Login</NavLink>
                 }
             </span>
         </nav>

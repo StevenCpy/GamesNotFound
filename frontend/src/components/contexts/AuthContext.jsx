@@ -17,13 +17,15 @@ export function AuthProvider( {children} ) {
         const token = localStorage.getItem("token") // get JWT token from localStorage
         const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET", null, token)
         if (auth_response_json.status == "Success") {
-            setCurrentUser(auth_response_json.username)
-
-            toast(`Logged in as ${auth_response_json.username}`)
+            setCurrentUser(auth_response_json.user_info)
+            
+            toast(`Logged in as ${auth_response_json.user_info["username"]}`)
         }
     }
 
-    const quickLogin = (username) => setCurrentUser(username)
+    const quickLogin = (userInfo) => setCurrentUser({"username": auth_response_json.user_info["username"],
+                                                    "profile_pic_url": null,
+                                                    "created_at": "2026-06-08 02:24:10.281809+00"})
 
     async function loginServer(username, password) {
         // send login POST request to server to handle login
@@ -32,7 +34,7 @@ export function AuthProvider( {children} ) {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
             // store JWT token received from server
             localStorage.setItem("token", response_json.token)
-            setCurrentUser(username.toUpperCase())
+            setCurrentUser(response_json.user_info)
 
             toast(`Successfully logged in.  Welcome back ${username.toUpperCase()}!`)
         } else {
