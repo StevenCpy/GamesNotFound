@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
@@ -6,13 +6,13 @@ import './index.css'
 import App from './App.jsx'
 
 // providers
-import { AuthProvider } from './components/contexts/AuthContext'
-import { StoreProvider } from './components/contexts/StoreContext'
-import { LibraryProvider } from './components/contexts/LibraryContext'
-import { HighscoreProvider } from './components/contexts/HighscoreContext'
-import { LoadingProvider } from './components/contexts/LoadingContext'
+import { AuthProvider } from './components/contexts/AuthContext.jsx'
+import { StoreProvider } from './components/contexts/StoreContext.jsx'
+import { LibraryProvider } from './components/contexts/LibraryContext.jsx'
+import { HighscoreProvider } from './components/contexts/HighscoreContext.jsx'
+import { LoadingProvider } from './components/contexts/LoadingContext.jsx'
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
     /*
 
     # --- AuthProvider --- #
