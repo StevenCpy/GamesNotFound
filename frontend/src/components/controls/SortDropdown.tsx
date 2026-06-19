@@ -1,6 +1,17 @@
 import './SortDropdown.css'
 
-function SortDropdown( {sortBy, onChange, options} ) {
+type sortOption = {
+    value: string
+    label: string
+}
+
+type SortDropdownProps = {
+    sortBy: string
+    onChange: () => void
+    options: sortOption[]
+}
+
+function SortDropdown( {sortBy, onChange, options}: SortDropdownProps ) {
     return (
         <div className="sort-dropdown-container">
             <label>Sort:</label>
