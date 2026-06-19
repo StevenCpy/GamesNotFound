@@ -11,7 +11,7 @@ import SortDropdown from "../components/controls/SortDropdown"
 import SearchBar from "../components/controls/SearchBar"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "Store"
 

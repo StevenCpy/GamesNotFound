@@ -2,8 +2,8 @@ import { createContext, useState } from 'react'
 import { toast } from 'sonner'
 
 // utils
-import devLog from "../../../utils/logging/logging"
-import apiRequest from "../../../utils/apiRequest"
+import devLog from "../../utils/logging/logging"
+import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "AuthContext"
 

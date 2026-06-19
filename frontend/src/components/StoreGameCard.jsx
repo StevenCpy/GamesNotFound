@@ -7,7 +7,7 @@ import { AuthContext } from "./contexts/AuthContext"
 import { LibraryContext } from "./contexts/LibraryContext"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "StoreGameCard"
 

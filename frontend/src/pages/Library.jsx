@@ -10,7 +10,7 @@ import { HighscoreContext } from "../components/contexts/HighscoreContext"
 import LibraryGameCard from "../components/LibraryGameCard"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "Library"
 

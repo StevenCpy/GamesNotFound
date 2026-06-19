@@ -9,7 +9,7 @@ import { AuthContext } from '../components/contexts/AuthContext'
 import InputWithToggle from "../components/forms/InputWithToggle"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "Signup"
 

@@ -7,8 +7,8 @@ import './styling/Profile.css'
 import { AuthContext } from "../components/contexts/AuthContext"
 
 // utils
-import devLog from "../../utils/logging/logging"
-import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
+import devLog from "../utils/logging/logging"
+import isoToLocaleDateString from "../utils/isoToLocaleDateString"
 
 const COMPONENT = "Profile"
 

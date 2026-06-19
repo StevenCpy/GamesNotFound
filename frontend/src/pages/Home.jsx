@@ -8,7 +8,7 @@ import { AuthContext } from "../components/contexts/AuthContext"
 import Section from "../components/texts/Section"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "Home"
 

@@ -13,8 +13,8 @@ import { HighscoreContext } from './components/contexts/HighscoreContext'
 import { LoadingContext } from './components/contexts/LoadingContext'
 
 // utils
-import devLog from '../utils/logging/logging'
-import delay from '../utils/delay'
+import devLog from './utils/logging/logging'
+import delay from './utils/delay'
 
 const COMPONENT = "App"
 

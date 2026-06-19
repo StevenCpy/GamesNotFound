@@ -5,7 +5,7 @@ import './LibraryGameCard.css'
 import { LibraryContext } from "./contexts/LibraryContext"
 
 // utils
-import devLog from "../../utils/logging/logging"
+import devLog from "../utils/logging/logging"
 
 const COMPONENT = "LibraryGameCard"
 

@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
 
 // utils
-import devLog from "../../../utils/logging/logging"
-import apiRequest from "../../../utils/apiRequest"
+import devLog from "../../utils/logging/logging"
+import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreContext"
 
