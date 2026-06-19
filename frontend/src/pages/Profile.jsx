@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import './styling/Profile.css'
@@ -12,13 +12,13 @@ import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
 
 const COMPONENT = "Profile"
 
+const DEFAULT_PROFILE_PIC_URL = "/profile-picture/default profile pic.jpg"
+
 function Profile() {
     devLog(COMPONENT, "Profile() called")
     const { currentUser, setCurrentUser } = useContext(AuthContext)
 
     const navigate = useNavigate()
-
-    const DEFAULT_PROFILE_PIC_URL = useMemo(() => "/profile-picture/default profile pic.jpg")
 
     function handleLogout() {
         devLog(COMPONENT, "handleLogout() called")
