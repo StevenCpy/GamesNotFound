@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './styling/Auth.css'
 
 // contexts
-import { AuthContext } from "../components/contexts/AuthContext"
+import { useAuth } from "../components/contexts/AuthContext"
 
 // components
 import InputWithToggle from "../components/forms/InputWithToggle"
@@ -15,7 +15,7 @@ const COMPONENT = "Login"
 
 function Login() {
     devLog(COMPONENT, "Login() called")
-    const { loginServer } = useContext(AuthContext)
+    const { loginServer } = useAuth()
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")

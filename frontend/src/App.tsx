@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import { Toaster } from 'sonner'
 import './App.css'
 
@@ -6,11 +6,11 @@ import './App.css'
 import AppRouter from './components/AppRouter'
 
 // contexts
-import { AuthContext } from './components/contexts/AuthContext'
-import { StoreContext } from './components/contexts/StoreContext'
-import { LibraryContext } from './components/contexts/LibraryContext'
-import { HighscoreContext } from './components/contexts/HighscoreContext'
-import { LoadingContext } from './components/contexts/LoadingContext'
+import { useAuth } from './components/contexts/AuthContext'
+import { useStore } from './components/contexts/StoreContext'
+import { useLibrary } from './components/contexts/LibraryContext'
+import { useHighscore } from './components/contexts/HighscoreContext'
+import { useLoading } from './components/contexts/LoadingContext'
 
 // utils
 import devLog from './utils/logging/logging'
@@ -20,11 +20,11 @@ const COMPONENT = "App"
 
 function App() {
     devLog(COMPONENT, "App() called")
-    const { currentUser, authenticateUsingToken } = useContext(AuthContext)
-    const { loadStore } = useContext(StoreContext)
-    const { loadLibrary, clearLibrary } = useContext(LibraryContext)
-    const { loadHighScores, clearHighScores } = useContext(HighscoreContext)
-    const { startLoadingScreen, stopLoadingScreen } = useContext(LoadingContext)
+    const { currentUser, authenticateUsingToken } = useAuth()
+    const { loadStore } = useStore()
+    const { loadLibrary, clearLibrary } = useLibrary()
+    const { loadHighScores, clearHighScores } = useHighscore()
+    const { startLoadingScreen, stopLoadingScreen } = useLoading()
 
     useEffect(() => {
         devLog(COMPONENT, "calling useEffect in App() - Authenticate using JWT token")

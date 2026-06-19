@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, use } from 'react'
 import { toast } from 'sonner'
 
 // utils
@@ -92,4 +92,14 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
             {children}
         </AuthContext>
     )
+}
+
+export function useAuth() {
+    const authContext = use(AuthContext)
+
+    if (!authContext) {
+        throw new Error("AuthContext is null")
+    }
+
+    return authContext
 }

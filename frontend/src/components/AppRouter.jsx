@@ -1,12 +1,11 @@
-import { useContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './AppRouter.css'
 
 // contexts
-import { AuthContext } from "./contexts/AuthContext"
-import { StoreContext } from "./contexts/StoreContext"
-import { HighscoreContext } from "./contexts/HighscoreContext"
-import { LoadingContext } from './contexts/LoadingContext'
+import { useAuth } from "./contexts/AuthContext"
+import { useStore } from "./contexts/StoreContext"
+import { useHighscore } from "./contexts/HighscoreContext"
+import { useLoading } from './contexts/LoadingContext'
 
 // components
 import NavbarMain from "./navigation/NavbarMain"
@@ -26,10 +25,10 @@ import LoadingPage from "../pages/LoadingPage.jsx"
 import GamePage from "../games/GamePage"
 
 function AppRouter() {
-    const { currentUser } = useContext(AuthContext)
-    const { storeList } = useContext(StoreContext)
-    const { getHighScore, submitScore } = useContext(HighscoreContext)
-    const { isLoading } = useContext(LoadingContext)
+    const { currentUser } = useAuth()
+    const { storeList } = useStore()
+    const { getHighScore, submitScore } = useHighscore()
+    const { isLoading } = useLoading()
 
     return (
         <BrowserRouter>

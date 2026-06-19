@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -99,4 +99,14 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
             {children}
         </StoreContext>
     )
+}
+
+export function useStore() {
+    const storeContext = use(StoreContext)
+
+    if (!storeContext) {
+        throw new Error("StoreContext is null")
+    }
+
+    return storeContext
 }

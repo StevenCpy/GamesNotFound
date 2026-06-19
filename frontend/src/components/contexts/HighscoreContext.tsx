@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -91,4 +91,14 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             {children}
         </HighscoreContext>
     )
+}
+
+export function useHighscore() {
+    const highscoreContext = use(HighscoreContext)
+
+    if (!highscoreContext) {
+        throw new Error("HighscoreContext is null")
+    }
+
+    return highscoreContext
 }

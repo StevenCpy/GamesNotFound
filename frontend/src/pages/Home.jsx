@@ -1,8 +1,7 @@
-import { useContext } from 'react'
 import './styling/Home.css'
 
 // contexts
-import { AuthContext } from "../components/contexts/AuthContext"
+import { useAuth } from "../components/contexts/AuthContext"
 
 // components
 import Section from "../components/texts/Section"
@@ -14,7 +13,7 @@ const COMPONENT = "Home"
 
 function Home() {
     devLog(COMPONENT, "Home() called")
-    const { currentUser } = useContext(AuthContext)
+    const { currentUser } = useAuth()
 
     return (
         <div id="homepage-container">

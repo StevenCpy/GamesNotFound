@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './styling/Store.css'
 
 // contexts
-import { StoreContext } from "../components/contexts/StoreContext"
-import { HighscoreContext } from "../components/contexts/HighscoreContext"
+import { useStore } from "../components/contexts/StoreContext"
+import { useHighscore } from "../components/contexts/HighscoreContext"
 
 // components
 import StoreGameCard from "../components/StoreGameCard"
@@ -17,8 +17,8 @@ const COMPONENT = "Store"
 
 function Store() {
     devLog(COMPONENT, "Store() called")
-    const { storeList, sortStoreList } = useContext(StoreContext)
-    const { getHighScore } = useContext(HighscoreContext)
+    const { storeList, sortStoreList } = useStore()
+    const { getHighScore } = useHighscore()
 
     const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "Default")
     const [searchStr, setSearchStr] = useState("")

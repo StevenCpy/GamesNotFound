@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, use } from 'react'
 
 const COMPONENT = "LoadingProvider"
 
@@ -26,4 +26,14 @@ export function LoadingProvider( {children}: {children: React.ReactNode} ) {
             {children}
         </LoadingContext>
     )
+}
+
+export function useLoading() {
+    const loadingContext = use(LoadingContext)
+
+    if (!loadingContext) {
+        throw new Error("LoadingContext is null")
+    }
+
+    return loadingContext
 }

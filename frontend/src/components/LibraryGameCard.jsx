@@ -1,8 +1,7 @@
-import { useContext } from 'react'
 import './LibraryGameCard.css'
 
 // contexts
-import { LibraryContext } from "./contexts/LibraryContext"
+import { useLibrary } from "./contexts/LibraryContext"
 
 // utils
 import devLog from "../utils/logging/logging"
@@ -11,7 +10,7 @@ const COMPONENT = "LibraryGameCard"
 
 function LibraryGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore, lastPlayed} ) {
     devLog(COMPONENT, "LibraryGameCard() called")
-    const { handleRemoveFromLibrary } = useContext(LibraryContext)
+    const { handleRemoveFromLibrary } = useLibrary()
 
     return (
         <div id="library-gamecard">

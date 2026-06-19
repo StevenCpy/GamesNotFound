@@ -1,12 +1,11 @@
-import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import './NavbarMain.css'
 
 // contexts
-import { AuthContext } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 function NavbarMain() {
-    const { currentUser, quickLogin } = useContext(AuthContext)
+    const { currentUser, quickLogin } = useAuth()
 
     return (
         <nav id="main-navbar">

@@ -1,10 +1,9 @@
-import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import './styling/Profile.css'
 
 // contexts
-import { AuthContext } from "../components/contexts/AuthContext"
+import { useAuth } from "../components/contexts/AuthContext"
 
 // utils
 import devLog from "../utils/logging/logging"
@@ -16,7 +15,7 @@ const DEFAULT_PROFILE_PIC_URL = "/profile-picture/default profile pic.jpg"
 
 function Profile() {
     devLog(COMPONENT, "Profile() called")
-    const { currentUser, setCurrentUser } = useContext(AuthContext)
+    const { currentUser, setCurrentUser } = useAuth()
 
     const navigate = useNavigate()
 

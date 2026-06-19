@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from 'react'
+import { createContext, useState, useMemo, use } from 'react'
 import { toast } from 'sonner'
 
 // utils
@@ -118,4 +118,14 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
             {children}
         </LibraryContext>
     )
+}
+
+export function useLibrary() {
+    const libraryContext = use(LibraryContext)
+
+    if (!libraryContext) {
+        throw new Error("LibraryContext is null")
+    }
+
+    return libraryContext
 }

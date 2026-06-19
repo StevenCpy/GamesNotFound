@@ -1,10 +1,9 @@
-import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './StoreGameCard.css'
 
 // contexts
-import { AuthContext } from "./contexts/AuthContext"
-import { LibraryContext } from "./contexts/LibraryContext"
+import { useAuth } from "./contexts/AuthContext"
+import { useLibrary } from "./contexts/LibraryContext"
 
 // utils
 import devLog from "../utils/logging/logging"
@@ -13,8 +12,8 @@ const COMPONENT = "StoreGameCard"
 
 function StoreGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore} ) {
     devLog(COMPONENT, "StoreGameCard() called")
-    const { currentUser } = useContext(AuthContext)
-    const { librarySet, handleAddToLibrary } = useContext(LibraryContext)
+    const { currentUser } = useAuth()
+    const { librarySet, handleAddToLibrary } = useLibrary()
     const navigate = useNavigate()
 
     // request game file download URL, download game files then redirect to game page

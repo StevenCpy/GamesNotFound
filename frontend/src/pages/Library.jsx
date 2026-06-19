@@ -1,10 +1,9 @@
-import { useContext } from 'react'
 import './styling/Library.css'
 
 // contexts
-import { StoreContext } from "../components/contexts/StoreContext"
-import { LibraryContext } from "../components/contexts/LibraryContext"
-import { HighscoreContext } from "../components/contexts/HighscoreContext"
+import { useStore } from "../components/contexts/StoreContext"
+import { useLibrary } from "../components/contexts/LibraryContext"
+import { useHighscore } from "../components/contexts/HighscoreContext"
 
 // components
 import LibraryGameCard from "../components/LibraryGameCard"
@@ -16,9 +15,9 @@ const COMPONENT = "Library"
 
 function Library() {
     devLog(COMPONENT, "Library() called")
-    const { storeList } = useContext(StoreContext)
-    const { libraryList } = useContext(LibraryContext)
-    const { getHighScore, getLastPlayed } = useContext(HighscoreContext)
+    const { storeList } = useStore()
+    const { libraryList } = useLibrary()
+    const { getHighScore, getLastPlayed } = useHighscore()
 
     const storeHashMap = new Map(
         storeList.map(game => [game.gameID, game]) // creates key-value pair with key = gameID
