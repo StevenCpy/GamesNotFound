@@ -4,13 +4,24 @@ import devLog from "./logging/logging"
 const STATUS_FAIL_MESSAGE = "Fail"
 const API_VERSION = 2
 
-async function apiRequest(component, endpoint, method, body, token) {
+type ApiRequest = {
+    method: string
+    headers?: ApiRequestHeaders
+    body?: string
+}
+
+type ApiRequestHeaders = {
+    "Content-Type"?: "application/json"
+    "Authorization"?: `Bearer ${string}`
+}
+
+async function apiRequest(component: string, endpoint: string, method: string, body?: any, token?: string|null) {
     devLog(component, `Calling ${endpoint} API endpoint...`)
 
     const URL = `${SERVER_URL}/api/v${API_VERSION}/${endpoint}`
-    const request = { method: method }
+    const request: ApiRequest = { method: method }
     if (body || token) {
-        const headers = {}
+        const headers: ApiRequestHeaders = {}
         if (body) {
             headers["Content-Type"] = "application/json"
             request.body = JSON.stringify(body)

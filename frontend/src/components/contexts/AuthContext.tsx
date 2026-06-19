@@ -7,12 +7,45 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "AuthContext"
 
-export const AuthContext = createContext(null)
+type AuthContextType = {
+    currentUser: UserInfo | null
+    setCurrentUser: React.Dispatch<React.SetStateAction<UserInfo | null>>
+    signupServer: (username: string, password: string) => Promise<SignupResponse>
+    authenticateUsingToken: () => Promise<void>
+    quickLogin: () => void
+    loginServer: (username: string, password: string) => Promise<LoginResponse>
+}
 
-export function AuthProvider( {children} ) {
-    const [currentUser, setCurrentUser] = useState(null)
+export const AuthContext = createContext<AuthContextType|null>(null)
 
-    async function authenticateUsingToken() {
+type UserInfo = {
+    username: string
+    profile_pic_url: string | null
+    created_at: string
+}
+
+type ApiResponseFail = {
+    status: "Fail"
+    details: string
+}
+
+type LoginResponseSuccess = {
+    status: "Success"
+    userInfo: UserInfo
+}
+
+type LoginResponse = ApiResponseFail | LoginResponseSuccess
+
+type SignupResponseSuccess = {
+    status: "Success"
+}
+
+type SignupResponse = ApiResponseFail | SignupResponseSuccess
+
+export function AuthProvider( {children}: {children: React.ReactNode} ) {
+    const [currentUser, setCurrentUser] = useState<UserInfo|null>(null)
+
+    async function authenticateUsingToken() : Promise<void> {
         // send GET request to fetch username from server
         const token = localStorage.getItem("token") // get JWT token from localStorage
         const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET", null, token)
@@ -23,11 +56,11 @@ export function AuthProvider( {children} ) {
         }
     }
 
-    const quickLogin = (userInfo) => setCurrentUser({"username": "Admin",
-                                                    "profile_pic_url": null,
-                                                    "created_at": "2026-06-08 02:24:10.281809+00"})
+    const quickLogin = () => setCurrentUser({"username": "Admin",
+                                                "profile_pic_url": null,
+                                                "created_at": "2026-06-08 02:24:10.281809+00"})
 
-    async function loginServer(username, password) {
+    async function loginServer(username: string, password: string) : Promise<LoginResponse> {
         // send login POST request to server to handle login
         const response_json = await apiRequest(COMPONENT, "auth/login", "POST", { username: username, password: password })
         if (response_json.status == "Success") {
@@ -43,7 +76,7 @@ export function AuthProvider( {children} ) {
         return response_json
     }
 
-    async function signupServer(username, password) {
+    async function signupServer(username: string, password: string) : Promise<SignupResponse> {
         // send sign up POST request to server to handle sign up
         const response_json = await apiRequest(COMPONENT, "auth/signup", "POST", { username: username, password: password })
         if (response_json.status == "Success") {

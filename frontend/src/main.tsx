@@ -6,13 +6,13 @@ import './index.css'
 import App from './App.jsx'
 
 // providers
-import { AuthProvider } from './components/contexts/AuthContext.jsx'
-import { StoreProvider } from './components/contexts/StoreContext.jsx'
-import { LibraryProvider } from './components/contexts/LibraryContext.jsx'
-import { HighscoreProvider } from './components/contexts/HighscoreContext.jsx'
-import { LoadingProvider } from './components/contexts/LoadingContext.jsx'
+import { AuthProvider } from './components/contexts/AuthContext.tsx'
+import { StoreProvider } from './components/contexts/StoreContext.tsx'
+import { LibraryProvider } from './components/contexts/LibraryContext.tsx'
+import { HighscoreProvider } from './components/contexts/HighscoreContext.tsx'
+import { LoadingProvider } from './components/contexts/LoadingContext.tsx'
 
-createRoot(document.getElementById('root') as HTMLElement).render(
+createRoot(document.getElementById('root')!).render(
     /*
 
     # --- AuthProvider --- #

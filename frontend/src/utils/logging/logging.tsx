@@ -1,5 +1,5 @@
 // prints the log for componentName to console if in development mode
-function devLog(componentName, message) {
+function devLog(componentName: string, message: string) : void {
     if (import.meta.env.DEV) {
         console.log(`${componentName.toUpperCase()}: ${message}`)
     }

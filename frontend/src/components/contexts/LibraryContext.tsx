@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useMemo } from 'react'
+import { createContext, useState, useMemo } from 'react'
 import { toast } from 'sonner'
 
 // utils
@@ -7,17 +7,43 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "LibraryProvider"
 
-export const LibraryContext = createContext(null)
+type LibraryContextType = {
+    libraryList: LibraryEntry[]
+    librarySet: Set<number>
+    loadLibrary: () => Promise<LoadLibraryResponse>
+    clearLibrary: () => void
+    handleAddToLibrary: (gameID: number) => Promise<void>
+    handleRemoveFromLibrary: (gameID: number) => Promise<void>
+}
 
-export function LibraryProvider( {children} ) {
-    const [libraryList, setLibraryList] = useState([]) // list for displaying library games in order
+export const LibraryContext = createContext<LibraryContextType|null>(null)
+
+type LibraryEntry = {
+    gameID: number
+    added_at: string
+}
+
+type ApiRequestFail = {
+    status: "Fail"
+    details: string
+}
+
+type LoadLibraryResponseSuccess = {
+    status: "Success"
+    data: LibraryEntry[]
+}
+
+type LoadLibraryResponse = ApiRequestFail | LoadLibraryResponseSuccess
+
+export function LibraryProvider( {children}: {children: React.ReactNode} ) {
+    const [libraryList, setLibraryList] = useState<LibraryEntry[]>([]) // list for displaying library games in order
 
     // // convert libraryList to a set containing only gameIDs for quick lookups of library games
-    const librarySet = useMemo(() =>
+    const librarySet: Set<number> = useMemo(() =>
         // convert libraryList to a set containing only gameIDs
         new Set(libraryList.map(game => game.gameID)), [libraryList])
 
-    async function loadLibrary() {
+    async function loadLibrary() : Promise<LoadLibraryResponse> {
         devLog(COMPONENT, "loadLibrary() called")
 
         // send GET request to fetch Library from server
@@ -32,13 +58,13 @@ export function LibraryProvider( {children} ) {
         return response_json
     }
 
-    function clearLibrary() {
+    function clearLibrary() : void {
         devLog(COMPONENT, "clearLibrary() called")
         setLibraryList([])
     }
 
     // add gameID to library using pessimistic update
-    async function handleAddToLibrary(gameID) {
+    async function handleAddToLibrary(gameID: number) : Promise<void> {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
         // send POST request to server to add game to user's library
@@ -63,7 +89,7 @@ export function LibraryProvider( {children} ) {
     }
 
     // remove gameID from library using pessimistic update
-    async function handleRemoveFromLibrary(gameID) {
+    async function handleRemoveFromLibrary(gameID: number) : Promise<void> {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
         // // send DELETE request to server to remove game from user's library

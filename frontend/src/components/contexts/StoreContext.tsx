@@ -6,12 +6,44 @@ import apiRequest from "../../utils/apiRequest"
 
 const COMPONENT = "StoreContext"
 
-export const StoreContext = createContext(null)
+type StoreContextType = {
+    storeList: StoreEntry[]
+    loadStore: () => Promise<StoreResponse>
+    sortStoreList: (fieldToSortBy: fieldType, asc: boolean) => void
+}
 
-export function StoreProvider( {children} ) {
-    const [storeList, setStoreList] = useState([]) // list for displaying store games
+export const StoreContext = createContext<StoreContextType|null>(null)
 
-    async function loadStore() {
+type StoreEntry = {
+    gameID: number
+    name: string
+    cover_image_url: string
+    description: string
+    author: string
+    version: string
+    is_playable: boolean
+    library_adds: number
+    uploaded_on: string | null
+}
+
+type ApiRequestFail = {
+    status: "Fail"
+    details: string
+}
+
+type StoreResponseSuccess = {
+    status: "Success"
+    data: StoreEntry[]
+}
+
+type StoreResponse = ApiRequestFail | StoreResponseSuccess
+
+type fieldType = "gameID" | "name"
+
+export function StoreProvider( {children}: {children: React.ReactNode} ) {
+    const [storeList, setStoreList] = useState<StoreEntry[]>([]) // list for displaying store games
+
+    async function loadStore() : Promise<StoreResponse> {
         devLog(COMPONENT, "loadStore() called")
         const response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
 
@@ -24,9 +56,9 @@ export function StoreProvider( {children} ) {
     }
 
     // sort function, ascending order relative to field
-    function sortAscFn(a, b, field) {
+    function sortAscFn(a: StoreEntry, b: StoreEntry, field: fieldType) : number {
         if (typeof storeList[0][field] === "string") {
-            return a[field].localeCompare(b[field])
+            return (a[field] as string).localeCompare(b[field] as string)
         } else {
             if (a[field] < b[field]) {
                 return -1
@@ -38,9 +70,9 @@ export function StoreProvider( {children} ) {
     }
 
     // sort function, descending order relative to field
-    function sortDescFn(a, b, field) {
+    function sortDescFn(a: StoreEntry, b: StoreEntry, field: fieldType) : number {
         if (typeof storeList[0][field] === "string") {
-            return b[field].localeCompare(a[field])
+            return (b[field] as string).localeCompare(a[field] as string)
         } else {
             if (a[field] > b[field]) {
                 return -1
@@ -51,7 +83,7 @@ export function StoreProvider( {children} ) {
         } 
     }
 
-    function sortStoreList(fieldToSortBy, asc) {
+    function sortStoreList(fieldToSortBy: fieldType, asc: boolean) : void {
         const storeListSorted = [...storeList] // copy list
 
         if (asc) {

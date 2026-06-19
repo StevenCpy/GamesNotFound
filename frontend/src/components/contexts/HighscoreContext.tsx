@@ -7,17 +7,43 @@ import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
 
 const COMPONENT = "HighscoreContext"
 
-export const HighscoreContext = createContext(null)
+type HighscoreContextType = {
+    loadHighScores: () => Promise<void>
+    clearHighScores: () => void
+    getHighScore: (gameID: number) => number
+    getLastPlayed: (gameID: number) => string
+    submitScore: (gameID: number, score: number) => Promise<void>
+}
 
-export function HighscoreProvider( {children} ) {
-    const [highscoreHashMap, setHighscoreHashMap] = useState(new Map()) // hash map for displaying high scores
+export const HighscoreContext = createContext<HighscoreContextType|null>(null)
 
-    async function loadHighScores() {
+type ApiRequestFail = {
+    status: "Fail"
+    details: string
+}
+
+type Highscore = {
+    gameID: number
+    high_score: number
+    last_played: string
+}
+
+type HighscoreResponseSuccess = {
+    status: "Success"
+    data: Highscore[]
+}
+
+type HighscoreResponse = ApiRequestFail | HighscoreResponseSuccess
+
+export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
+    const [highscoreHashMap, setHighscoreHashMap] = useState<Map<number, Highscore>>(new Map()) // hash map for displaying high scores
+
+    async function loadHighScores(): Promise<void> {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
         const token = localStorage.getItem("token") // get JWT token from localStorage
-        const highscores_response_json = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
+        const highscores_response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
         if (highscores_response_json.status == "Success") {
             devLog(COMPONENT, "High scores fetched")
             // initialize high score hash map
@@ -29,24 +55,20 @@ export function HighscoreProvider( {children} ) {
         }
     }
 
-    const clearHighScores = () => setHighscoreHashMap(new Map())
+    const clearHighScores: () => void = () => setHighscoreHashMap(new Map())
 
-    function getHighScore(gameID) {
-        const highScore = highscoreHashMap.has(gameID) ? highscoreHashMap.get(gameID)["high_score"] : 0
+    function getHighScore(gameID: number) : number {
+        const highScore = highscoreHashMap.get(gameID)?.["high_score"] ?? 0
         return highScore
     }
 
-    function getLastPlayed(gameID) {
-        if (highscoreHashMap.has(gameID)) {
-            const lastPlayed_iso = highscoreHashMap.get(gameID)["last_played"]
-            const lastPlayed = isoToLocaleDateString(lastPlayed_iso)
-            return lastPlayed
-        } else {
-            return "N/A"
-        }
+    function getLastPlayed(gameID: number) : string {
+        const lastPlayed_iso = highscoreHashMap.get(gameID)?.["last_played"]
+        const lastPlayed = lastPlayed_iso ? isoToLocaleDateString(lastPlayed_iso) : "N/A"
+        return lastPlayed
     }
 
-    async function submitScore(gameID, score) {
+    async function submitScore(gameID: number, score: number) : Promise<void> {
         const body = {
             "gameID": gameID,
             "score": score
