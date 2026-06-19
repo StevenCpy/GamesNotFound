@@ -10,14 +10,25 @@ import devLog from "../utils/logging/logging"
 
 const COMPONENT = "StoreGameCard"
 
-function StoreGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore} ) {
+type StoreGameCardProps = {
+    gameID: number
+    gameName: string
+    coverImageURL: string
+    description: string
+    author: string
+    gameVersion: string
+    isPlayable: boolean
+    highScore: number
+}
+
+function StoreGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore}: StoreGameCardProps ) {
     devLog(COMPONENT, "StoreGameCard() called")
     const { currentUser } = useAuth()
     const { librarySet, handleAddToLibrary } = useLibrary()
     const navigate = useNavigate()
 
     // request game file download URL, download game files then redirect to game page
-    async function handlePlayGame() {
+    async function handlePlayGame() : Promise<void> {
         // send GET request to server requesting game download URL
 
         // send request to remote storage to download game files

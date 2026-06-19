@@ -8,7 +8,19 @@ import devLog from "../utils/logging/logging"
 
 const COMPONENT = "LibraryGameCard"
 
-function LibraryGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore, lastPlayed} ) {
+type LibraryGameCardProps = {
+    gameID: number
+    gameName: string
+    coverImageURL: string
+    description: string
+    author: string
+    gameVersion: string
+    isPlayable: boolean
+    highScore: number
+    lastPlayed: string
+}
+
+function LibraryGameCard( {gameID, gameName, coverImageURL, description, author, gameVersion, isPlayable, highScore, lastPlayed}: LibraryGameCardProps ) {
     devLog(COMPONENT, "LibraryGameCard() called")
     const { handleRemoveFromLibrary } = useLibrary()
 

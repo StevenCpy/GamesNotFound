@@ -11,6 +11,8 @@ import { useLoading } from './contexts/LoadingContext'
 import NavbarMain from "./navigation/NavbarMain"
 import * as games from "../games/index.js"
 
+type GameName = keyof typeof games
+
 // pages
 import Home from "../pages/Home"
 import Store from "../pages/Store"
@@ -21,7 +23,7 @@ import Signup from "../pages/Signup"
 import Login from "../pages/Login"
 import Error404 from "../pages/Error404"
 import RestrictedResource from "../pages/RestrictedResource"
-import LoadingPage from "../pages/LoadingPage.jsx"
+import LoadingPage from "../pages/LoadingPage"
 import GamePage from "../games/GamePage"
 
 function AppRouter() {
@@ -52,7 +54,7 @@ function AppRouter() {
                         {/* Dynamically define routes for playable games */}
                         {storeList.map(game => {
                             if (game["is_playable"]) {
-                                const gameFileName = game["name"].replaceAll(" ","")
+                                const gameFileName = game["name"].replaceAll(" ","") as GameName
                                 const Component = games[gameFileName]
                                 const gameID = game["gameID"]
                                 const highScore = getHighScore(gameID)
@@ -61,7 +63,7 @@ function AppRouter() {
                                     <Route path={`games/${gameFileName}`}
                                             element={<GamePage gameName={game["name"]}
                                                                 highScore={highScore}
-                                                                game={<Component submitScore={(score) => submitScore(gameID, score) } />}
+                                                                game={<Component submitScore={(score: number) => submitScore(gameID, score) } />}
                                                     />}
                                     />
                                 )

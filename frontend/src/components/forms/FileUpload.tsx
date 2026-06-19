@@ -1,6 +1,10 @@
 import './FileUpload.css'
 
-function FileUpload( {setValue} ) {
+type FileUploadProps = {
+    setValue: React.Dispatch<React.SetStateAction<any>>
+}
+
+function FileUpload( {setValue}: FileUploadProps ) {
     return (
         <form>
             <label>Upload profile picture</label>

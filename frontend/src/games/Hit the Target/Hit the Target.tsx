@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, createContext, useContext } from 'react'
+import { useState, useEffect, useRef, createContext, use } from 'react'
 import './Hit the Target.css'
 
 // components
@@ -6,9 +6,28 @@ import GameButton from "./components/GameButton"
 
 const START_TIME_S = 30
 
-const GameStatusContext = createContext(null)
+type GameStatusContextType = {
+    isGameOn: boolean
+}
 
-function Target({ playableAreaSize, onTargetHit }) {
+const GameStatusContext = createContext<GameStatusContextType|null>(null)
+
+function useGameStatus() {
+    const gameStatusContext = use(GameStatusContext)
+    
+    if (!gameStatusContext) {
+        throw new Error("GameStatusContext is null")
+    }
+
+    return gameStatusContext
+}
+
+type TargetProps = {
+    playableAreaSize: {width: number, height: number}
+    onTargetHit: () => void
+}
+
+function Target( {playableAreaSize, onTargetHit}: TargetProps ) {
     const [targetSize, setTargetSize] = useState({width: 0, height: 0})
     const [pos, setPos] = useState({x: 0, y: 0})
 
@@ -23,7 +42,7 @@ function Target({ playableAreaSize, onTargetHit }) {
                 height: entry.borderBoxSize[0].blockSize
             })
         })
-        resizeObserver.observe(targetRef.current)
+        resizeObserver.observe(targetRef.current!)
 
         return () => { // cleanup
             resizeObserver.disconnect()
@@ -60,9 +79,13 @@ function Target({ playableAreaSize, onTargetHit }) {
     )
 }
 
-function Timer({ onTimerEnd }) {
+type TimerProps = {
+    onTimerEnd: () => void
+}
+
+function Timer( {onTimerEnd}: TimerProps ) {
     const [timeSeconds, setTimeSeconds] = useState(START_TIME_S)
-    const { isGameOn } = useContext(GameStatusContext)
+    const { isGameOn } = useGameStatus()
 
     useEffect(() => {
         if (!isGameOn) return // only start timer when "START" button is clicked
@@ -87,7 +110,11 @@ function Timer({ onTimerEnd }) {
     )
 }
 
-function HittheTarget({ submitScore }) {
+type HittheTargetProps = {
+    submitScore: (score: number) => void
+}
+
+function HittheTarget( {submitScore}: HittheTargetProps ) {
     const [score, setScore] = useState(0)
     const [playableAreaSize, setPlayableAreaSize] = useState({width: 0, height: 0})
     const [isGameOn, setIsGameOn] = useState(false)
@@ -103,7 +130,7 @@ function HittheTarget({ submitScore }) {
                 height: entry.contentBoxSize[0].blockSize
             })
         })
-        resizeObserver.observe(playableAreaRef.current)
+        resizeObserver.observe(playableAreaRef.current!)
 
         return () => { // cleanup
             resizeObserver.disconnect()

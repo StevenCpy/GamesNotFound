@@ -1,6 +1,11 @@
 import './GameButton.css'
 
-function GameButton({ onClick, text }) {
+type GameButtonProps = {
+    onClick: () => void
+    text: string
+}
+
+function GameButton( {onClick, text}: GameButtonProps ) {
     return (
         <button className="game-button" onClick={onClick}>
             {text}
