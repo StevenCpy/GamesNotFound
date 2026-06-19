@@ -37,7 +37,7 @@ function Home() {
                     <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green bold">STORE:</span> Browse games written in JS</li>
                     <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
-                    <li><span className="text-green bold">PLAYABLE GAMES:</span> Play game from the Store by clicking on "Play"<br />
+                    <li><span className="text-green bold">PLAYABLE GAMES:</span> "Play" button on game cards to start games<br />
                         (Hit the Target is currently the only game but more to come!)
                     </li>
                     <li><span className="text-green bold">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>

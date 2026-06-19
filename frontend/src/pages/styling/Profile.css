@@ -1,7 +1,41 @@
-#profile-container {
-    margin: 0 auto;
+#profile-page-container {
     width: 100%;
     height: 100%;
-    font-size: 150%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-card {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-right: auto;
+    padding: 1rem;
+
+    border: var(--border);
+    border-radius: 1rem 1rem 5rem;
+    background-color: var(--primary-bg-color);
+}
+
+#profile-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+#profile-info-container button {
+    width: fit-content;
+}
+
+#profile-pic-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 4rem;
+
+    border: var(--border);
+}
+
+#profile-pic-container img {
+    aspect-ratio: 2/3;
 }

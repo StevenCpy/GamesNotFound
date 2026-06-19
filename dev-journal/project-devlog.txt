@@ -528,3 +528,7 @@ What I learned today:
 
 DAY 29:
 - Site CSS layout improvements.
+- Added account creation date and profile pic URL to database schema.
+- Switched currentUser AuthContext state to also include user data instead of only username.
+- Updated Profile page with profile card, displaying account creation date and profile picture.
+- Created File Upload UI component allowing user to upload profile picture.
