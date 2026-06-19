@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './styling/Store.css'
 
 // contexts
@@ -26,12 +26,15 @@ function Store() {
     // to display sort options on UI
     const sortOptions = useMemo(() => [{value: "Default", label: "Default"},
                                         {value: "NameAsc", label: "Name (Ascending)"},
-                                        {value: "NameDesc", label: "Name (Descending)"}])
+                                        {value: "NameDesc", label: "Name (Descending)"}], [])
     
     // to check which field to sort by
-    const values = {Default: {field: "gameID", asc: true},
-                    NameAsc: {field: "name", asc: true},
-                    NameDesc: {field: "name", asc: false}}
+    type Values = {
+        [key: string]: {field: "gameID"|"name", asc: boolean}
+    }
+    const values: Values = {Default: {field: "gameID", asc: true},
+                            NameAsc: {field: "name", asc: true},
+                            NameDesc: {field: "name", asc: false}}
 
 
     // re-render when new sorting option chosen

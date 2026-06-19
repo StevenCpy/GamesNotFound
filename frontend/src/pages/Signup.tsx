@@ -21,7 +21,7 @@ function Signup() {
     //const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [signedUp, setSignedUp] = useState(false)
-    const [warning, setWarning] = useState(null)
+    const [warning, setWarning] = useState<string|null>(null)
 
     const USERNAME_MAX_LENGTH = 10
     //const EMAIL_MAX_LENGTH = 320
@@ -29,7 +29,7 @@ function Signup() {
     const INVALID_PASSWORD_WARNING = "Invalid password"
 
     // check if password follows rules
-    function passwordIsValid(password) {
+    function passwordIsValid(password: string) : boolean {
         devLog(COMPONENT, "passwordIsValid() called")
         const lowercaseRe = /[a-z]+/
         const uppercaseRe = /[A-Z]+/
@@ -39,7 +39,7 @@ function Signup() {
         return (lowercaseRe.test(password) && uppercaseRe.test(password) && digitRe.test(password) && specialCharRe.test(password))
     }
 
-    function WarningMessage({ message }) {
+    function WarningMessage( {message}: {message: string|null} ) {
         return (
             (message == INVALID_PASSWORD_WARNING) ?
                 <ul className="text-red"> Password must contain at least
@@ -52,7 +52,7 @@ function Signup() {
         )
     }
 
-    async function handleSignUp(e) {
+    async function handleSignUp(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
         devLog(COMPONENT, "handleSignUp() called")
 
         // TODO -- add email validation, email must follow regex (removed email requirement when signing up)
@@ -102,7 +102,7 @@ function Signup() {
             />
             {/* show this text only if username or password is blank */}
             {!(username && password) && <p className="text-red">Fill in all fields!</p>}
-            <button disabled={!(username && password)} onClick={handleSignUp}>Sign up</button>
+            <button disabled={!(username && password)} onClick={ handleSignUp }>Sign up</button>
             <div>
                 Already have an account?{" "}
                 <Link to="/login">Login</Link>

@@ -7,7 +7,7 @@ type sortOption = {
 
 type SortDropdownProps = {
     sortBy: string
-    onChange: () => void
+    onChange: (e: React.ChangeEvent<HTMLSelectElement, HTMLSelectElement>) => void
     options: sortOption[]
 }
 

@@ -45,12 +45,12 @@ function Library() {
                     return (
                         <LibraryGameCard key={gameID}
                                         gameID={gameID}
-                                        gameName={storeHashMap.get(gameID)["name"]}
-                                        coverImageURL={storeHashMap.get(gameID)["cover_image_url"]}
-                                        description={storeHashMap.get(gameID)["description"]}
-                                        author={storeHashMap.get(gameID)["author"]}
-                                        gameVersion={storeHashMap.get(gameID)["version"]}
-                                        isPlayable={storeHashMap.get(gameID)["is_playable"]}
+                                        gameName={storeHashMap.get(gameID)!["name"]}
+                                        coverImageURL={storeHashMap.get(gameID)!["cover_image_url"]}
+                                        description={storeHashMap.get(gameID)!["description"]}
+                                        author={storeHashMap.get(gameID)!["author"]}
+                                        gameVersion={storeHashMap.get(gameID)!["version"]}
+                                        isPlayable={storeHashMap.get(gameID)!["is_playable"]}
                                         highScore={highScore}
                                         lastPlayed={lastPlayed} />
                     )

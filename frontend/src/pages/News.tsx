@@ -4,7 +4,14 @@ import './styling/News.css'
 // components
 import Section from "../components/texts/Section"
 
-function ComparisonContainer({ src1, alt1, src2, alt2 }) {
+type ComparisonContainerProps = {
+    src1: string
+    alt1: string
+    src2: string
+    alt2: string
+}
+
+function ComparisonContainer( {src1, alt1, src2, alt2}: ComparisonContainerProps ) {
     return (
         <div className="comparison-container">
             <div className="comparison-left">

@@ -23,7 +23,7 @@ function Login() {
     
     const navigate = useNavigate()
 
-    async function handleLogin(e) {
+    async function handleLogin(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         devLog(COMPONENT, "handleLogin() called.  Initiating server-side login...")
         e.preventDefault() // prevent re-rendering whole App() on submit/pressing "Login" button
 
