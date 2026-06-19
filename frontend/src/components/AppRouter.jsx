@@ -43,7 +43,7 @@ function AppRouter() {
                         <Route path="/" element={<Home />} />
                         <Route path="/store" element={<Store />} />
                         <Route path="/library" element={currentUser ? <Library /> : <RestrictedResource />} />
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile" element={currentUser ? <Profile /> : <RestrictedResource />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/news" element={<News />} />

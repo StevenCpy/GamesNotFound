@@ -70,7 +70,7 @@ async def login(auth: Auth):
         # query database for user's actual password
         response = (
             supabase_client.table(USERS_TABLE)
-            .select("password_hash_str")
+            .select("password_hash_str,profile_pic_url,created_at")
             .eq("username",username)
             .execute()
         )
@@ -82,9 +82,11 @@ async def login(auth: Auth):
                 dev_log(endpoint, f"User '{username}' logged in")
 
                 # encode payload
-                payload = {"username": username}
+                payload = {"username": username,
+                           "profile_pic_url": response.data[0]["profile_pic_url"],
+                           "created_at": response.data[0]["created_at"]}
                 token = encode_HS256(payload)
-                return status_success({"token": token})
+                return status_success({"token": token, "user_info": payload})
             else:
                 dev_log(endpoint, f"Password for '{username}' is incorrect")
                 return status_fail("Incorrect password")
@@ -107,8 +109,8 @@ async def auth(Authorization: Annotated[str|None, Header()] = None):
 
     try:
         # decode payload
-        username = decode_payload_HS256(Authorization)["username"]
-        return status_success({"username": username})
+        payload = decode_payload_HS256(Authorization)
+        return status_success({"user_info": payload})
     except Exception as e:
         dev_error(endpoint, e)
         return status_fail("Token could not be decoded")
