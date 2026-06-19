@@ -23,7 +23,7 @@ export function AuthProvider( {children} ) {
         }
     }
 
-    const quickLogin = (userInfo) => setCurrentUser({"username": auth_response_json.user_info["username"],
+    const quickLogin = (userInfo) => setCurrentUser({"username": "Admin",
                                                     "profile_pic_url": null,
                                                     "created_at": "2026-06-08 02:24:10.281809+00"})
 
