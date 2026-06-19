@@ -6,7 +6,7 @@ import './styling/Auth.css'
 import { useAuth } from "../components/contexts/AuthContext"
 
 // components
-import InputWithToggle from "../components/forms/InputWithToggle"
+import PasswordInputWithToggle from "../components/forms/PasswordInputWithToggle"
 
 // utils
 import devLog from "../utils/logging/logging"
@@ -46,10 +46,9 @@ function Login() {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <label>Password:</label>
-            <InputWithToggle
-                type="password"
-                value={password}
-                setValue={setPassword}
+            <PasswordInputWithToggle
+                password={password}
+                setPassword={setPassword}
             />
             <button disabled={!(username && password)} onClick={ handleLogin }>Login</button>
             <span>
