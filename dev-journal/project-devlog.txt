@@ -532,3 +532,41 @@ DAY 29:
 - Switched currentUser AuthContext state to also include user data instead of only username.
 - Updated Profile page with profile card, displaying account creation date and profile picture.
 - Created File Upload UI component allowing user to upload profile picture.
+
+DAY 30
+- Migrated entire codebase from JavaScript to TypeScript.
+
+What I learned today:
+- TYPESCRIPT:
+    - Converting JavaScript project to TypeScript:
+        (Note: --save-dev adds the packages to devDependencies, which are used during build time but cannot be used after deployment)
+        - Install typescript compiler and React types so compiler can understand the types:
+            npm install --save-dev typescript @types/react @types/react-dom
+        - Install typescript linter:
+            npm install --save-dev eslint @eslint/js typescript-eslint
+        - Install node.js types:
+            npm install --save-dev @types/node
+        - Create tsconfig.app.json, tsconfig.node.json, and tsconfig.json files.
+        - Modify eslint.config.js for eslint to target "ts/tsx" files.
+        - Modify package.json "scripts.build" to "tsc -b && vite build" instead of "vite build" to ensure TypeScript catches
+            type errors during compilation.
+        - Add "strict: true" to tsconfig.app.json for more strict checks.
+        - Add "allowJS: true" to tsconfig.app.json to allow JavaScript files to be imported
+            (so codebase can be incrementally converted to TS).
+        - Replace main.jsx with main.tsx, then change entry point in index.html to src="/src/main.tsx".
+        - Gradually convert .jsx files to .tsx, adding type annotations and resolving TypeScript errors:
+            - Add type annotations to function params and return value.
+            - Create types for JSON API responses and objects.
+    - Optional chaining operator "?." allows accessing a property if the left value is not null or undefined.
+        For eg. user?.username returns the user's username if user is neither null not undefined.
+    - Types can be defined starting with "type TypeName =".  The type name should be in PascalCase.
+    - Union type operator "|" is used to indicate that a variable can be of multiple types.
+        For eg. "type TypeName = number | string" means that variables of type TypeName can either be a number OR a string.
+    - Intersection type operator "&" is used to indicate that a variable must be of these types.
+        For eg. "type TypeName = Person | Employee" means that variables of type TypeName should be of both type Person AND type Employee.
+    - It is good practice for contexts to create and provide custom useContext() hooks instead of letting the consumers explicitly
+        make use of useContext().
+        For eg. AuthContext.tsx provides useAuth() which wraps around useContext("AuthContext") and throws an error if
+        AuthContext is null.  Then the consumer just calls useAuth().
+        This prevents TypeScript language service from complaining about AuthContext being possibly null if we created the context
+        with "const AuthContext = createContext(null)".

@@ -91,6 +91,11 @@ function News() {
                     />
                 </Section>
 
+                <Section title="JUNE 19, 2026">
+                    <li> Created user profile card on Profile page showing profile picture and account creationd date. </li>
+                    <li> Migrated entire codebase to TypeScript. </li>
+                </Section>
+
             </ul>
         </div>
     )
