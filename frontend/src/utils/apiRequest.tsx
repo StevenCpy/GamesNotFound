@@ -1,0 +1,46 @@
+import SERVER_URL from "../data/serverVariables"
+import devLog from "./logging/logging"
+
+const STATUS_FAIL_MESSAGE = "Fail"
+const API_VERSION = 2
+
+type ApiRequest = {
+    method: string
+    headers?: ApiRequestHeaders
+    body?: string
+}
+
+type ApiRequestHeaders = {
+    "Content-Type"?: "application/json"
+    "Authorization"?: `Bearer ${string}`
+}
+
+async function apiRequest(component: string, endpoint: string, method: string, body?: any, token?: string|null) {
+    devLog(component, `Calling ${endpoint} API endpoint...`)
+
+    const URL = `${SERVER_URL}/api/v${API_VERSION}/${endpoint}`
+    const request: ApiRequest = { method: method }
+    if (body || token) {
+        const headers: ApiRequestHeaders = {}
+        if (body) {
+            headers["Content-Type"] = "application/json"
+            request.body = JSON.stringify(body)
+        }
+        // include JWT token in headers
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`
+        }
+        request.headers = headers
+    }
+
+    try {
+        const response = await fetch(URL, request)
+        const response_json = await response.json()
+        return response_json
+    } catch (error) {
+        console.error(`Error calling ${endpoint} endpoint`, error)
+        return {"status": STATUS_FAIL_MESSAGE, "details": `Error calling ${endpoint} endpoint`}
+    }
+}
+
+export default apiRequest
