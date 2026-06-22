@@ -1,0 +1,16 @@
+#dark-mode-toggle {
+    overflow: hidden;
+    margin: 0;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+#dark-mode-icon svg {
+    width: clamp(1rem, 2vw, 2rem);
+    height: clamp(1rem, 2vw, 2rem);
+}
+
+#dark-mode-icon:hover {
+    opacity: 70%;
+}

@@ -1,7 +1,7 @@
 #main-navbar {
     display: flex;
     flex-direction: row;
-    padding: 1rem 0 2rem;
+    padding: 1rem 1rem 2rem;
     font-size: clamp(0.4rem, 2vw, 1.5rem);
 }
 
