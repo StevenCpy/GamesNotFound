@@ -16,13 +16,23 @@
     --primary-bg-color: #232730;
     --secondary-bg-color: #242424;
     --tertiary-bg-color: #1a1919;
+
+    --primary-text-color: white;
     --border: 1px solid grey;
+}
+
+.light-theme {
+    --primary-bg-color: lightblue;
+    --secondary-bg-color: white;
+    --primary-text-color: black;
+    --border: 1px solid orange;
 }
 
 body {
     margin: 0;
     height: 100dvh;
     background-color: var(--primary-bg-color);
+    color: var(--primary-text-color)
 }
 
 #root {

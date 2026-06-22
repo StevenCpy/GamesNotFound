@@ -6,11 +6,12 @@ import './index.css'
 import App from './App.jsx'
 
 // providers
-import { AuthProvider } from './components/contexts/AuthContext.tsx'
-import { StoreProvider } from './components/contexts/StoreContext.tsx'
-import { LibraryProvider } from './components/contexts/LibraryContext.tsx'
-import { HighscoreProvider } from './components/contexts/HighscoreContext.tsx'
-import { LoadingProvider } from './components/contexts/LoadingContext.tsx'
+import { AuthProvider } from "./components/contexts/AuthContext.tsx"
+import { StoreProvider } from "./components/contexts/StoreContext.tsx"
+import { LibraryProvider } from "./components/contexts/LibraryContext.tsx"
+import { HighscoreProvider } from "./components/contexts/HighscoreContext.tsx"
+import { LoadingProvider } from "./components/contexts/LoadingContext.tsx"
+import { ThemeProvider } from "./components/contexts/ThemeContext.tsx"
 
 createRoot(document.getElementById('root')!).render(
     /*
@@ -84,7 +85,9 @@ createRoot(document.getElementById('root')!).render(
                 <LibraryProvider>
                     <HighscoreProvider>
                         <LoadingProvider>
-                            <App />
+                            <ThemeProvider>
+                                <App />
+                            </ThemeProvider>
                         </LoadingProvider>
                     </HighscoreProvider>
                 </LibraryProvider>
