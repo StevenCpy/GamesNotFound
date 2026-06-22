@@ -2,39 +2,30 @@ import SERVER_URL from "../data/serverVariables"
 import devLog from "./logging/logging"
 
 const STATUS_FAIL_MESSAGE = "Fail"
-const API_VERSION = 2
+const API_VERSION = "v3"
 
 type ApiRequest = {
     method: string
-    headers?: ApiRequestHeaders
+    credentials: "include"
+    headers?:{"content-type": "application/json"}
     body?: string
 }
 
-type ApiRequestHeaders = {
-    "Content-Type"?: "application/json"
-    "Authorization"?: `Bearer ${string}`
-}
-
-async function apiRequest(component: string, endpoint: string, method: string, body?: any, token?: string|null) {
+async function apiRequest(component: string, endpoint: string, method: string, body?: any) {
     devLog(component, `Calling ${endpoint} API endpoint...`)
 
-    const URL = `${SERVER_URL}/api/v${API_VERSION}/${endpoint}`
-    const request: ApiRequest = { method: method }
-    if (body || token) {
-        const headers: ApiRequestHeaders = {}
-        if (body) {
-            headers["Content-Type"] = "application/json"
-            request.body = JSON.stringify(body)
-        }
-        // include JWT token in headers
-        if (token) {
-            headers["Authorization"] = `Bearer ${token}`
-        }
-        request.headers = headers
+    const REQUEST_URL = `${SERVER_URL}/api/${API_VERSION}/${endpoint}`
+    const request: ApiRequest = {
+        method: method,
+        credentials: "include"
+    }
+    if (body) {
+        request.headers = {"content-type": "application/json"}
+        request.body = JSON.stringify(body)
     }
 
     try {
-        const response = await fetch(URL, request)
+        const response = await fetch(REQUEST_URL, request)
         const response_json = await response.json()
         return response_json
     } catch (error) {

@@ -42,8 +42,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const highscores_response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
+        const highscores_response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
         if (highscores_response_json.status == "Success") {
             devLog(COMPONENT, "High scores fetched")
             // initialize high score hash map
@@ -73,8 +72,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             "gameID": gameID,
             "score": score
         }
-        const token = localStorage.getItem("token")
-        const response_json = await apiRequest(COMPONENT, "score/", "POST", body, token)
+        const response_json = await apiRequest(COMPONENT, "score/", "POST", body)
         
         if (response_json.status == "Success") {
             const highScore = response_json.data["high_score"]

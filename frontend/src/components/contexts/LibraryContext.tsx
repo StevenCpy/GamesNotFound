@@ -47,8 +47,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadLibrary() called")
 
         // send GET request to fetch Library from server
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
+        const response_json = await apiRequest(COMPONENT, "library/", "GET")
 
         if (response_json.status == "Success") {
             devLog(COMPONENT, "Library fetched")
@@ -68,8 +67,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
         // send POST request to server to add game to user's library
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "POST", null, token)
+        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "POST")
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {
@@ -93,8 +91,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
         // // send DELETE request to server to remove game from user's library
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE", null, token)
+        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE")
 
         if (response_json.status == "Success") {
             devLog(COMPONENT, `Server removed game ID "${gameID}" from user's library`)

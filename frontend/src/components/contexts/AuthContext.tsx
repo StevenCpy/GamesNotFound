@@ -47,8 +47,7 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
 
     async function authenticateUsingToken() : Promise<void> {
         // send GET request to fetch username from server
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET", null, token)
+        const auth_response_json = await apiRequest(COMPONENT, "auth/me", "GET")
         if (auth_response_json.status == "Success") {
             setCurrentUser(auth_response_json.user_info)
             
@@ -65,8 +64,6 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         const response_json = await apiRequest(COMPONENT, "auth/login", "POST", { username: username, password: password })
         if (response_json.status == "Success") {
             devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
-            // store JWT token received from server
-            localStorage.setItem("token", response_json.token)
             setCurrentUser(response_json.user_info)
 
             toast(`Successfully logged in.  Welcome back ${username.toUpperCase()}!`)
