@@ -6,9 +6,9 @@ from .store import router as router_store
 from .library import router as router_library
 from .score import router as router_score
 
-router = APIRouter()
+from .config import API_VERSION
 
-API_VERSION = "v3"
+router = APIRouter()
 
 router.include_router(router_root, tags=[f"{API_VERSION} - root"])
 router.include_router(router_auth, tags=[f"{API_VERSION} - auth"])

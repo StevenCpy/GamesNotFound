@@ -1,5 +1,5 @@
 # fastAPI
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, Response
 from pydantic import BaseModel
 from typing import Annotated
 
@@ -11,6 +11,8 @@ from ..status_message import status_success, status_fail
 from utils.logging import dev_log, dev_error, dev_error_database
 from utils.encryption.jwt_encryption import encode_HS256, decode_payload_HS256
 from utils.encryption.password_encryption import hash_password, check_password
+
+from .config import API_VERSION
 
 router = APIRouter(
     prefix="/auth"
@@ -61,31 +63,41 @@ async def signup(auth: Auth):
 # ----------------------------------------------------------------- #
 # API to authenticate user, returns "Success" or "Fail" with details if unsuccessful
 @router.post("/login")
-async def login(auth: Auth):
+async def login(auth: Auth, response: Response):
     endpoint = "login"
     dev_log(endpoint, "Endpoint called")
 
     username = auth.username.upper()
     try:
         # query database for user's actual password
-        response = (
+        db_response = (
             supabase_client.table(USERS_TABLE)
             .select("password_hash_str,profile_pic_url,created_at")
             .eq("username",username)
             .execute()
         )
         # if user exists in database
-        if len(response.data):
-            db_password_hash = response.data[0]["password_hash_str"].encode('utf-8')
+        if len(db_response.data):
+            db_password_hash = db_response.data[0]["password_hash_str"].encode('utf-8')
             # if password matches the one in database
             if check_password(db_password_hash, auth.password):
                 dev_log(endpoint, f"User '{username}' logged in")
 
                 # encode payload
                 payload = {"username": username,
-                           "profile_pic_url": response.data[0]["profile_pic_url"],
-                           "created_at": response.data[0]["created_at"]}
+                           "profile_pic_url": db_response.data[0]["profile_pic_url"],
+                           "created_at": db_response.data[0]["created_at"]}
                 token = encode_HS256(payload)
+
+                response.set_cookie(
+                    key="auth_token",
+                    value=token,
+                    path=f"/api/{API_VERSION}",
+                    secure=True,
+                    httponly=True,
+                    samesite='none'
+                )
+
                 return status_success({"token": token, "user_info": payload})
             else:
                 dev_log(endpoint, f"Password for '{username}' is incorrect")
@@ -103,7 +115,7 @@ async def login(auth: Auth):
 # ----------------------------------------------------------------- #
 # API to authenticate user using JWT token
 @router.get("/me")
-async def auth(Authorization: Annotated[str|None, Header()] = None):
+async def auth(Authorization: Annotated[str|None, ()] = None):
     endpoint = "me"
     dev_log(endpoint, "Endpoint called")
 
