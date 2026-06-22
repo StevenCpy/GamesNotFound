@@ -1,5 +1,5 @@
 # fastAPI
-from fastapi import APIRouter, Header, Response
+from fastapi import APIRouter, Response, Cookie
 from pydantic import BaseModel
 from typing import Annotated
 
@@ -115,13 +115,13 @@ async def login(auth: Auth, response: Response):
 # ----------------------------------------------------------------- #
 # API to authenticate user using JWT token
 @router.get("/me")
-async def auth(Authorization: Annotated[str|None, ()] = None):
+async def auth(auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "me"
     dev_log(endpoint, "Endpoint called")
 
     try:
         # decode payload
-        payload = decode_payload_HS256(Authorization)
+        payload = decode_payload_HS256(auth_token)
         return status_success({"user_info": payload})
     except Exception as e:
         dev_error(endpoint, e)

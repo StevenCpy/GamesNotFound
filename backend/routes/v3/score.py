@@ -1,5 +1,5 @@
 # fastAPI
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Cookie
 from pydantic import BaseModel
 from typing import Annotated
 
@@ -30,13 +30,13 @@ class Score(BaseModel):
 # ----------------------------------------------------------------- #
 # API to return games high scores
 @router.get("/highscores")
-async def highscores(Authorization: Annotated[str|None, Header()] = None):
+async def highscores(auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "highscores"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -61,13 +61,13 @@ async def highscores(Authorization: Annotated[str|None, Header()] = None):
 # ----------------------------------------------------------------- #
 # API to update game high score
 @router.post("/")
-async def updateHighscore(score: Score, Authorization: Annotated[str|None, Header()] = None):
+async def updateHighscore(score: Score, auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "updateHighscore"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)

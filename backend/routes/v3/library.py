@@ -1,5 +1,5 @@
 # fastAPI
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Cookie
 from typing import Annotated
 
 # supabase
@@ -22,13 +22,13 @@ router = APIRouter(
 # ----------------------------------------------------------------- #
 # API to return user's list of library games
 @router.get("/")
-async def library(Authorization: Annotated[str|None, Header()] = None):
+async def library(auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "library"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -54,13 +54,13 @@ async def library(Authorization: Annotated[str|None, Header()] = None):
 # ----------------------------------------------------------------- #
 # API to add game to user's library
 @router.post("/{gameID}")
-async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()] = None):
+async def addToLibrary(gameID: int, auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "addToLibrary"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -91,13 +91,13 @@ async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()]
 # ----------------------------------------------------------------- #
 # API to remove game from user's library
 @router.delete("/{gameID}")
-async def removeFromLibrary(gameID: int, Authorization: Annotated[str|None, Header()] = None):
+async def removeFromLibrary(gameID: int, auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "removeFromLibrary"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
