@@ -7,7 +7,7 @@ from typing import Annotated
 from ..supabase_client import supabase_client, USERS_TABLE
 
 # utils
-from .status_message import status_success, status_fail
+from ..status_message import status_success, status_fail
 from utils.logging import dev_log, dev_error, dev_error_database
 from utils.encryption.jwt_encryption import encode_HS256, decode_payload_HS256
 from utils.encryption.password_encryption import hash_password, check_password
@@ -51,7 +51,7 @@ async def signup(auth: Auth):
             }).execute()
 
             dev_log(endpoint, f"User '{username}' signed up")
-            return status_success()
+            return status_success(None)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")

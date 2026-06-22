@@ -1,0 +1,4 @@
+- Endpoint responses have more consistent shape
+    - Success: "status", "data" and [optional] "message" fields
+    - Fail: "status" and "details" fields
+- HTTPOnly authentication instead of headers

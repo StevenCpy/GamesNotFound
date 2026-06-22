@@ -9,7 +9,7 @@ from ..supabase_client import supabase_client, LIBRARY_TABLE
 from datetime import datetime, timezone
 
 # utils
-from .status_message import status_success, status_fail
+from ..status_message import status_success, status_fail
 from utils.logging import dev_log, dev_error, dev_error_database
 from utils.encryption.jwt_encryption import decode_payload_HS256
 
@@ -44,7 +44,7 @@ async def library(Authorization: Annotated[str|None, Header()] = None):
             .execute()
         )
         dev_log(endpoint, f"Library for '{username}' fetched from database")
-        return status_success({"data": response.data})
+        return status_success(response.data)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")
@@ -81,7 +81,7 @@ async def addToLibrary(gameID: int, Authorization: Annotated[str|None, Header()]
         )
         game_added = {k:v for k,v in response.data[0].items() if k != "username"} # remove username field from response
         dev_log(endpoint, f"Game ID {gameID} added to {username}'s library")
-        return status_success({"data": game_added})
+        return status_success(game_added)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")
@@ -110,7 +110,7 @@ async def removeFromLibrary(gameID: int, Authorization: Annotated[str|None, Head
             "gameID": gameID
         }).execute()
         dev_log(endpoint, f"Game ID {gameID} removed from {username}'s library")
-        return status_success()
+        return status_success(None)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")

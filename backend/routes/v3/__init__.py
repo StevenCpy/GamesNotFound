@@ -8,7 +8,7 @@ from .score import router as router_score
 
 router = APIRouter()
 
-API_VERSION = "v2"
+API_VERSION = "v3"
 
 router.include_router(router_root, tags=[f"{API_VERSION} - root"])
 router.include_router(router_auth, tags=[f"{API_VERSION} - auth"])

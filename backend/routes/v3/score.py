@@ -10,7 +10,7 @@ from ..supabase_client import supabase_client, SCORE_TABLE
 from datetime import datetime, timezone
 
 # utils
-from .status_message import status_success, status_fail
+from ..status_message import status_success, status_fail
 from utils.logging import dev_log, dev_error, dev_error_database
 from utils.encryption.jwt_encryption import decode_payload_HS256
 
@@ -51,7 +51,7 @@ async def highscores(Authorization: Annotated[str|None, Header()] = None):
             .execute()
         )
         dev_log(endpoint, f"High scores for '{username}' fetched from database")
-        return status_success({"data": response.data})
+        return status_success(response.data)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")
@@ -107,7 +107,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                 .execute()
             )
             dev_log(endpoint, f"High score added for username: '{username}', gameID: '{score.gameID}'")
-            return status_success({"details": "Updated first high score for game", "data": response.data[0]})
+            return status_success({"message": "First score for game", "data": response.data[0]})
         except Exception as e:
             dev_error_database(endpoint, e)
             return status_fail("Database error")
@@ -132,7 +132,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                     .execute()
                 )
                 dev_log(endpoint, f"Score for username: '{username}', gameID: '{score.gameID}' was less than high score")
-                return status_success({"details": "Score was less than high score", "data": response.data[0]})
+                return status_success(response.data[0], "Score was less than High score")
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")
@@ -155,7 +155,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                     .execute()
                 )
                 dev_log(endpoint, f"High score updated for username: '{username}', gameID: '{score.gameID}'")
-                return status_success({"details": "High score was updated", "data": response.data[0]})
+                return status_success(response.data[0], "New High score")
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")

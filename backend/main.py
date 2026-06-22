@@ -8,6 +8,7 @@ load_dotenv()
 
 from routes.v1.endpoints import router as router_v1
 from routes.v2 import router as router_v2
+from routes.v3 import router as router_v3
 
 app = FastAPI()
 
@@ -28,3 +29,4 @@ app.add_middleware(
 
 app.include_router(router_v1, prefix="/api/v1", tags=["v1"])
 app.include_router(router_v2, prefix="/api/v2")
+app.include_router(router_v3, prefix="/api/v3")
