@@ -1,4 +1,4 @@
-import { createContext, useState, use, useMemo } from 'react'
+import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from '../../utils/logging/logging'
@@ -15,11 +15,17 @@ export const ThemeContext = createContext<ThemeContextType|null>(null)
 export function ThemeProvider( {children}: {children: React.ReactNode} ) {
     devLog(COMPONENT, "called")
 
-    const theme = useMemo(() => localStorage.getItem("theme"), [])
-    const [isDark, setIsDark] = useState<boolean>(theme === "dark")
+    const [isDark, setIsDark] = useState<boolean>(() => {
+        const savedTheme = localStorage.getItem("theme")
+        if (savedTheme === "light") {
+            document.documentElement.classList.add("light-theme")
+        } // HTML element has "dark" theme by default
+        return (savedTheme === "dark")
+    })
 
-    // save theme to localStorage on toggle
+    // save theme to localStorage on toggle, and toggle theme class on HTML element
     localStorage.setItem("theme", isDark ? "dark" : "light")
+    document.documentElement.classList.toggle("light-theme")
 
     return (
         <ThemeContext value={{ isDark, setIsDark }}>

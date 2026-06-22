@@ -19,7 +19,6 @@ function DarkModeToggle( ) {
                 <span id="dark-mode-icon">{isDark ? <FiMoon /> : <FiSun />}</span>
             </label>
         </div>
-        
     )
 }
 
