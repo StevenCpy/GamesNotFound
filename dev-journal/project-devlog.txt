@@ -570,3 +570,30 @@ What I learned today:
         AuthContext is null.  Then the consumer just calls useAuth().
         This prevents TypeScript language service from complaining about AuthContext being possibly null if we created the context
         with "const AuthContext = createContext(null)".
+
+DAY 31
+- Created Dockerfile to containerize server.
+- Switched to running server Docker container on Render instead of raw source code, for better environment isolation.
+
+What I learned today:
+DOCKER:
+    - 3 main files: Dockerfile, .dockerignore and docker-compose.yaml
+        1. Dockerfile - Indicates how to build the image
+        2. .dockerignore - What files/directories to ignore when copying files over
+        3. docker-compose.yaml - Indicates how to run the container (avoids having to type thing
+                                    like "docker run --env-file .env tag_name -p 8000:8000")
+    - Docker uses layer-caching mechanism.  For eg. "FROM", "WORKDIR", "COPY" and "RUN" are different layers.
+        If a change is detected in one of the layers, all subsequent layers are re-built.
+    - Best to start by copying dependencies for eg. requirements.txt (Python) using "COPY",
+        then running command that installs the dependencies ("pip install -r requirements.txt" for example),
+        then finally copying the source code.
+        This way, the dependencies-installation layer is cached and is not re-triggered every time source code is modified.
+    - --no-cache-dir flag when installing dependencies eg. "pip install --no-cache-dir -r requirements.txt" reduces image
+        size considerably.
+    - Containers are isolated from host environment.  To add environment variables to docker container runtime,
+        "docker run --env-file .env tag_name"
+    - Container ports isolated from host machine.
+        Port mapping "-p {host_port}:{container_port}" is required, where host_port is the port of the machine
+        running the container, and container_port is the port the app inside the container listens to.
+        For eg. -p 7000:8000 means all traffic the host sends to port 7000 (like API requests) is routed
+        to port 8000 of the container (eg. server inside container listens to API requests on port 8000).
