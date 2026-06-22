@@ -574,6 +574,7 @@ What I learned today:
 DAY 31
 - Created Dockerfile to containerize server.
 - Switched to running server Docker container on Render instead of raw source code, for better environment isolation.
+- Implemented dark mode.
 
 What I learned today:
 DOCKER:
@@ -597,3 +598,10 @@ DOCKER:
         running the container, and container_port is the port the app inside the container listens to.
         For eg. -p 7000:8000 means all traffic the host sends to port 7000 (like API requests) is routed
         to port 8000 of the container (eg. server inside container listens to API requests on port 8000).
+- We can dynamically set a class on HTML using document.documentElement.classList.add("className").
+    "add": adds class, "remove": removes class, "toggle": adds class if not present, else removes it.
+- <label> tag makes everything between the tags clickable.
+- Element can be made "invisible" by setting "opacity: 0".
+- Custom toggle with icon can be achieved by:
+    - Put checkbox and icon between <label> tags.
+    - Set checkbox "opacity: 0" to make it "invisible", therefore hiding it.

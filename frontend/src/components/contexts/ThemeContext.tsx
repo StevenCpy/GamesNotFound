@@ -1,9 +1,9 @@
-import { createContext, useState, use } from 'react'
+import { createContext, useState, use, useEffect } from 'react'
 
 // utils
 import devLog from '../../utils/logging/logging'
 
-const COMPONENT = "ThemeProvider"
+const COMPONENT = "ThemeContext"
 
 type ThemeContextType = {
     isDark: boolean
@@ -17,15 +17,17 @@ export function ThemeProvider( {children}: {children: React.ReactNode} ) {
 
     const [isDark, setIsDark] = useState<boolean>(() => {
         const savedTheme = localStorage.getItem("theme")
-        if (savedTheme === "light") {
-            document.documentElement.classList.add("light-theme")
-        } // HTML element has "dark" theme by default
-        return (savedTheme === "dark")
+        return (savedTheme !== "light")
+        // HTML element has "dark" theme by default
     })
 
-    // save theme to localStorage on toggle, and toggle theme class on HTML element
-    localStorage.setItem("theme", isDark ? "dark" : "light")
-    document.documentElement.classList.toggle("light-theme")
+    useEffect(() => {
+        // save theme to localStorage on toggle, and toggle light-theme class on HTML element
+        localStorage.setItem("theme", isDark ? "dark" : "light")
+        isDark ?
+                document.documentElement.classList.remove("light-theme")
+                : document.documentElement.classList.add("light-theme")
+    }, [isDark])
 
     return (
         <ThemeContext value={{ isDark, setIsDark }}>

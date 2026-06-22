@@ -6,7 +6,6 @@ import { useTheme } from '../contexts/ThemeContext'
 
 function DarkModeToggle( ) {
     const { isDark, setIsDark } = useTheme()
-    console.log("isDark", isDark)
 
     return (
         <div id="dark-mode-toggle-container">
