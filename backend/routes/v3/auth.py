@@ -18,6 +18,13 @@ router = APIRouter(
     prefix="/auth"
 )
 
+COOKIE_SETTINGS = {
+    "path": f"/api/{API_VERSION}",
+    "secure": True,
+    "httponly": True,
+    "samesite": "none"
+}
+
 # ----------------------------------------------------------------- #
 #                            BASE MODELS                            #
 # ----------------------------------------------------------------- #
@@ -92,10 +99,8 @@ async def login(auth: Auth, response: Response):
                 response.set_cookie(
                     key="auth_token",
                     value=token,
-                    path=f"/api/{API_VERSION}",
-                    secure=True,
-                    httponly=True,
-                    samesite='none'
+                    max_age=60*60*24*7, # in seconds
+                    **COOKIE_SETTINGS
                 )
 
                 return status_success({"user_info": payload})
@@ -126,3 +131,19 @@ async def auth(auth_token: Annotated[str|None, Cookie()] = None):
     except Exception as e:
         dev_error(endpoint, e)
         return status_fail("Token could not be decoded")
+    
+# ----------------------------------------------------------------- #
+#                             /logout                               #
+# ----------------------------------------------------------------- #
+# API to log out user
+@router.post("/logout")
+async def logout(response: Response):
+    endpoint = "logout"
+    dev_log(endpoint, "Endpoint called")
+
+    response.delete_cookie(
+        key="auth_token",
+        **COOKIE_SETTINGS
+    )
+
+    return status_success(None)

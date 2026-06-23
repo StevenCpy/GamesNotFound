@@ -607,9 +607,12 @@ DOCKER:
     - Set checkbox "opacity: 0" to make it "invisible", therefore hiding it.
 
 DAY 32:
-- Implemented API v3 with more consistent response shape and HTTPOnly JWT auth.
-- Modified client to include credentials from cookie instead of getting token from localStorage.
-- Refactored API response TS types.
+- Switched from localStorage to HTTPOnly JWT auth:
+    - Implemented API v3 with more consistent response shape and HTTPOnly JWT auth.
+    - Modified client to include credentials from cookie instead of getting token from localStorage.
+    - Refactored API response TS types into type files.
+    - Created /logout endpoint for deleting cookie on log out, modified client "Log out" button to use it.
+    - Added expiration to auth tokens.
 
 What I learned today:
 - COOKIES:
@@ -631,3 +634,6 @@ What I learned today:
     - "partitioned": Prevents tracking user across sites.
         If two sites have the same ads engine that uses cookies, the cookies on both
         sites will be different.
+- "*" is the Python unpacking operator for lists and tuples, while "**" is for dictionaries.
+    It is similar to the spread operator "..." in JavaScript.
+- Expiration can be added to tokens by setting cookie "max_age" (relative time) or "expires" (absolute time) field.

@@ -6,17 +6,18 @@ import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 
 // api response types
-import { type UserInfo, type AuthResponse, type SignupResponse, type LoginResponse } from '../ApiResponseTypes/AuthResponseTypes'
+import { type UserInfo, type AuthResponse, type SignupResponse, type LoginResponse, type LogoutResponse } from '../ApiResponseTypes/AuthResponseTypes'
 
 const COMPONENT = "AuthContext"
 
 type AuthContextType = {
     currentUser: UserInfo | null
     setCurrentUser: React.Dispatch<React.SetStateAction<UserInfo | null>>
-    signupServer: (username: string, password: string) => Promise<SignupResponse>
     authenticateUsingToken: () => Promise<void>
-    quickLogin: () => void
+    signupServer: (username: string, password: string) => Promise<SignupResponse>
     loginServer: (username: string, password: string) => Promise<LoginResponse>
+    quickLogin: () => void
+    logoutServer: () => Promise<LogoutResponse>
 }
 
 export const AuthContext = createContext<AuthContextType|null>(null)
@@ -34,9 +35,20 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         }
     }
 
-    const quickLogin = () => setCurrentUser({"username": "admin",
-                                                "profile_pic_url": null,
-                                                "created_at": "2026-06-08 02:24:10.281809+00"})
+    async function signupServer(username: string, password: string) : Promise<SignupResponse> {
+        const body = {
+            username: username,
+            password: password
+        }
+        // send sign up POST request to server to handle sign up
+        const response_json: SignupResponse = await apiRequest(COMPONENT, "auth/signup", "POST", body)
+        if (response_json.status == "Success") {
+            devLog(COMPONENT, `User ${username} successfully signed up by server`)
+        } else {
+            devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
+        }
+        return response_json
+    }
 
     async function loginServer(username: string, password: string) : Promise<LoginResponse> {
         const body = {
@@ -56,23 +68,22 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         return response_json
     }
 
-    async function signupServer(username: string, password: string) : Promise<SignupResponse> {
-        const body = {
-            username: username,
-            password: password
-        }
-        // send sign up POST request to server to handle sign up
-        const response_json: SignupResponse = await apiRequest(COMPONENT, "auth/signup", "POST", body)
+    const quickLogin = () => setCurrentUser({"username": "admin",
+                                                "profile_pic_url": null,
+                                                "created_at": "2026-06-08 02:24:10.281809+00"})
+
+    async function logoutServer(): Promise<LogoutResponse> {
+        const response_json: LogoutResponse = await apiRequest(COMPONENT, "auth/logout", "POST")
         if (response_json.status == "Success") {
-            devLog(COMPONENT, `User ${username} successfully signed up by server`)
-        } else {
-            devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
+            setCurrentUser(null)
+            toast(`Successfully logged out!`)
         }
+
         return response_json
     }
 
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, signupServer, authenticateUsingToken, quickLogin, loginServer }}>
+        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, signupServer, loginServer, quickLogin, logoutServer }}>
             {children}
         </AuthContext>
     )
