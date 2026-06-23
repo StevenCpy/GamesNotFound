@@ -34,7 +34,7 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         }
     }
 
-    const quickLogin = () => setCurrentUser({"username": "Admin",
+    const quickLogin = () => setCurrentUser({"username": "admin",
                                                 "profile_pic_url": null,
                                                 "created_at": "2026-06-08 02:24:10.281809+00"})
 
@@ -46,10 +46,10 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         // send login POST request to server to handle login
         const response_json : LoginResponse = await apiRequest(COMPONENT, "auth/login", "POST", body)
         if (response_json.status == "Success") {
-            devLog(COMPONENT, `User "${username.toUpperCase()}" successfully logged in by server`)
+            devLog(COMPONENT, `User "${username.toLowerCase()}" successfully logged in by server`)
             setCurrentUser(response_json.data.user_info)
 
-            toast(`Successfully logged in.  Welcome back ${username.toUpperCase()}!`)
+            toast(`Successfully logged in.  Welcome back ${username.toLowerCase()}!`)
         } else {
             devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
         }

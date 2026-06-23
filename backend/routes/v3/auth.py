@@ -39,7 +39,7 @@ async def signup(auth: Auth):
     endpoint = "signup"
     dev_log(endpoint, "Endpoint called")
 
-    username = auth.username.upper()
+    username = auth.username.lower()
     try:
         if usernameAlreadyExists(username):
             # return username already exists
@@ -67,7 +67,7 @@ async def login(auth: Auth, response: Response):
     endpoint = "login"
     dev_log(endpoint, "Endpoint called")
 
-    username = auth.username.upper()
+    username = auth.username.lower()
     try:
         # query database for user's actual password
         db_response = (
