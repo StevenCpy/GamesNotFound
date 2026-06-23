@@ -99,6 +99,7 @@ async def login(auth: Auth, response: Response):
                 response.set_cookie(
                     key="auth_token",
                     value=token,
+                    max_age=60*60*24*7, # in seconds
                     **COOKIE_SETTINGS
                 )
 
