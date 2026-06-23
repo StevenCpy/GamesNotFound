@@ -5,6 +5,10 @@ import { toast } from 'sonner'
 import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 
+// api response types
+import { type LibraryEntry, type LoadLibraryResponse,
+        type AddToLibraryResponse, type RemoveFromLibraryResponse } from '../ApiResponseTypes/LibraryResponseTypes'
+
 const COMPONENT = "LibraryProvider"
 
 type LibraryContextType = {
@@ -17,37 +21,6 @@ type LibraryContextType = {
 }
 
 export const LibraryContext = createContext<LibraryContextType|null>(null)
-
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type LibraryEntry = {
-    gameID: number
-    added_at: string
-}
-
-type LoadLibraryResponseSuccess = {
-    status: "Success"
-    data: LibraryEntry[]
-}
-
-type LoadLibraryResponse = ApiRequestFail | LoadLibraryResponseSuccess
-
-type AddToLibraryResponseSuccess = {
-    status: "Success"
-    data: {gameID: number, added_at: string}
-}
-
-type AddToLibraryResponse = ApiRequestFail | AddToLibraryResponseSuccess
-
-type RemoveFromLibraryResponseSuccess = {
-    status: "Success"
-    data: null
-}
-
-type RemoveFromLibraryResponse = ApiRequestFail | RemoveFromLibraryResponseSuccess
 
 export function LibraryProvider( {children}: {children: React.ReactNode} ) {
     const [libraryList, setLibraryList] = useState<LibraryEntry[]>([]) // list for displaying library games in order

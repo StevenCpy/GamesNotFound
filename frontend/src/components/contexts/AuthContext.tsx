@@ -5,6 +5,9 @@ import { toast } from 'sonner'
 import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 
+// api response types
+import { type UserInfo, type AuthResponse, type SignupResponse, type LoginResponse } from '../ApiResponseTypes/AuthResponseTypes'
+
 const COMPONENT = "AuthContext"
 
 type AuthContextType = {
@@ -17,38 +20,6 @@ type AuthContextType = {
 }
 
 export const AuthContext = createContext<AuthContextType|null>(null)
-
-type ApiResponseFail = {
-    status: "Fail"
-    details: string
-}
-
-type UserInfo = {
-    username: string
-    profile_pic_url: string | null
-    created_at: string
-}
-
-type AuthResponseSuccess = {
-    status: "Success"
-    data: {user_info: UserInfo}
-}
-
-type AuthResponse = ApiResponseFail | AuthResponseSuccess
-
-type LoginResponseSuccess = {
-    status: "Success"
-    data: {user_info: UserInfo}
-}
-
-type LoginResponse = ApiResponseFail | LoginResponseSuccess
-
-type SignupResponseSuccess = {
-    status: "Success"
-    data: null
-}
-
-type SignupResponse = ApiResponseFail | SignupResponseSuccess
 
 export function AuthProvider( {children}: {children: React.ReactNode} ) {
     const [currentUser, setCurrentUser] = useState<UserInfo|null>(null)

@@ -5,6 +5,9 @@ import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
 
+// api response types
+import { type Highscore, type HighscoresResponse, type SubmitScoreResponse } from '../ApiResponseTypes/HighscoreResponseTypes'
+
 const COMPONENT = "HighscoreContext"
 
 type HighscoreContextType = {
@@ -17,33 +20,6 @@ type HighscoreContextType = {
 
 export const HighscoreContext = createContext<HighscoreContextType|null>(null)
 
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type Highscore = {
-    gameID: number
-    high_score: number
-    last_played: string
-}
-
-type HighscoreResponseSuccess = {
-    status: "Success"
-    data: Highscore[]
-}
-
-type HighscoreResponse = ApiRequestFail | HighscoreResponseSuccess
-
-type SubmitScoreResponseSuccess = {
-    status: "Success"
-    data: {high_score: number, last_played: string}
-    message: string
-
-}
-
-type SubmitScoreResponse = ApiRequestFail | SubmitScoreResponseSuccess
-
 export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState<Map<number, Highscore>>(new Map()) // hash map for displaying high scores
 
@@ -51,7 +27,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
-        const response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
+        const response_json: HighscoresResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
         if (response_json.status == "Success") {
             devLog(COMPONENT, "High scores fetched")
             // initialize high score hash map
