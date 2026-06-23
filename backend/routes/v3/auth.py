@@ -141,7 +141,7 @@ async def logout(response: Response):
     dev_log(endpoint, "Endpoint called")
 
     response.delete_cookie(
-        key="auth_token"
+        key="auth_token",
         **COOKIE_SETTINGS
     )
 

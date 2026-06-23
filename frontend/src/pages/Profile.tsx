@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import './styling/Profile.css'
 
 // contexts
@@ -15,19 +14,17 @@ const DEFAULT_PROFILE_PIC_URL = "/profile-picture/default profile pic.jpg"
 
 function Profile() {
     devLog(COMPONENT, "Profile() called")
-    const { currentUser, setCurrentUser } = useAuth()
+    const { currentUser, logoutServer } = useAuth()
 
     const navigate = useNavigate()
 
-    function handleLogout() {
+    async function handleLogout() {
         devLog(COMPONENT, "handleLogout() called")
 
-        setCurrentUser(null)
-        navigate("/")
-
-        toast(`Successfully logged out!`)
-
-        // clear JWT cookie + tell server that user logged out so it can invalidate token
+        const response_json = await logoutServer()
+        if (response_json.status == "Success") {
+            navigate("/")
+        }
     }
 
     const username = currentUser ? currentUser["username"] : null

@@ -74,6 +74,11 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
 
     async function logoutServer(): Promise<LogoutResponse> {
         const response_json: LogoutResponse = await apiRequest(COMPONENT, "auth/logout", "POST")
+        if (response_json.status == "Success") {
+            setCurrentUser(null)
+            toast(`Successfully logged out!`)
+        }
+
         return response_json
     }
 
