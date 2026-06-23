@@ -605,3 +605,29 @@ DOCKER:
 - Custom toggle with icon can be achieved by:
     - Put checkbox and icon between <label> tags.
     - Set checkbox "opacity: 0" to make it "invisible", therefore hiding it.
+
+DAY 32:
+- Implemented API v3 with more consistent response shape and HTTPOnly JWT auth.
+- Modified client to include credentials from cookie instead of getting token from localStorage.
+- Refactored API response TS types.
+
+What I learned today:
+- COOKIES:
+    https://starlette.dev/responses/#set-cookie
+    - Key-value based, store JWT token as value.
+    - "path": indicates where cookie is reachable.  For eg. if /login endpoint (which sets cookie)
+        is "/api/v3/auth/login", then cookie is valid in "/api/v3/auth".
+    - "domain": Domain can set cookie only for its own domain or parent domain.
+                Cookie is then available to the domain, and all its subdomains.
+    - "secure": cookie only sent when request URL starts with "https".
+    - "samesite"
+        - "strict": first-party cookie setting (Same domain).  Cookie not sent in cross-site requests.
+            Eg. accessing bank from external link will keep you logged out on the bank site
+            until you manually refresh the bank site.
+        - "lax": first-party cookie setting (Same domain).  Cookie sent in cross-site requests only
+            for certain cases.  Accessing a site from external link will log you in
+            on the destination site.
+        - "None": third-party cookie setting.  Allows cross-site requests.
+    - "partitioned": Prevents tracking user across sites.
+        If two sites have the same ads engine that uses cookies, the cookies on both
+        sites will be different.
