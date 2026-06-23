@@ -2,51 +2,30 @@ import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
-import apiRequest from "../../utils/apiRequest"
+import { apiRequest } from "../../utils/apiRequest"
+
+// api response types
+import { type StoreEntry, type LoadStoreResponse } from '../ApiResponseTypes/StoreResponseTypes'
 
 const COMPONENT = "StoreContext"
 
 type StoreContextType = {
     storeList: StoreEntry[]
-    loadStore: () => Promise<StoreResponse>
-    sortStoreList: (fieldToSortBy: fieldType, asc: boolean) => void
+    loadStore: () => Promise<LoadStoreResponse>
+    sortStoreList: (fieldToSortBy: FieldType, asc: boolean) => void
 }
 
 export const StoreContext = createContext<StoreContextType|null>(null)
 
-type StoreEntry = {
-    gameID: number
-    name: string
-    cover_image_url: string
-    description: string
-    author: string
-    version: string
-    is_playable: boolean
-    library_adds: number
-    uploaded_on: string | null
-}
-
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type StoreResponseSuccess = {
-    status: "Success"
-    data: StoreEntry[]
-}
-
-type StoreResponse = ApiRequestFail | StoreResponseSuccess
-
-type fieldType = "gameID" | "name"
+type FieldType = "gameID" | "name"
 
 export function StoreProvider( {children}: {children: React.ReactNode} ) {
     const [storeList, setStoreList] = useState<StoreEntry[]>([]) // list for displaying store games
 
-    async function loadStore() : Promise<StoreResponse> {
+    async function loadStore() : Promise<LoadStoreResponse> {
         devLog(COMPONENT, "loadStore() called")
-        const response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
 
+        const response_json: LoadStoreResponse = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
         if (response_json.status == "Success") {
             devLog(COMPONENT, "Store fetched")
             // initialize store games list
@@ -56,7 +35,7 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
     }
 
     // sort function, ascending order relative to field
-    function sortAscFn(a: StoreEntry, b: StoreEntry, field: fieldType) : number {
+    function sortAscFn(a: StoreEntry, b: StoreEntry, field: FieldType) : number {
         if (typeof storeList[0][field] === "string") {
             return (a[field] as string).localeCompare(b[field] as string)
         } else {
@@ -70,7 +49,7 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
     }
 
     // sort function, descending order relative to field
-    function sortDescFn(a: StoreEntry, b: StoreEntry, field: fieldType) : number {
+    function sortDescFn(a: StoreEntry, b: StoreEntry, field: FieldType) : number {
         if (typeof storeList[0][field] === "string") {
             return (b[field] as string).localeCompare(a[field] as string)
         } else {
@@ -83,7 +62,7 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
         } 
     }
 
-    function sortStoreList(fieldToSortBy: fieldType, asc: boolean) : void {
+    function sortStoreList(fieldToSortBy: FieldType, asc: boolean) : void {
         const storeListSorted = [...storeList] // copy list
 
         if (asc) {

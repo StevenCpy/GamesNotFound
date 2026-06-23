@@ -3,7 +3,11 @@ import { toast } from 'sonner'
 
 // utils
 import devLog from "../../utils/logging/logging"
-import apiRequest from "../../utils/apiRequest"
+import { apiRequest } from "../../utils/apiRequest"
+
+// api response types
+import { type LibraryEntry, type LoadLibraryResponse,
+        type AddToLibraryResponse, type RemoveFromLibraryResponse } from '../ApiResponseTypes/LibraryResponseTypes'
 
 const COMPONENT = "LibraryProvider"
 
@@ -18,23 +22,6 @@ type LibraryContextType = {
 
 export const LibraryContext = createContext<LibraryContextType|null>(null)
 
-type LibraryEntry = {
-    gameID: number
-    added_at: string
-}
-
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type LoadLibraryResponseSuccess = {
-    status: "Success"
-    data: LibraryEntry[]
-}
-
-type LoadLibraryResponse = ApiRequestFail | LoadLibraryResponseSuccess
-
 export function LibraryProvider( {children}: {children: React.ReactNode} ) {
     const [libraryList, setLibraryList] = useState<LibraryEntry[]>([]) // list for displaying library games in order
 
@@ -47,9 +34,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadLibrary() called")
 
         // send GET request to fetch Library from server
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, "library/", "GET", null, token)
-
+        const response_json: LoadLibraryResponse = await apiRequest(COMPONENT, "library/", "GET")
         if (response_json.status == "Success") {
             devLog(COMPONENT, "Library fetched")
             // initialize library games list
@@ -68,8 +53,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
         // send POST request to server to add game to user's library
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "POST", null, token)
+        const response_json: AddToLibraryResponse = await apiRequest(COMPONENT, `library/${gameID}`, "POST")
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {
@@ -93,8 +77,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
         // // send DELETE request to server to remove game from user's library
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE", null, token)
+        const response_json: RemoveFromLibraryResponse = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE")
 
         if (response_json.status == "Success") {
             devLog(COMPONENT, `Server removed game ID "${gameID}" from user's library`)

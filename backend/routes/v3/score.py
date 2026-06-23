@@ -1,5 +1,5 @@
 # fastAPI
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Cookie
 from pydantic import BaseModel
 from typing import Annotated
 
@@ -10,7 +10,7 @@ from ..supabase_client import supabase_client, SCORE_TABLE
 from datetime import datetime, timezone
 
 # utils
-from .status_message import status_success, status_fail
+from ..status_message import status_success, status_fail
 from utils.logging import dev_log, dev_error, dev_error_database
 from utils.encryption.jwt_encryption import decode_payload_HS256
 
@@ -30,13 +30,13 @@ class Score(BaseModel):
 # ----------------------------------------------------------------- #
 # API to return games high scores
 @router.get("/highscores")
-async def highscores(Authorization: Annotated[str|None, Header()] = None):
+async def highscores(auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "highscores"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -51,7 +51,7 @@ async def highscores(Authorization: Annotated[str|None, Header()] = None):
             .execute()
         )
         dev_log(endpoint, f"High scores for '{username}' fetched from database")
-        return status_success({"data": response.data})
+        return status_success(response.data)
     except Exception as e:
         dev_error_database(endpoint, e)
         return status_fail("Database error")
@@ -61,13 +61,13 @@ async def highscores(Authorization: Annotated[str|None, Header()] = None):
 # ----------------------------------------------------------------- #
 # API to update game high score
 @router.post("/")
-async def updateHighscore(score: Score, Authorization: Annotated[str|None, Header()] = None):
+async def updateHighscore(score: Score, auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "updateHighscore"
     dev_log(endpoint, "Endpoint called")
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(Authorization)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].upper()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -107,7 +107,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                 .execute()
             )
             dev_log(endpoint, f"High score added for username: '{username}', gameID: '{score.gameID}'")
-            return status_success({"details": "Updated first high score for game", "data": response.data[0]})
+            return status_success({"message": "First score for game", "data": response.data[0]})
         except Exception as e:
             dev_error_database(endpoint, e)
             return status_fail("Database error")
@@ -132,7 +132,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                     .execute()
                 )
                 dev_log(endpoint, f"Score for username: '{username}', gameID: '{score.gameID}' was less than high score")
-                return status_success({"details": "Score was less than high score", "data": response.data[0]})
+                return status_success(response.data[0], "Score was less than High score")
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")
@@ -155,7 +155,7 @@ async def updateHighscore(score: Score, Authorization: Annotated[str|None, Heade
                     .execute()
                 )
                 dev_log(endpoint, f"High score updated for username: '{username}', gameID: '{score.gameID}'")
-                return status_success({"details": "High score was updated", "data": response.data[0]})
+                return status_success(response.data[0], "New High score")
             except Exception as e:
                 dev_error_database(endpoint, e)
                 return status_fail("Database error")

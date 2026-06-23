@@ -2,8 +2,11 @@ import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
-import apiRequest from "../../utils/apiRequest"
+import { apiRequest } from "../../utils/apiRequest"
 import isoToLocaleDateString from "../../utils/isoToLocaleDateString"
+
+// api response types
+import { type Highscore, type HighscoresResponse, type SubmitScoreResponse } from '../ApiResponseTypes/HighscoreResponseTypes'
 
 const COMPONENT = "HighscoreContext"
 
@@ -17,24 +20,6 @@ type HighscoreContextType = {
 
 export const HighscoreContext = createContext<HighscoreContextType|null>(null)
 
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type Highscore = {
-    gameID: number
-    high_score: number
-    last_played: string
-}
-
-type HighscoreResponseSuccess = {
-    status: "Success"
-    data: Highscore[]
-}
-
-type HighscoreResponse = ApiRequestFail | HighscoreResponseSuccess
-
 export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState<Map<number, Highscore>>(new Map()) // hash map for displaying high scores
 
@@ -42,12 +27,11 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
-        const token = localStorage.getItem("token") // get JWT token from localStorage
-        const highscores_response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET", null, token)
-        if (highscores_response_json.status == "Success") {
+        const response_json: HighscoresResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
+        if (response_json.status == "Success") {
             devLog(COMPONENT, "High scores fetched")
             // initialize high score hash map
-            const highscoreList = highscores_response_json.data
+            const highscoreList = response_json.data
             const highscoreHashMap = new Map(
                 highscoreList.map(game => [game.gameID, game])
             )
@@ -73,8 +57,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             "gameID": gameID,
             "score": score
         }
-        const token = localStorage.getItem("token")
-        const response_json = await apiRequest(COMPONENT, "score/", "POST", body, token)
+        const response_json: SubmitScoreResponse = await apiRequest(COMPONENT, "score/", "POST", body)
         
         if (response_json.status == "Success") {
             const highScore = response_json.data["high_score"]
