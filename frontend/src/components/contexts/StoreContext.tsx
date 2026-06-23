@@ -8,11 +8,16 @@ const COMPONENT = "StoreContext"
 
 type StoreContextType = {
     storeList: StoreEntry[]
-    loadStore: () => Promise<StoreResponse>
+    loadStore: () => Promise<LoadStoreResponse>
     sortStoreList: (fieldToSortBy: fieldType, asc: boolean) => void
 }
 
 export const StoreContext = createContext<StoreContextType|null>(null)
+
+type ApiRequestFail = {
+    status: "Fail"
+    details: string
+}
 
 type StoreEntry = {
     gameID: number
@@ -26,27 +31,22 @@ type StoreEntry = {
     uploaded_on: string | null
 }
 
-type ApiRequestFail = {
-    status: "Fail"
-    details: string
-}
-
-type StoreResponseSuccess = {
+type LoadStoreResponseSuccess = {
     status: "Success"
     data: StoreEntry[]
 }
 
-type StoreResponse = ApiRequestFail | StoreResponseSuccess
+type LoadStoreResponse = ApiRequestFail | LoadStoreResponseSuccess
 
 type fieldType = "gameID" | "name"
 
 export function StoreProvider( {children}: {children: React.ReactNode} ) {
     const [storeList, setStoreList] = useState<StoreEntry[]>([]) // list for displaying store games
 
-    async function loadStore() : Promise<StoreResponse> {
+    async function loadStore() : Promise<LoadStoreResponse> {
         devLog(COMPONENT, "loadStore() called")
-        const response_json = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
 
+        const response_json: LoadStoreResponse = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
         if (response_json.status == "Success") {
             devLog(COMPONENT, "Store fetched")
             // initialize store games list

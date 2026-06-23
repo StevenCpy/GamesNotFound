@@ -18,14 +18,14 @@ type LibraryContextType = {
 
 export const LibraryContext = createContext<LibraryContextType|null>(null)
 
-type LibraryEntry = {
-    gameID: number
-    added_at: string
-}
-
 type ApiRequestFail = {
     status: "Fail"
     details: string
+}
+
+type LibraryEntry = {
+    gameID: number
+    added_at: string
 }
 
 type LoadLibraryResponseSuccess = {
@@ -34,6 +34,20 @@ type LoadLibraryResponseSuccess = {
 }
 
 type LoadLibraryResponse = ApiRequestFail | LoadLibraryResponseSuccess
+
+type AddToLibraryResponseSuccess = {
+    status: "Success"
+    data: {gameID: number, added_at: string}
+}
+
+type AddToLibraryResponse = ApiRequestFail | AddToLibraryResponseSuccess
+
+type RemoveFromLibraryResponseSuccess = {
+    status: "Success"
+    data: null
+}
+
+type RemoveFromLibraryResponse = ApiRequestFail | RemoveFromLibraryResponseSuccess
 
 export function LibraryProvider( {children}: {children: React.ReactNode} ) {
     const [libraryList, setLibraryList] = useState<LibraryEntry[]>([]) // list for displaying library games in order
@@ -47,8 +61,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadLibrary() called")
 
         // send GET request to fetch Library from server
-        const response_json = await apiRequest(COMPONENT, "library/", "GET")
-
+        const response_json: LoadLibraryResponse = await apiRequest(COMPONENT, "library/", "GET")
         if (response_json.status == "Success") {
             devLog(COMPONENT, "Library fetched")
             // initialize library games list
@@ -67,7 +80,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
         // send POST request to server to add game to user's library
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "POST")
+        const response_json: AddToLibraryResponse = await apiRequest(COMPONENT, `library/${gameID}`, "POST")
 
         // Optimistic update: update user's library on UI if server returns success
         if (response_json.status == "Success") {
@@ -91,7 +104,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
         // // send DELETE request to server to remove game from user's library
-        const response_json = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE")
+        const response_json: RemoveFromLibraryResponse = await apiRequest(COMPONENT, `library/${gameID}`, "DELETE")
 
         if (response_json.status == "Success") {
             devLog(COMPONENT, `Server removed game ID "${gameID}" from user's library`)

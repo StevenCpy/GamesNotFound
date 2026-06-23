@@ -35,6 +35,15 @@ type HighscoreResponseSuccess = {
 
 type HighscoreResponse = ApiRequestFail | HighscoreResponseSuccess
 
+type SubmitScoreResponseSuccess = {
+    status: "Success"
+    data: {high_score: number, last_played: string}
+    message: string
+
+}
+
+type SubmitScoreResponse = ApiRequestFail | SubmitScoreResponseSuccess
+
 export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState<Map<number, Highscore>>(new Map()) // hash map for displaying high scores
 
@@ -42,11 +51,11 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
-        const highscores_response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
-        if (highscores_response_json.status == "Success") {
+        const response_json: HighscoreResponse = await apiRequest(COMPONENT, "score/highscores", "GET")
+        if (response_json.status == "Success") {
             devLog(COMPONENT, "High scores fetched")
             // initialize high score hash map
-            const highscoreList = highscores_response_json.data
+            const highscoreList = response_json.data
             const highscoreHashMap = new Map(
                 highscoreList.map(game => [game.gameID, game])
             )
@@ -72,7 +81,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             "gameID": gameID,
             "score": score
         }
-        const response_json = await apiRequest(COMPONENT, "score/", "POST", body)
+        const response_json: SubmitScoreResponse = await apiRequest(COMPONENT, "score/", "POST", body)
         
         if (response_json.status == "Success") {
             const highScore = response_json.data["high_score"]

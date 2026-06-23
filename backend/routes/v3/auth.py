@@ -98,7 +98,7 @@ async def login(auth: Auth, response: Response):
                     samesite='none'
                 )
 
-                return status_success({"token": token, "user_info": payload})
+                return status_success({"user_info": payload})
             else:
                 dev_log(endpoint, f"Password for '{username}' is incorrect")
                 return status_fail("Incorrect password")
