@@ -11,7 +11,18 @@ type ApiRequest = {
     body?: string
 }
 
-async function apiRequest(component: string, endpoint: string, method: string, body?: any) {
+export type ApiResponseFail = {
+    status: "Fail"
+    details: string
+}
+
+export type BaseApiResponseSuccess<T> = {
+    status: "Success"
+    data: T
+    message?: string
+}
+
+export async function apiRequest(component: string, endpoint: string, method: string, body?: any) {
     devLog(component, `Calling ${endpoint} API endpoint...`)
 
     const REQUEST_URL = `${SERVER_URL}/api/${API_VERSION}/${endpoint}`
@@ -33,5 +44,3 @@ async function apiRequest(component: string, endpoint: string, method: string, b
         return {"status": STATUS_FAIL_MESSAGE, "details": `Error calling ${endpoint} endpoint`}
     }
 }
-
-export default apiRequest

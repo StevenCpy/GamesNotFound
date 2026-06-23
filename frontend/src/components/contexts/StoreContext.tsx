@@ -2,7 +2,7 @@ import { createContext, useState, use } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
-import apiRequest from "../../utils/apiRequest"
+import { apiRequest } from "../../utils/apiRequest"
 
 const COMPONENT = "StoreContext"
 
