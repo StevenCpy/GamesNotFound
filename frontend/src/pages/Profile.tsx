@@ -23,7 +23,6 @@ function Profile() {
         devLog(COMPONENT, "handleLogout() called")
 
         setCurrentUser(null)
-        localStorage.removeItem("token") // clear token from localStorage
         navigate("/")
 
         toast(`Successfully logged out!`)
