@@ -23,10 +23,6 @@
     aspect-ratio: 2/1;
 }
 
-#store-gamecard p {
-    font-size: inherit;
-}
-
 #store-gamecard-buttons {
     display: flex;
     flex-direction: row;

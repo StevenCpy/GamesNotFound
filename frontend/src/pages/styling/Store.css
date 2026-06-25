@@ -22,8 +22,13 @@
     background-color: var(--primary-bg-color);
 }
 
-#store-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+#store-collapsible {
+    height: 20rem;
+    background-color: var(--primary-bg-color);
+}
+
+#store-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20%);
+    gap: 1rem;
 }
