@@ -44,10 +44,10 @@ function LibraryGameCard( {gameID, gameName, coverImageURL, description, author,
                 </div>
  
                 <hr />
-                <span id="library-gamecard-buttons">
+                <div id="library-gamecard-buttons">
                     <button onClick={ () => handleRemoveFromLibrary(gameID) }> Remove from Library </button>
                     <button disabled> { isPlayable ? "Play on Store" : "Placeholder cannot be played" } </button>
-                </span>
+                </div>
             </div>
         </div>
     )

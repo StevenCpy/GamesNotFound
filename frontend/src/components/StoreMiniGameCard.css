@@ -3,7 +3,6 @@
     flex-direction: column;
     max-width: 10rem;
     max-height: 20rem;
-    gap: 1rem;
     font-size: clamp(0.3rem, 1vw, 0.8rem);
 
     background-color: var(--primary-bg-color);
@@ -13,10 +12,17 @@
     cursor: pointer;
 }
 
+#store-minigamecard-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 #store-minigamecard-info .header-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 1rem;
 }
 
 #store-minigamecard img {
@@ -25,6 +31,6 @@
 
 #store-minigamecard-buttons {
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+    flex-direction: column;
+    background-color: var(--primary-bg-color);
 }

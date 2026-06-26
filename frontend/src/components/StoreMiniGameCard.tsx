@@ -37,14 +37,14 @@ function StoreMiniGameCard( {gameID, gameName, coverImageURL, isPlayable, onClic
 
     return (
         <div id="store-minigamecard" onClick={onClick}>
-            <img id="store-minigamecard-cover" src={ coverImageURL } alt={ gameName } />
             <div id="store-minigamecard-info">
+                <img id="store-minigamecard-cover" src={ coverImageURL } alt={ gameName } />
                 <h2 className="header-title">{ gameName }</h2>
-                <hr />
-                <span id="store-minigamecard-buttons">
-                    <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ () => handleAddToLibrary(gameID) }> + Add to Libary</button>
-                    {isPlayable && <button onClick={ handlePlayGame }>Play</button>}
-                </span>
+            </div>
+
+            <div id="store-minigamecard-buttons">
+                <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ () => handleAddToLibrary(gameID) }> + Add to Libary</button>
+                {isPlayable && <button onClick={ handlePlayGame }>Play</button>}
             </div>
         </div>
     )
