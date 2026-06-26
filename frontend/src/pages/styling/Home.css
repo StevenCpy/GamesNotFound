@@ -12,7 +12,6 @@
 #homepage-container .section {
     margin: auto;
     padding: 2rem;
-    border: var(--border);
 
     background-color: var(--primary-bg-color);
 }

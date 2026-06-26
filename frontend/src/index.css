@@ -19,14 +19,14 @@
     --tertiary-bg-color: #1a1919;
 
     --primary-text-color: white;
-    --border: 1px solid grey;
+    --border-color: #283b64;
 }
 
 .light-theme {
     --primary-bg-color: #b3dbe6;
     --secondary-bg-color:#9bd4e4;
     --primary-text-color: black;
-    --border: 1px solid orange;
+    --border-color: #f7f7f7;
 }
 
 body {

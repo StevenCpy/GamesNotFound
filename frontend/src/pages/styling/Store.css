@@ -13,7 +13,7 @@
 
     height: 4rem;
     padding: 0 1rem;
-    border: 3px solid lightblue;
+    border: 3px solid var(--border-color);
     border-radius: 0.7rem;
     background-color: var(--primary-bg-color);
 }
@@ -25,6 +25,7 @@
 #store-collapsible {
     max-height: 20rem;
     background-color: var(--primary-bg-color);
+    border: 5px solid var(--border-color);
 }
 
 #store-list-grid {
