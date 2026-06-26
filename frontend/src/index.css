@@ -13,8 +13,9 @@
 
     font-size: clamp(0.7rem, 2vw, 1rem);
 
-    --primary-bg-color: #232730;
-    --secondary-bg-color: #242424;
+    --primary-bg-color: #242a36;
+    --secondary-bg-color: #232730;
+    /* --secondary-bg-color: #242424; */
     --tertiary-bg-color: #1a1919;
 
     --primary-text-color: white;
@@ -22,8 +23,8 @@
 }
 
 .light-theme {
-    --primary-bg-color: lightblue;
-    --secondary-bg-color: white;
+    --primary-bg-color: #b3dbe6;
+    --secondary-bg-color:#9bd4e4;
     --primary-text-color: black;
     --border: 1px solid orange;
 }
