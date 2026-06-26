@@ -1,16 +1,22 @@
 #store-minigamecard {
     display: flex;
     flex-direction: column;
-    max-width: 30rem;
+    max-width: 10rem;
     max-height: 20rem;
     gap: 1rem;
-    font-size: clamp(0.5rem, 1vw, 0.8rem);
+    font-size: clamp(0.3rem, 1vw, 0.8rem);
+
     background-color: var(--primary-bg-color);
-    padding: 0.5rem;
 }
 
 #store-minigamecard:hover {
     cursor: pointer;
+}
+
+#store-minigamecard-info .header-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #store-minigamecard img {
