@@ -8,14 +8,14 @@
     background-color: var(--primary-bg-color);
 }
 
-#store-minigamecard:hover {
-    cursor: pointer;
-}
-
 #store-minigamecard-info {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+#store-minigamecard-info:hover {
+    cursor: pointer;
 }
 
 #store-minigamecard-info .header-title {

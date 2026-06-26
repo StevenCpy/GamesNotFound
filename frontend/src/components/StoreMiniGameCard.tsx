@@ -36,8 +36,8 @@ function StoreMiniGameCard( {gameID, gameName, coverImageURL, isPlayable, onClic
     }
 
     return (
-        <div id="store-minigamecard" onClick={onClick}>
-            <div id="store-minigamecard-info">
+        <div id="store-minigamecard">
+            <div id="store-minigamecard-info" onClick={onClick}>
                 <img id="store-minigamecard-cover" src={ coverImageURL } alt={ gameName } />
                 <h2 className="header-title">{ gameName }</h2>
             </div>
