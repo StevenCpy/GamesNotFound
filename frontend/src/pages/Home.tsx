@@ -34,14 +34,15 @@ function Home() {
             <Section title="CURRENT FEATURES:">
                 <ul>
                     <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
-                    <li><span className="text-green bold">STORE:</span> Browse games written in JS</li>
+                    <li><span className="text-green bold">STORE:</span> Browse games written in JS/TS</li>
                     <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
                     <li><span className="text-green bold">PLAYABLE GAMES:</span> "Play" button on game cards to start games<br />
                         (Hit the Target is currently the only game but more to come!)
                     </li>
                     <li><span className="text-green bold">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
-                    <li><span className="text-green bold">STORE SORTING:</span> Sort games by ID or name</li>
-                    <li><span className="text-green bold">GAME SEARCHING:</span> Search games by name</li>
+                    <li><span className="text-green bold">STORE SORT AND SEARCH:</span> Search games and sort them by ID or name</li>
+                    <li><span className="text-green bold">SECURITY:</span> Encrypted password, HTTPOnly JWT auth with token expiration</li>
+                    <li><span className="text-green bold">APPEARANCE:</span> Dark mode</li>
                 </ul>
             </Section>
 
@@ -52,12 +53,12 @@ function Home() {
                         password masking & toggle when typing password
                     </li>
                     <li>
-                        <span className="text-green bold">JWT Security:</span> JWT token expiration and 
+                        <span className="text-green bold">✅JWT Security:</span> JWT token expiration and 
                         switching to HTTPOnly cookie JWT authentication
                     </li>
 
                     <li><span className="text-green bold">Even more Security:</span> Better protected routes for restricted resources</li>
-                    <li><span className="text-green bold">UI:</span> Dark mode and Profile page overhaul</li>
+                    <li><span className="text-green bold">✅UI:</span> Dark mode and Profile page overhaul</li>
                     <li><span className="text-green bold">✅UX:</span> Sorting games in Store & Library, and search bar</li>
                     <li><span className="text-green bold">Feature:</span> Leaderboard system to compete with others!</li>
                     <li><span className="text-green bold">UI:</span> Complete overhaul of the site's layout</li>
