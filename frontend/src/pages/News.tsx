@@ -41,6 +41,21 @@ function ComparisonContainer( {src1, alt1, src2, alt2}: ComparisonContainerProps
     )
 }
 
+type SingleImageContainerProps = {
+    src: string
+    alt: string
+}
+
+function SingleImageContainer( {src, alt}: SingleImageContainerProps ) {
+    return (
+        <div className="single-image-container">
+            <img src={src} alt={alt} />
+        </div>
+    )
+}
+
+const NEWS_IMAGES_PATH = "/news-images"
+
 function News() {
     return (
         <div id="news-page-container">
@@ -55,8 +70,8 @@ function News() {
                     <li>
                         Improved site layout.<br />
                         <ComparisonContainer
-                            src1={`/news-images/Store page Old.png`} alt1="Store page Old"
-                            src2={`/news-images/Store page New.png`} alt2="Store page New"
+                            src1={`${NEWS_IMAGES_PATH}/Store page Old.png`} alt1="Store page Old"
+                            src2={`${NEWS_IMAGES_PATH}/Store page New.png`} alt2="Store page New"
                         />
                     </li>
                 </Section>
@@ -96,13 +111,13 @@ function News() {
                     <li> Site UI improvements.</li>
                     <h2 className="header-title text-green">Signup form</h2>
                     <ComparisonContainer
-                        src1={`/news-images/Signup form Old.png`} alt1="Signup form Old"
-                        src2={`/news-images/Signup form New.png`} alt2="Signup form New"
+                        src1={`${NEWS_IMAGES_PATH}/Signup form Old.png`} alt1="Signup form Old"
+                        src2={`${NEWS_IMAGES_PATH}/Signup form New.png`} alt2="Signup form New"
                     />
                     <h2 className="header-title text-green">News page</h2>
                     <ComparisonContainer
-                        src1={`/news-images/News page Old.png`} alt1="News page Old"
-                        src2={`/news-images/News page New.png`} alt2="News page New"
+                        src1={`${NEWS_IMAGES_PATH}/News page Old.png`} alt1="News page Old"
+                        src2={`${NEWS_IMAGES_PATH}/News page New.png`} alt2="News page New"
                     />
                 </Section>
 
@@ -114,7 +129,7 @@ function News() {
                 <Section title="JUNE 21, 2026">
                     <li> Added Docker containerization for predictable builds and deployments.</li>
                     <li> Added "dark/light" mode.<br />
-                        <img src={"/news-images/Dark mode toggle.png"} />
+                        <SingleImageContainer src={`${NEWS_IMAGES_PATH}/Dark mode toggle.png`} alt="Dark mode toggle" />
                     </li>
                 </Section>
 
@@ -125,8 +140,11 @@ function News() {
 
                 <Section title="JUNE 24, 2026">
                     <li> Updated Store layout, using clickable mini game cards and collapsible window showing game info on click.<br />
-                        <SideBySideContainer src1={"/news-images/Store Dark mode.png"} alt1="Store Dark mode" text1="Dark mode"
-                                            src2={"/news-images/Store Light mode.png"} alt2="Store Light mode" text2="Light mode" />
+                        <h2 className="text-green header-title">Before:</h2>
+                        <SingleImageContainer src={`${NEWS_IMAGES_PATH}/Store page v3.png`} alt="Store page v3" />
+                        <h2 className="text-green header-title">After:</h2>
+                        <SideBySideContainer src1={`${NEWS_IMAGES_PATH}/Store Dark mode.png`} alt1="Store Dark mode" text1="Dark mode"
+                                            src2={`${NEWS_IMAGES_PATH}/Store Light mode.png`} alt2="Store Light mode" text2="Light mode" />
                     </li>
                 </Section>
             </ul>

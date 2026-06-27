@@ -6,7 +6,7 @@ import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 
 // api response types
-import { type UserInfo, type AuthResponse, type SignupResponse, type LoginResponse, type LogoutResponse } from '../ApiResponseTypes/AuthResponseTypes'
+import { type UserInfo, type AuthResponse, type SignupResponse, type LoginResponse, type QuickSignupResponse, type LogoutResponse } from '../ApiResponseTypes/AuthResponseTypes'
 
 const COMPONENT = "AuthContext"
 
@@ -16,7 +16,8 @@ type AuthContextType = {
     authenticateUsingToken: () => Promise<void>
     signupServer: (username: string, password: string) => Promise<SignupResponse>
     loginServer: (username: string, password: string) => Promise<LoginResponse>
-    quickLogin: () => void
+    devLogin: () => void
+    quickSignup: () => Promise<void>
     logoutServer: () => Promise<LogoutResponse>
 }
 
@@ -68,9 +69,24 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         return response_json
     }
 
-    const quickLogin = () => setCurrentUser({"username": "admin",
-                                                "profile_pic_url": null,
-                                                "created_at": "2026-06-08 02:24:10.281809+00"})
+    const devLogin = () => setCurrentUser({"username": "admin",
+                                            "profile_pic_url": null,
+                                            "created_at": "2026-06-08 02:24:10.281809+00",
+                                            "temp": false})
+
+    async function quickSignup() : Promise<void> {
+        // send login POST request to server to handle quick signup
+        const response_json: QuickSignupResponse = await apiRequest(COMPONENT, "auth/quick-signup", "POST")
+        if (response_json.status == "Success") {
+            const randomUsername = response_json.data.user_info["username"]
+            devLog(COMPONENT, `User "${randomUsername}" successfully logged in by server`)
+            setCurrentUser(response_json.data.user_info)
+
+            toast(`Successfully logged in.  Welcome back ${randomUsername}!`)
+        } else {
+            devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
+        }
+    }
 
     async function logoutServer(): Promise<LogoutResponse> {
         const response_json: LogoutResponse = await apiRequest(COMPONENT, "auth/logout", "POST")
@@ -83,7 +99,7 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
     }
 
     return (
-        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, signupServer, loginServer, quickLogin, logoutServer }}>
+        <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, signupServer, loginServer, devLogin, quickSignup, logoutServer }}>
             {children}
         </AuthContext>
     )
