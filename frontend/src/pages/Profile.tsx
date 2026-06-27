@@ -38,7 +38,7 @@ function Profile() {
                     <img src={profilePicURL ?? DEFAULT_PROFILE_PIC_URL} alt="profile picture"/>
                 </div>
                 <div id="profile-info-container">
-                    <p className="text-green bold">{username}</p>
+                    <h2 className="text-green bold">{username}</h2>
                     <p><span className="bold">ACCOUNT CREATED ON: </span>{createdAt}</p>
                     <button onClick={ handleLogout }>Log out</button>
                 </div>

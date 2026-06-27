@@ -4,6 +4,30 @@ import './styling/News.css'
 // components
 import Section from "../components/texts/Section"
 
+type SideBySideContainerProps = {
+    src1: string
+    alt1: string
+    text1: string
+    src2: string
+    alt2: string
+    text2: string
+}
+
+function SideBySideContainer( {src1, alt1, text1, src2, alt2, text2}: SideBySideContainerProps ) {
+    return (
+        <div className="sidebyside-container">
+            <div className="sidebyside-left">
+                <h3 className="header-title text-green">{text1}</h3>
+                <img src={src1} alt={alt1}></img>
+            </div>
+            <div className="sidebyside-right">
+                <h3 className="header-title text-green">{text2}</h3>
+                <img src={src2} alt={alt2}></img>
+            </div>
+        </div>
+    )
+}
+
 type ComparisonContainerProps = {
     src1: string
     alt1: string
@@ -13,16 +37,7 @@ type ComparisonContainerProps = {
 
 function ComparisonContainer( {src1, alt1, src2, alt2}: ComparisonContainerProps ) {
     return (
-        <div className="comparison-container">
-            <div className="comparison-left">
-                <h3 className="header-title text-green">Before:</h3>
-                <img src={src1} alt={alt1}></img>
-            </div>
-            <div className="comparison-right">
-                <h3 className="header-title text-green">After:</h3>
-                <img src={src2} alt={alt2}></img>
-            </div>
-        </div>
+        <SideBySideContainer src1={src1} alt1={alt1} text1="Before:" src2={src2} alt2={alt2} text2="After:" />
     )
 }
 
@@ -92,10 +107,28 @@ function News() {
                 </Section>
 
                 <Section title="JUNE 19, 2026">
-                    <li> Created user profile card on Profile page showing profile picture and account creationd date. </li>
-                    <li> Migrated entire codebase to TypeScript. </li>
+                    <li> Created user profile card on Profile page showing profile picture and account creationd date.</li>
+                    <li> Migrated entire codebase to TypeScript.</li>
                 </Section>
 
+                <Section title="JUNE 21, 2026">
+                    <li> Added Docker containerization for predictable builds and deployments.</li>
+                    <li> Added "dark/light" mode.<br />
+                        <img src={"/news-images/Dark mode toggle.png"} />
+                    </li>
+                </Section>
+
+                <Section title="JUNE 23, 2026">
+                    <li> Updated API endpoints to v3 for more consistent response shape.</li>
+                    <li> Switched from localStorage tokens to HTTPOnly JWT auth with token expiration for better security.</li>
+                </Section>
+
+                <Section title="JUNE 24, 2026">
+                    <li> Updated Store layout, using clickable mini game cards and collapsible window showing game info on click.<br />
+                        <SideBySideContainer src1={"/news-images/Store Dark mode.png"} alt1="Store Dark mode" text1="Dark mode"
+                                            src2={"/news-images/Store Light mode.png"} alt2="Store Light mode" text2="Light mode" />
+                    </li>
+                </Section>
             </ul>
         </div>
     )

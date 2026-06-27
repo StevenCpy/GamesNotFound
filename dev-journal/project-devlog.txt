@@ -637,3 +637,20 @@ What I learned today:
 - "*" is the Python unpacking operator for lists and tuples, while "**" is for dictionaries.
     It is similar to the spread operator "..." in JavaScript.
 - Expiration can be added to tokens by setting cookie "max_age" (relative time) or "expires" (absolute time) field.
+
+DAY 33
+- Created collapsible game info, and updated store to use clickable mini game cards for display.
+- Updated Store to grid CSS layout.
+- Updated background and border colors for dark & light mode.
+
+What I learned today:
+- Long texts can make container sizes inconsistent.  A solution is to apply this:
+    white-space: nowrap; // Text stays in straight line and does not go to next line to fit inside container
+    overflow: hidden;
+    text-overflow: ellipsis;
+- With "display: grid", we can use
+    "grid-template-columns: repeat(auto-fill, <column-width>);" where
+    - auto-fill: fit in as many columns as possible in each row.
+    - repeat(): keep making columns of <column-width> ("repeat(2, 100px) instead of 100px 100px")
+    For eg. in "repeat(auto-fill, 20%)", each column takes 20% of the row while "auto-fill"
+    fits as many "20%-width" columns as possible in each row.

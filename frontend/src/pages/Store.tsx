@@ -7,11 +7,13 @@ import { useHighscore } from "../components/contexts/HighscoreContext"
 
 // components
 import StoreGameCard from "../components/StoreGameCard"
+import StoreMiniGameCard from '../components/StoreMiniGameCard'
 import SortDropdown from "../components/controls/SortDropdown"
 import SearchBar from "../components/controls/SearchBar"
 
 // utils
 import devLog from "../utils/logging/logging"
+import { type StoreEntry } from '../components/ApiResponseTypes/StoreResponseTypes'
 
 const COMPONENT = "Store"
 
@@ -22,6 +24,7 @@ function Store() {
 
     const [sortBy, setSortBy] = useState(localStorage.getItem("sortBy") ?? "Default")
     const [searchStr, setSearchStr] = useState("")
+    const [currentGame, setCurrentGame] = useState<StoreEntry|null>(null)
 
     // to display sort options on UI
     const sortOptions = useMemo(() => [{value: "Default", label: "Default"},
@@ -50,6 +53,25 @@ function Store() {
         return [...storeList].filter(game => regex.test(game.name.toUpperCase()))
     }, [searchStr, storeList])
 
+    function CollapsibleGameInfo() {
+        return (
+            <div>
+                {currentGame ?
+                    <StoreGameCard key={currentGame.gameID}
+                                    gameID={currentGame.gameID}
+                                    gameName={currentGame.name}
+                                    coverImageURL={currentGame.cover_image_url}
+                                    description={currentGame.description}
+                                    author={currentGame.author}
+                                    gameVersion={currentGame.version}
+                                    isPlayable={currentGame.is_playable}
+                                    highScore={getHighScore(currentGame.gameID)} />
+                    : <p>No game selected</p>
+                }
+            </div>
+        )
+    }
+
     return (
         <div id="store-container">
             <div id="store-sort-and-search-bar-container">
@@ -62,20 +84,19 @@ function Store() {
                                 options={sortOptions} />
             </div>
         
-            <div id="store-list">
+            <div id="store-collapsible">
+                <CollapsibleGameInfo />
+            </div>
+
+            <div id="store-list-grid">
                 {searchedStoreList.map(game => {
-                    const highScore = getHighScore(game.gameID)
-                    
                     return (
-                        <StoreGameCard key={game.gameID}
-                                        gameID={game.gameID}
-                                        gameName={game.name}
-                                        coverImageURL={game.cover_image_url}
-                                        description={game.description}
-                                        author={game.author}
-                                        gameVersion={game.version}
-                                        isPlayable={game.is_playable}
-                                        highScore={highScore} />
+                        <StoreMiniGameCard key={game.gameID}
+                                            gameID={game.gameID}
+                                            gameName={game.name}
+                                            coverImageURL={game.cover_image_url} 
+                                            isPlayable={game.is_playable}
+                                            onClick={() => setCurrentGame(game)} />
                     )
                 })}
             </div>

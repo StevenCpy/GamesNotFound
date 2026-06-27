@@ -28,7 +28,7 @@ async def library(auth_token: Annotated[str|None, Cookie()] = None):
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(auth_token)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].lower()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -60,7 +60,7 @@ async def addToLibrary(gameID: int, auth_token: Annotated[str|None, Cookie()] = 
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(auth_token)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].lower()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)
@@ -97,7 +97,7 @@ async def removeFromLibrary(gameID: int, auth_token: Annotated[str|None, Cookie(
 
     # authenticate user using JWT token
     try:
-        username = decode_payload_HS256(auth_token)["username"].upper()
+        username = decode_payload_HS256(auth_token)["username"].lower()
         dev_log(endpoint, f"'{username}' was extracted from token")
     except Exception as e:
         dev_error(endpoint, e)

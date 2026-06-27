@@ -13,7 +13,7 @@
 
     height: 4rem;
     padding: 0 1rem;
-    border: 3px solid lightblue;
+    border: 3px solid var(--border-color);
     border-radius: 0.7rem;
     background-color: var(--primary-bg-color);
 }
@@ -22,8 +22,15 @@
     background-color: var(--primary-bg-color);
 }
 
-#store-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+#store-collapsible {
+    max-height: 20rem;
+    background-color: var(--primary-bg-color);
+    border: 5px solid var(--border-color);
+}
+
+#store-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20%);
+    max-height: 30rem;
+    overflow-y: scroll;
 }

@@ -7,6 +7,6 @@
     padding: 2rem;
     border-radius: 2rem;
 
-    border: var(--border);
+    border: 3px solid var(--border-color);
     background-color: var(--primary-bg-color);
 }

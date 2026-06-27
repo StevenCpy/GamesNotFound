@@ -43,15 +43,18 @@ function StoreGameCard( {gameID, gameName, coverImageURL, description, author, g
             <div id="store-gamecard-info">
                 <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>
+                <br />
+                <p>AUTHOR: <span className="text-green bold">{ author }</span></p>
+                <p>VERSION: { isPlayable ?
+                                <span className="text-green bold">{gameVersion}</span>
+                                : <span className="text-green">UNRELEASED</span> }
+                </p>
+                <p>HIGH SCORE: <span className="text-green bold">{ currentUser ? highScore : "(Log in to see high score)" }</span></p>
                 <hr />
-                <p><b>AUTHOR: </b>{ author }</p>
-                <p><b>VERSION: </b>{ gameVersion }</p>
-                <p><b>HIGH SCORE: </b>{ highScore }</p>
-                <hr />
-                <span id="store-gamecard-buttons">
+                <div id="store-gamecard-buttons">
                     <button disabled={ !currentUser || librarySet.has(gameID) } onClick={ () => handleAddToLibrary(gameID) }> + Add to Library </button>
                     <button disabled={ !isPlayable } onClick={ handlePlayGame }> { isPlayable ? "Play" : "Placeholder cannot be played" } </button>
-                </span>
+                </div>
             </div>
         </div>
     )

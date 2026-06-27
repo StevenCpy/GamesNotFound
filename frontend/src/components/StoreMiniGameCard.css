@@ -1,0 +1,36 @@
+#store-minigamecard {
+    display: flex;
+    flex-direction: column;
+    max-width: 10rem;
+    max-height: 20rem;
+    font-size: clamp(0.3rem, 1vw, 0.8rem);
+
+    background-color: var(--primary-bg-color);
+}
+
+#store-minigamecard-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#store-minigamecard-info:hover {
+    cursor: pointer;
+}
+
+#store-minigamecard-info .header-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 1rem;
+}
+
+#store-minigamecard img {
+    aspect-ratio: 1/1;
+}
+
+#store-minigamecard-buttons {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-bg-color);
+}
