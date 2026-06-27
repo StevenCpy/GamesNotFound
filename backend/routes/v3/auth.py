@@ -146,22 +146,23 @@ async def logout(response: Response, auth_token: Annotated[str|None, Cookie()] =
     dev_log(endpoint, "Endpoint called")
 
     try:
-        # decode payload
-        payload = decode_payload_HS256(auth_token)
-        random_username = payload["username"]
+        if auth_token:
+            # decode payload
+            payload = decode_payload_HS256(auth_token)
+            random_username = payload["username"]
     except Exception as e:
         dev_error(endpoint, e)
         return status_fail("Token could not be decoded")
     
     # if temporary account, delete user
-    if (payload["temp"]):
-        try:
+    try:
+        if (auth_token and payload["temp"]):
             supabase_client.table(USERS_TABLE).delete().eq(
                 "username", random_username
             ).execute()
-        except Exception as e:
-            dev_error_database(endpoint, e)
-            return status_fail("Database error")
+    except Exception as e:
+        dev_error_database(endpoint, e)
+        return status_fail("Database error")
         
     response.delete_cookie(
         key="auth_token",
@@ -179,8 +180,8 @@ async def quick_signup(response: Response):
     endpoint = "quick-signup"
     dev_log(endpoint, "Endpoint called")
 
-    random_username = f"user#{time.time()}"
-    random_password = "random"
+    random_username = f"user#{int(time.time()*1000)}"
+    random_password = ""
 
     try:
         # insert username and password into table
@@ -211,4 +212,3 @@ async def quick_signup(response: Response):
     )
 
     return status_success({"user_info": payload})
-    
