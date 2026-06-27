@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/AuthContext"
 import DarkModeToggle from "../controls/DarkModeToggle"
 
 function NavbarMain() {
-    const { currentUser, quickLogin } = useAuth()
+    const { currentUser, devLogin, quickSignup } = useAuth()
 
     return (
         <nav id="main-navbar">
@@ -20,7 +20,8 @@ function NavbarMain() {
             </span>
 
             <span id="main-navbar-right">
-                {(!currentUser && import.meta.env.DEV) && <button onClick={() => quickLogin()}>Quick Login</button>}
+                {(!currentUser && import.meta.env.DEV) && <button onClick={ devLogin }>Dev Login</button>}
+                {!currentUser && <button onClick={ quickSignup }>Quick Signup</button>}
                 {currentUser ?
                     <NavLink to="/profile">{currentUser["username"]}</NavLink> : <NavLink to="/login">Login</NavLink>
                 }
