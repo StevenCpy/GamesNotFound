@@ -43,6 +43,9 @@ function Home() {
                     <li><span className="text-green bold">STORE SORT AND SEARCH:</span> Search games and sort them by ID or name</li>
                     <li><span className="text-green bold">SECURITY:</span> Encrypted password, HTTPOnly JWT auth with token expiration</li>
                     <li><span className="text-green bold">APPEARANCE:</span> Dark mode</li>
+                    <li><span className="text-green bold">AUTH:</span> Quick signup for testing features with a temporary account<br />
+                        (Account is deleted on log out)
+                    </li>
                 </ul>
             </Section>
 
