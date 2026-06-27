@@ -3,6 +3,9 @@ from fastapi import APIRouter, Response, Cookie
 from pydantic import BaseModel
 from typing import Annotated
 
+import time
+from datetime import datetime, timezone
+
 # supabase
 from ..supabase_client import supabase_client, USERS_TABLE
 
@@ -93,7 +96,8 @@ async def login(auth: Auth, response: Response):
                 # encode payload
                 payload = {"username": username,
                            "profile_pic_url": db_response.data[0]["profile_pic_url"],
-                           "created_at": db_response.data[0]["created_at"]}
+                           "created_at": db_response.data[0]["created_at"],
+                           "temp": False}
                 token = encode_HS256(payload)
 
                 response.set_cookie(
@@ -137,13 +141,74 @@ async def auth(auth_token: Annotated[str|None, Cookie()] = None):
 # ----------------------------------------------------------------- #
 # API to log out user
 @router.post("/logout")
-async def logout(response: Response):
+async def logout(response: Response, auth_token: Annotated[str|None, Cookie()] = None):
     endpoint = "logout"
     dev_log(endpoint, "Endpoint called")
 
+    try:
+        # decode payload
+        payload = decode_payload_HS256(auth_token)
+        random_username = payload["username"]
+    except Exception as e:
+        dev_error(endpoint, e)
+        return status_fail("Token could not be decoded")
+    
+    # if temporary account, delete user
+    if (payload["temp"]):
+        try:
+            supabase_client.table(USERS_TABLE).delete().eq(
+                "username", random_username
+            ).execute()
+        except Exception as e:
+            dev_error_database(endpoint, e)
+            return status_fail("Database error")
+        
     response.delete_cookie(
         key="auth_token",
         **COOKIE_SETTINGS
     )
 
     return status_success(None)
+    
+# ----------------------------------------------------------------- #
+#                           /quicksignup                            #
+# ----------------------------------------------------------------- #
+# API to sign up user temporarily, account is deleted on log out
+@router.post("/quick-signup")
+async def quick_signup(response: Response):
+    endpoint = "quick-signup"
+    dev_log(endpoint, "Endpoint called")
+
+    random_username = f"user#{time.time()}"
+    random_password = "random"
+
+    try:
+        # insert username and password into table
+        supabase_client.table(USERS_TABLE).insert({
+            "username": random_username,
+            "password_hash_str": hash_password(random_password).decode('utf-8')
+        }).execute()
+
+        dev_log(endpoint, f"User '{random_username}' signed up")
+    except Exception as e:
+        dev_error_database(endpoint, e)
+        return status_fail("Database error")
+    
+    dev_log(endpoint, f"User '{random_username}' logged in")
+
+    # encode payload
+    payload = {"username": random_username,
+                "profile_pic_url": None,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "temp": True} # account should be deleted on log out
+    token = encode_HS256(payload)
+
+    response.set_cookie(
+        key="auth_token",
+        value=token,
+        max_age=60*60*24*7, # in seconds
+        **COOKIE_SETTINGS
+    )
+
+    return status_success({"user_info": payload})
+    
