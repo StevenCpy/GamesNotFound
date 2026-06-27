@@ -45,7 +45,10 @@ function StoreGameCard( {gameID, gameName, coverImageURL, description, author, g
                 <p>{ description }</p>
                 <br />
                 <p>AUTHOR: <span className="text-green bold">{ author }</span></p>
-                <p>VERSION: <span className="text-green bold">{ gameVersion }</span></p>
+                <p>VERSION: { isPlayable ?
+                                <span className="text-green bold">{gameVersion}</span>
+                                : <span className="text-green">UNRELEASED</span> }
+                </p>
                 <p>HIGH SCORE: <span className="text-green bold">{ currentUser ? highScore : "(Log in to see high score)" }</span></p>
                 <hr />
                 <div id="store-gamecard-buttons">

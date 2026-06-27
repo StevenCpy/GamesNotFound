@@ -30,16 +30,19 @@ function LibraryGameCard( {gameID, gameName, coverImageURL, description, author,
             <div id="library-gamecard-info">
                 <h2 className="header-title">{ gameName }</h2>
                 <p>{ description }</p>
-                <hr />
+                <br />
 
                 <div id="library-gamecard-info-metadata">
                     <div id="library-gamecard-info-metadata-left">
-                        <p><b>AUTHOR: </b>{ author }</p>
-                        <p><b>VERSION: </b>{ gameVersion }</p>
+                        <p><b>AUTHOR: </b><span className="text-green bold">{ author }</span></p>
+                        <p><b>VERSION: </b>{ isPlayable ?
+                                            <span className="text-green bold">{gameVersion}</span>
+                                            : <span className="text-green">UNRELEASED</span> }
+                        </p>
                     </div>
                     <div id="library-gamecard-info-metadata-right">
-                        <p><b>HIGH SCORE: </b>{ highScore }</p>
-                        <p><b>LAST PLAYED: </b>{ lastPlayed }</p>
+                        <p><b>HIGH SCORE: </b><span className="text-green bold">{ highScore }</span></p>
+                        <p><b>LAST PLAYED: </b><span className="text-green bold">{ lastPlayed }</span></p>
                     </div>
                 </div>
  
