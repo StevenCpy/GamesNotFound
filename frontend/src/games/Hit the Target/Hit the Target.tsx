@@ -4,6 +4,9 @@ import './Hit the Target.css'
 // components
 import GameButton from "./components/GameButton"
 
+// assets
+import arrowHitSound from "./assets/Arrow hit.mp3"
+
 const START_TIME_S = 30
 
 type GameStatusContextType = {
@@ -120,6 +123,8 @@ function HittheTarget( {submitScore}: HittheTargetProps ) {
     const [isGameOn, setIsGameOn] = useState(false)
     const [isGameOver, setIsGameOver] = useState(false)
 
+    const arrowHitAudio = new Audio(arrowHitSound)
+
     const playableAreaRef = useRef(null)
     
     useEffect(() => {
@@ -161,6 +166,8 @@ function HittheTarget( {submitScore}: HittheTargetProps ) {
     }
 
     function handleOnTargetHit() {
+        const arrowHitAudioClone = arrowHitAudio.cloneNode() as HTMLAudioElement
+        arrowHitAudioClone.play()
         setScore(prev=>prev+1) // increment score
     }
 
