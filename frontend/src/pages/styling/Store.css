@@ -23,7 +23,7 @@
 }
 
 #store-collapsible {
-    max-height: 20rem;
+    max-height: 30rem;
     background-color: var(--primary-bg-color);
     border: 5px solid var(--border-color);
 }
