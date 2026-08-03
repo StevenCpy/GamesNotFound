@@ -23,3 +23,16 @@
 #main-navbar a.active {
     text-decoration: underline;
 }
+
+#quickSignup-button {
+    border-radius: 20px;
+    border-width: 3px;
+    border-color: black;
+    background-color: var(--secondary-bg-color);
+    color: inherit;
+    font-weight: bold;
+}
+
+#quickSignup-button:hover {
+    cursor: pointer;
+}
