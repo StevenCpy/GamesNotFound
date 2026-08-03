@@ -35,15 +35,15 @@ function Home() {
                 <ul>
                     <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green bold">STORE:</span> Browse games written in JS/TS</li>
-                    <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add & remove games from Library</li>
+                    <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add games to personal Library</li>
                     <li><span className="text-green bold">PLAYABLE GAMES:</span> "Play" button on game cards to start games<br />
                         (Hit the Target is currently the only game but more to come!)
                     </li>
                     <li><span className="text-green bold">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
                     <li><span className="text-green bold">STORE SORT AND SEARCH:</span> Search games and sort them by ID or name</li>
-                    <li><span className="text-green bold">SECURITY:</span> Encrypted password, HTTPOnly JWT auth with token expiration</li>
-                    <li><span className="text-green bold">APPEARANCE:</span> Dark mode</li>
-                    <li><span className="text-green bold">AUTH:</span> Quick signup for testing features with a temporary account<br />
+                    <li><span className="text-green bold">SECURITY:</span> Encrypted password and HTTP-Only JWT cookie with token expiration</li>
+                    <li><span className="text-green bold">DARK/LIGHT MODE</span></li>
+                    <li><span className="text-green bold">QUICK AUTH:</span> Quick signup for testing features with a temporary account<br />
                         (Account is deleted on log out)
                     </li>
                 </ul>
