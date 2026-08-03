@@ -654,3 +654,10 @@ What I learned today:
     - repeat(): keep making columns of <column-width> ("repeat(2, 100px) instead of 100px 100px")
     For eg. in "repeat(auto-fill, 20%)", each column takes 20% of the row while "auto-fill"
     fits as many "20%-width" columns as possible in each row.
+
+DAY 34:
+- Added "dev login" logic for development testing.
+- Implemented "Quick Signup" feature to allow users to bypass normal signup and create a temporary account
+    to test features.
+- Implemented dedicated endpoint for quick signup, and modified /logout endpoint
+    to delete temporary accounts on log out.

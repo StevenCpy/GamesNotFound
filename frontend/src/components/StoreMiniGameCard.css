@@ -1,8 +1,8 @@
 #store-minigamecard {
     display: flex;
     flex-direction: column;
-    max-width: 10rem;
-    max-height: 20rem;
+    max-width: 20rem;
+    max-height: 25rem;
     font-size: clamp(0.3rem, 1vw, 0.8rem);
 
     background-color: var(--primary-bg-color);

@@ -122,7 +122,7 @@ function News() {
                 </Section>
 
                 <Section title="JUNE 19, 2026">
-                    <li> Created user profile card on Profile page showing profile picture and account creationd date.</li>
+                    <li> Created user profile card on Profile page showing profile picture and account creation date.</li>
                     <li> Migrated entire codebase to TypeScript.</li>
                 </Section>
 
@@ -147,6 +147,13 @@ function News() {
                                             src2={`${NEWS_IMAGES_PATH}/Store Light mode.png`} alt2="Store Light mode" text2="Light mode" />
                     </li>
                 </Section>
+
+                <Section title="JUNE 26, 2026">
+                    <li> Added "Quick Signup" button to bypass normal signup and create a temporary account to test features.<br />
+                        (Account is deleted on log out).
+                    </li>
+                </Section>
+
             </ul>
         </div>
     )
