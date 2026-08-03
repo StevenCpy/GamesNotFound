@@ -53,6 +53,13 @@ function Store() {
         return [...storeList].filter(game => regex.test(game.name.toUpperCase()))
     }, [searchStr, storeList])
 
+    // collapsible contains the first game in the store list by default
+    useEffect(() => {
+        if (currentGame == null || searchedStoreList.length > 0) {
+            setCurrentGame(searchedStoreList[0])
+        }
+    }, [searchedStoreList])
+
     function CollapsibleGameInfo() {
         return (
             <div>
