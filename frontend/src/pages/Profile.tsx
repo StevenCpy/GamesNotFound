@@ -10,7 +10,7 @@ import isoToLocaleDateString from "../utils/isoToLocaleDateString"
 
 const COMPONENT = "Profile"
 
-const DEFAULT_PROFILE_PIC_URL = "/profile-picture/default profile pic.jpg"
+const DEFAULT_PROFILE_PIC_URL = "/profile-picture/default profile pic.png"
 
 function Profile() {
     devLog(COMPONENT, "Profile() called")
