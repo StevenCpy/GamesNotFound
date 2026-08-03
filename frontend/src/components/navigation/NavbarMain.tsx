@@ -21,7 +21,7 @@ function NavbarMain() {
 
             <span id="main-navbar-right">
                 {(!currentUser && import.meta.env.DEV) && <button onClick={ devLogin }>Dev Login</button>}
-                {!currentUser && <button onClick={ quickSignup }>Quick Signup</button>}
+                {!currentUser && <button id="quickSignup-button" onClick={ quickSignup }>Quick Signup</button>}
                 {currentUser ?
                     <NavLink to="/profile">{currentUser["username"]}</NavLink> : <NavLink to="/login">Login</NavLink>
                 }
