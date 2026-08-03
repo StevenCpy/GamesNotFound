@@ -5,7 +5,8 @@
     flex-direction: column;
     align-items: center;
     color: black;
-    background-color: lightblue;
+    background-image: url(./assets/Hit_the_Target_background.jpg);
+    background-size: cover;
 }
 
 #target {
