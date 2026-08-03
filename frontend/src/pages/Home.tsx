@@ -36,9 +36,7 @@ function Home() {
                     <li><span className="text-green bold">AUTH:</span> Register, Login, and persistent login using JWT authentication</li>
                     <li><span className="text-green bold">STORE:</span> Browse games written in JS/TS</li>
                     <li><span className="text-green bold">LIBRARY SYSTEM:</span> Add games to personal Library</li>
-                    <li><span className="text-green bold">PLAYABLE GAMES:</span> "Play" button on game cards to start games<br />
-                        (Hit the Target is currently the only game but more to come!)
-                    </li>
+                    <li><span className="text-green bold">PLAYABLE GAMES:</span> Play games by interacting with game cards<br /></li>
                     <li><span className="text-green bold">HIGH SCORE SYSTEM:</span> Your best score for each game is saved</li>
                     <li><span className="text-green bold">STORE SORT AND SEARCH:</span> Search games and sort them by ID or name</li>
                     <li><span className="text-green bold">SECURITY:</span> Encrypted password and HTTP-Only JWT cookie with token expiration</li>
@@ -52,19 +50,15 @@ function Home() {
             <Section title="UPCOMING FEATURES AND IMPROVEMENTS:">
                 <ul>
                     <li>
-                        <span className="text-green bold">✅Password Security:</span> Password encryption in database and
-                        password masking & toggle when typing password
-                    </li>
-                    <li>
                         <span className="text-green bold">✅JWT Security:</span> JWT token expiration and 
                         switching to HTTPOnly cookie JWT authentication
                     </li>
 
                     <li><span className="text-green bold">Even more Security:</span> Better protected routes for restricted resources</li>
-                    <li><span className="text-green bold">✅UI:</span> Dark mode and Profile page overhaul</li>
-                    <li><span className="text-green bold">✅UX:</span> Sorting games in Store & Library, and search bar</li>
                     <li><span className="text-green bold">Feature:</span> Leaderboard system to compete with others!</li>
                     <li><span className="text-green bold">UI:</span> Complete overhaul of the site's layout</li>
+                    <li><span className="text-green bold">Game making:</span> SDK for game creation</li>
+                    <li><span className="text-green bold">Gamer feedback:</span> Game comments and ratings</li>
                 </ul>
             </Section>
 
