@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, use } from 'react'
+import { createContext, useState, useMemo, use, useCallback } from 'react'
 import { toast } from 'sonner'
 
 // utils
@@ -30,7 +30,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
         // convert libraryList to a set containing only gameIDs
         new Set(libraryList.map(game => game.gameID)), [libraryList])
 
-    async function loadLibrary() : Promise<LoadLibraryResponse> {
+    const loadLibrary = useCallback(async () : Promise<LoadLibraryResponse> => {
         devLog(COMPONENT, "loadLibrary() called")
 
         // send GET request to fetch Library from server
@@ -41,15 +41,15 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
             setLibraryList(response_json.data)
         }
         return response_json
-    }
+    }, [])
 
-    function clearLibrary() : void {
+    const clearLibrary = useCallback(() : void => {
         devLog(COMPONENT, "clearLibrary() called")
         setLibraryList([])
-    }
+    }, [])
 
     // add gameID to library using pessimistic update
-    async function handleAddToLibrary(gameID: number) : Promise<void> {
+    const handleAddToLibrary = useCallback(async (gameID: number) : Promise<void> => {
         devLog(COMPONENT, "handleAddToLibrary() called")
 
         // send POST request to server to add game to user's library
@@ -70,10 +70,10 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
 
             toast("Game added to Library")
         }
-    }
+    }, [libraryList])
 
     // remove gameID from library using pessimistic update
-    async function handleRemoveFromLibrary(gameID: number) : Promise<void> {
+    const handleRemoveFromLibrary = useCallback(async (gameID: number) : Promise<void> => {
         devLog(COMPONENT, "handleRemoveFromLibrary() called")
 
         // // send DELETE request to server to remove game from user's library
@@ -94,7 +94,7 @@ export function LibraryProvider( {children}: {children: React.ReactNode} ) {
 
             toast("Game removed from Library")
         }
-    }
+    }, [libraryList])
 
     return (
         <LibraryContext value={{ libraryList, librarySet, loadLibrary, clearLibrary, handleAddToLibrary, handleRemoveFromLibrary }}>

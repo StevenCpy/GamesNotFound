@@ -1,4 +1,4 @@
-import { createContext, useState, use } from 'react'
+import { createContext, useState, use, useCallback } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -22,7 +22,7 @@ type FieldType = "gameID" | "name"
 export function StoreProvider( {children}: {children: React.ReactNode} ) {
     const [storeList, setStoreList] = useState<StoreEntry[]>([]) // list for displaying store games
 
-    async function loadStore() : Promise<LoadStoreResponse> {
+    const loadStore = useCallback(async () : Promise<LoadStoreResponse> => {
         devLog(COMPONENT, "loadStore() called")
 
         const response_json: LoadStoreResponse = await apiRequest(COMPONENT, "store/", "GET") // send GET request to fetch Store from server
@@ -32,10 +32,10 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
             setStoreList(response_json.data)
         }
         return response_json
-    }
+    }, [])
 
     // sort function, ascending order relative to field
-    function sortAscFn(a: StoreEntry, b: StoreEntry, field: FieldType) : number {
+    const sortAscFn = useCallback((a: StoreEntry, b: StoreEntry, field: FieldType) : number => {
         if (typeof storeList[0][field] === "string") {
             return (a[field] as string).localeCompare(b[field] as string)
         } else {
@@ -46,10 +46,10 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
             }
             return 0
         }
-    }
+    }, [storeList])
 
     // sort function, descending order relative to field
-    function sortDescFn(a: StoreEntry, b: StoreEntry, field: FieldType) : number {
+    const sortDescFn = useCallback((a: StoreEntry, b: StoreEntry, field: FieldType) : number => {
         if (typeof storeList[0][field] === "string") {
             return (b[field] as string).localeCompare(a[field] as string)
         } else {
@@ -59,10 +59,10 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
                 return 1
             }
             return 0
-        } 
-    }
+        }
+    }, [storeList])
 
-    function sortStoreList(fieldToSortBy: FieldType, asc: boolean) : void {
+    const sortStoreList = useCallback((fieldToSortBy: FieldType, asc: boolean) : void => {
         const storeListSorted = [...storeList] // copy list
 
         if (asc) {
@@ -71,7 +71,7 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
             storeListSorted.sort((a,b) => sortDescFn(a,b,fieldToSortBy))
         }
         setStoreList(storeListSorted)  
-    }
+    }, [storeList])
 
     return (
         <StoreContext value={{ storeList, loadStore, sortStoreList }}>

@@ -1,4 +1,4 @@
-import { createContext, useState, use } from 'react'
+import { createContext, useState, use, useCallback } from 'react'
 
 // utils
 import devLog from "../../utils/logging/logging"
@@ -23,7 +23,7 @@ export const HighscoreContext = createContext<HighscoreContextType|null>(null)
 export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
     const [highscoreHashMap, setHighscoreHashMap] = useState<Map<number, Highscore>>(new Map()) // hash map for displaying high scores
 
-    async function loadHighScores(): Promise<void> {
+    const loadHighScores = useCallback(async () : Promise<void> => {
         devLog(COMPONENT, "loadHighScores() called")
 
         // send GET request to fetch high scores from server
@@ -37,22 +37,22 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             )
             setHighscoreHashMap(highscoreHashMap)
         }
-    }
+    }, [])
 
-    const clearHighScores: () => void = () => setHighscoreHashMap(new Map())
+    const clearHighScores = useCallback(() : void => setHighscoreHashMap(new Map()), [])
 
-    function getHighScore(gameID: number) : number {
+    const getHighScore = useCallback((gameID: number) : number => {
         const highScore = highscoreHashMap.get(gameID)?.["high_score"] ?? 0
         return highScore
-    }
+    }, [highscoreHashMap])
 
-    function getLastPlayed(gameID: number) : string {
+    const getLastPlayed = useCallback((gameID: number) : string => {
         const lastPlayed_iso = highscoreHashMap.get(gameID)?.["last_played"]
         const lastPlayed = lastPlayed_iso ? isoToLocaleDateString(lastPlayed_iso) : "N/A"
         return lastPlayed
-    }
+    }, [highscoreHashMap])
 
-    async function submitScore(gameID: number, score: number) : Promise<void> {
+    const submitScore = useCallback(async (gameID: number, score: number) : Promise<void> => {
         const body = {
             "gameID": gameID,
             "score": score
@@ -67,7 +67,7 @@ export function HighscoreProvider( {children}: {children: React.ReactNode} ) {
             // add high score entry to hash map if game has never been played before, otherwise update the entry with new high score if needed
             setHighscoreHashMap(prev => new Map(prev).set(gameID, highscoreEntry))
         }
-    }
+    }, [])
 
     return (
         <HighscoreContext value={{ loadHighScores, clearHighScores, getHighScore, getLastPlayed, submitScore }}>
