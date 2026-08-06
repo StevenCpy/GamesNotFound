@@ -1,4 +1,4 @@
-import { createContext, useState, use } from 'react'
+import { createContext, useState, use, useCallback } from 'react'
 
 // utils
 import devLog from '../../utils/logging/logging'
@@ -16,15 +16,15 @@ export const LoadingContext = createContext<LoadingContextType|null>(null)
 export function LoadingProvider( {children}: {children: React.ReactNode} ) {
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    function startLoadingScreen(): void {
+    const startLoadingScreen = useCallback(() : void => {
         devLog(COMPONENT, "startLoadingScreen() called")
         setIsLoading(true)
-    }
+    }, [])
 
-    function stopLoadingScreen(): void {
+    const stopLoadingScreen = useCallback(() : void => {
         devLog(COMPONENT, "stopLoadingScreen() called")
         setIsLoading(false)
-    }
+    }, [])
 
     return (
         <LoadingContext value={{ isLoading, startLoadingScreen, stopLoadingScreen }}>

@@ -1,4 +1,4 @@
-import { createContext, useState, use } from 'react'
+import { createContext, useState, use, useCallback } from 'react'
 import { toast } from 'sonner'
 
 // utils
@@ -26,7 +26,7 @@ export const AuthContext = createContext<AuthContextType|null>(null)
 export function AuthProvider( {children}: {children: React.ReactNode} ) {
     const [currentUser, setCurrentUser] = useState<UserInfo|null>(null)
 
-    async function authenticateUsingToken() : Promise<void> {
+    const authenticateUsingToken = useCallback(async () : Promise<void> => {
         // send GET request to fetch username from server
         const response_json: AuthResponse = await apiRequest(COMPONENT, "auth/me", "GET")
         if (response_json.status == "Success") {
@@ -34,9 +34,9 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
             
             toast(`Logged in as ${response_json.data.user_info["username"]}`)
         }
-    }
+    }, [])
 
-    async function signupServer(username: string, password: string) : Promise<SignupResponse> {
+    const signupServer = useCallback(async (username: string, password: string) : Promise<SignupResponse> => {
         const body = {
             username: username,
             password: password
@@ -49,9 +49,9 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
             devLog(COMPONENT, `Sign up failed.  Server error details - ${response_json.details}`)
         }
         return response_json
-    }
+    }, [])
 
-    async function loginServer(username: string, password: string) : Promise<LoginResponse> {
+    const loginServer = useCallback(async (username: string, password: string) : Promise<LoginResponse> => {
         const body = {
             username: username,
             password: password
@@ -67,14 +67,14 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
             devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
         }
         return response_json
-    }
+    }, [])
 
-    const devLogin = () => setCurrentUser({"username": "admin",
-                                            "profile_pic_url": null,
-                                            "created_at": "2026-06-08 02:24:10.281809+00",
-                                            "temp": false})
+    const devLogin = useCallback(() => setCurrentUser({"username": "admin",
+                                                        "profile_pic_url": null,
+                                                        "created_at": "2026-06-08 02:24:10.281809+00",
+                                                        "temp": false}), [])
 
-    async function quickSignup() : Promise<void> {
+    const quickSignup = useCallback(async () : Promise<void> => {
         // send login POST request to server to handle quick signup
         const response_json: QuickSignupResponse = await apiRequest(COMPONENT, "auth/quick-signup", "POST")
         if (response_json.status == "Success") {
@@ -86,9 +86,9 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         } else {
             devLog(COMPONENT, `Login failed.  Server error details - ${response_json.details}`)
         }
-    }
+    }, [])
 
-    async function logoutServer(): Promise<LogoutResponse> {
+    const logoutServer = useCallback(async () : Promise<LogoutResponse> => {
         const response_json: LogoutResponse = await apiRequest(COMPONENT, "auth/logout", "POST")
         if (response_json.status == "Success") {
             setCurrentUser(null)
@@ -96,7 +96,7 @@ export function AuthProvider( {children}: {children: React.ReactNode} ) {
         }
 
         return response_json
-    }
+    }, [])
 
     return (
         <AuthContext value={{ currentUser, setCurrentUser, authenticateUsingToken, signupServer, loginServer, devLogin, quickSignup, logoutServer }}>
