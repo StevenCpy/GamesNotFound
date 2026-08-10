@@ -10,6 +10,7 @@ import StoreGameCard from "../components/StoreGameCard"
 import StoreMiniGameCard from '../components/StoreMiniGameCard'
 import SortDropdown from "../components/controls/SortDropdown"
 import SearchBar from "../components/controls/SearchBar"
+import Leaderboard from '../components/Leaderboard'
 
 // utils
 import devLog from "../utils/logging/logging"
@@ -61,20 +62,26 @@ function Store() {
     }, [searchedStoreList])
 
     function CollapsibleGameInfo() {
+        if (!currentGame) {
+            return (
+                <div>
+                    <p>No game selected</p>
+                </div>
+            )
+        }
+
         return (
-            <div>
-                {currentGame ?
-                    <StoreGameCard key={currentGame.gameID}
-                                    gameID={currentGame.gameID}
-                                    gameName={currentGame.name}
-                                    coverImageURL={currentGame.cover_image_url}
-                                    description={currentGame.description}
-                                    author={currentGame.author}
-                                    gameVersion={currentGame.version}
-                                    isPlayable={currentGame.is_playable}
-                                    highScore={getHighScore(currentGame.gameID)} />
-                    : <p>No game selected</p>
-                }
+            <div id="store-game-card-and-collapsible">
+                <StoreGameCard key={currentGame.gameID}
+                                gameID={currentGame.gameID}
+                                gameName={currentGame.name}
+                                coverImageURL={currentGame.cover_image_url}
+                                description={currentGame.description}
+                                author={currentGame.author}
+                                gameVersion={currentGame.version}
+                                isPlayable={currentGame.is_playable}
+                                highScore={getHighScore(currentGame.gameID)} />
+                {currentGame.is_playable && <Leaderboard gameID={currentGame.gameID}/>}
             </div>
         )
     }

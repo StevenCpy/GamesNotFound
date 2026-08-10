@@ -5,7 +5,7 @@ import devLog from "../../utils/logging/logging"
 import { apiRequest } from "../../utils/apiRequest"
 
 // api response types
-import { type StoreEntry, type LoadStoreResponse } from '../ApiResponseTypes/StoreResponseTypes'
+import { type StoreEntry, type LoadStoreResponse, type LeaderboardResponse } from '../ApiResponseTypes/StoreResponseTypes'
 
 const COMPONENT = "StoreContext"
 
@@ -13,6 +13,7 @@ type StoreContextType = {
     storeList: StoreEntry[]
     loadStore: () => Promise<LoadStoreResponse>
     sortStoreList: (fieldToSortBy: FieldType, asc: boolean) => void
+    getLeaderboard: (gameID: number) => Promise<LeaderboardResponse>
 }
 
 export const StoreContext = createContext<StoreContextType|null>(null)
@@ -73,8 +74,19 @@ export function StoreProvider( {children}: {children: React.ReactNode} ) {
         setStoreList(storeListSorted)  
     }, [storeList])
 
+    const getLeaderboard = useCallback(async (gameID: number) : Promise<LeaderboardResponse> => {
+        devLog(COMPONENT, "loadStore() called")
+
+        const response_json: LeaderboardResponse = await apiRequest(COMPONENT, `leaderboard/${gameID}`, "GET") // send GET request to fetch leaderboard from server for gameID
+        if (response_json.status == "Success") {
+            devLog(COMPONENT, `Leaderboard fetched for game ${gameID}`)
+        }
+        return response_json
+    }, [])
+
+
     return (
-        <StoreContext value={{ storeList, loadStore, sortStoreList }}>
+        <StoreContext value={{ storeList, loadStore, sortStoreList, getLeaderboard }}>
             {children}
         </StoreContext>
     )

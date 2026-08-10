@@ -22,8 +22,13 @@
     background-color: var(--primary-bg-color);
 }
 
+#store-game-card-and-collapsible {
+    display: flex;
+    flex-direction: column;
+}
+
 #store-collapsible {
-    max-height: 30rem;
+    max-height: 40rem;
     background-color: var(--primary-bg-color);
     border: 5px solid var(--border-color);
 }

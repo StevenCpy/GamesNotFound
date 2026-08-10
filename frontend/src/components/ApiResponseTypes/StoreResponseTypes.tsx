@@ -15,3 +15,12 @@ export type StoreEntry = {
 type LoadStoreResponseDataType = StoreEntry[]
 type LoadStoreResponseSuccess = BaseApiResponseSuccess<LoadStoreResponseDataType>
 export type LoadStoreResponse = ApiResponseFail | LoadStoreResponseSuccess
+
+export type LeaderboardResponseEntry = {
+    username: string
+    gameID: number
+    high_score: number
+}
+type LeaderboardResponseDataType = LeaderboardResponseEntry[]
+type LeaderboardResponseSuccess = BaseApiResponseSuccess<LeaderboardResponseDataType>
+export type LeaderboardResponse = ApiResponseFail | LeaderboardResponseSuccess
