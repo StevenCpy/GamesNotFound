@@ -10,8 +10,8 @@ router = APIRouter()
 
 API_VERSION = "v2"
 
-router.include_router(router_root, tags=[f"{API_VERSION} - root"])
-router.include_router(router_auth, tags=[f"{API_VERSION} - auth"])
-router.include_router(router_store, tags=[f"{API_VERSION} - store"])
-router.include_router(router_library, tags=[f"{API_VERSION} - library"])
-router.include_router(router_score, tags=[f"{API_VERSION} - score"])
+router.include_router(router_root)
+router.include_router(router_auth)
+router.include_router(router_store)
+router.include_router(router_library)
+router.include_router(router_score)
