@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+#ostrich-game-frame {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 850px;
+  margin: 0 auto;
+  border: 12px solid #3c3230;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  background-color: #f7a250;
+  overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
+  box-sizing: border-box;
+}
+
+.frame-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: #72625a;
+  border: 3px solid #1a1412;
+  border-radius: 50%;
+  z-index: 20;
+}
+
+.top-left { top: 6px; left: 6px; }
+.top-right { top: 6px; right: 6px; }
+.bottom-left { bottom: 6px; left: 6px; }
+.bottom-right { bottom: 6px; right: 6px; }
+
+#playable-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom, #d8713d 0%, #f6ab58 45%, #e1984d 100%);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* Vertical Running Lanes Container - Responsive scaling for smaller screens */
+.vertical-lanes-container {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  right: 30px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  .vertical-lanes-container {
+    left: 10px;
+    right: 10px;
+  }
+}
+
+.lane {
+  width: 32%;
+  height: 100%;
+  border-left: 3px dashed rgba(255, 255, 255, 0.25);
+  border-right: 3px dashed rgba(255, 255, 255, 0.25);
+  background: rgba(140, 71, 33, 0.12);
+  transition: background 0.2s ease;
+}
+
+.lane.active-lane {
+  background: rgba(248, 200, 55, 0.08);
+}
+
+/* Base Individual Entity Styles */
+.game-entity {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  image-rendering: pixelated;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  will-change: left, top;
+}
+
+/* Vulture Hover / Bobbing Animation */
+.vulture-bobbing {
+  animation: vultureFlight 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes vultureFlight {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+/* UI Overlays */
+#title-container {
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.game-title {
+  font-size: 2.2rem;
+  color: #f8c837;
+  text-shadow: 4px 4px 0px #b02a1d, -2px -2px 0px #ffffff;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.game-subtitle {
+  font-size: 0.55rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #1a1412;
+  margin-top: 8px;
+  padding: 0 10px;
+}
+
+#hud-left {
+  position: absolute;
+  top: 110px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 12;
+}
+
+.hud-box {
+  background-color: rgba(38, 42, 51, 0.85);
+  border: 3px solid #6b778d;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 100px;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+.hud-label {
+  display: block;
+  font-size: 0.6rem;
+  color: #ffffff;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.hud-value {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.hearts-container {
+  display: flex;
+  gap: 6px;
+}
+
+.heart {
+  font-size: 1.2rem;
+}
+
+.heart.filled {
+  color: #e63946;
+  text-shadow: 0 0 5px #ff4d6d;
+}
+
+.heart.empty {
+  color: #4a4e69;
+}
+
+#tagline-banner {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 38px;
+  background-color: #1a1412;
+  border-top: 3px solid #3c3230;
+  color: #ffffff;
+  font-size: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+  z-index: 15;
+}
+
+#overlay-screen {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 14;
+}
+
+.modal-content {
+  text-align: center;
+  background: rgba(26, 20, 18, 0.9);
+  padding: 30px;
+  border: 4px solid #f8c837;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.modal-content h2 {
+  color: #e63946;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.final-score {
+  color: #ffffff;
+  font-size: 0.85rem;
+  margin-bottom: 25px;
+}

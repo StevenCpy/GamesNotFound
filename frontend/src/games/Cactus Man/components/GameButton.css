@@ -1,0 +1,8 @@
+.game-button {
+    border-radius: 20px;
+    border-width: 5px;
+    border-color: black;
+    background-color: coral;
+    color: inherit;
+    font-weight: bold;
+}
