@@ -1,4 +1,4 @@
-#playable-area {
+#playable-area-HittheTarget {
     position: relative;
     flex: 1;
     display: flex;
@@ -9,24 +9,26 @@
     background-size: cover;
 }
 
-#target {
-    position: absolute;
-    line-height: 1;
-    border: none;
-    background: transparent;
-    padding: 0;
-    font-size: 8vh;
-}
+#playable-area-HittheTarget {
+    #target {
+        position: absolute;
+        line-height: 1;
+        border: none;
+        background: transparent;
+        padding: 0;
+        font-size: 8vh;
+    }
 
-#start-screen, #gameover-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+    #start-screen, #gameover-screen {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-#score-timer-container {
-    display: flex;
-    flex-direction: row;
-    gap: 5rem;
+    #score-timer-container {
+        display: flex;
+        flex-direction: row;
+        gap: 5rem;
+    }
 }
