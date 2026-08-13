@@ -173,7 +173,7 @@ function HittheTarget( {submitScore}: HittheTargetProps ) {
 
     return (
         <GameStatusContext value={{ isGameOn }}>
-            <div id="playable-area" ref={playableAreaRef}>
+            <div id="playable-area-HittheTarget" ref={playableAreaRef}>
                 <div id="score-timer-container">
                     <span>Score: {score}</span>
                     <span><Timer onTimerEnd={ handleOnTimerEnd } /></span>

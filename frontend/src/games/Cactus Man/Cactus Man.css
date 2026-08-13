@@ -1,173 +1,175 @@
-#playable-area {
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  color: #3e2723;
-  background-image: url('./assets/Cactus_Man_background.png');
-  background-size: cover;
-  background-position: 0% center;
-  background-repeat: repeat-x;
-  overflow: hidden;
+#playable-area-CactusMan {
+	position: relative;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	color: #3e2723;
+	background-image: url('./assets/Cactus_Man_background.png');
+	background-size: cover;
+	background-position: 0% center;
+	background-repeat: repeat-x;
+	overflow: hidden;
 
-  /* Responsive Unit Bases */
-  --hero-size: clamp(64px, 8vw, 120px);
-  --enemy-size: clamp(80px, 11vw, 160px);
-  --needle-w: clamp(64px, 8vw, 120px);
-  --needle-h: clamp(24px, 3vw, 44px);
-  --coin-size: clamp(32px, 4vw, 50px);
+	/* Responsive Unit Bases */
+	--hero-size: clamp(64px, 8vw, 120px);
+	--enemy-size: clamp(80px, 11vw, 160px);
+	--needle-w: clamp(64px, 8vw, 120px);
+	--needle-h: clamp(24px, 3vw, 44px);
+	--coin-size: clamp(32px, 4vw, 50px);
 
-  /* Force crisp rendering on background assets */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
+	/* Force crisp rendering on background assets */
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
 }
 
-/* Scrolling effect when game is active */
-#playable-area.scrolling {
-  animation: scrollBackground 20s linear infinite;
-}
+#playable-area-CactusMan {
+	/* Scrolling effect when game is active */
+	#playable-area-CactusMan.scrolling {
+	animation: scrollBackground 20s linear infinite;
+	}
 
-@keyframes scrollBackground {
-  from {
-    background-position-x: 0px;
-  }
-  to {
-    background-position-x: -2000px;
-  }
-}
+	@keyframes scrollBackground {
+	from {
+		background-position-x: 0px;
+	}
+	to {
+		background-position-x: -2000px;
+	}
+	}
 
-/* Base class for all game entities */
-.entity {
-  position: absolute;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+	/* Base class for all game entities */
+	.entity {
+	position: absolute;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 
-  /* Crisp image rendering for sprites */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
+	/* Crisp image rendering for sprites */
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
 
-  will-change: left, top;
-  transform: translateZ(0);
-}
+	will-change: left, top;
+	transform: translateZ(0);
+	}
 
-.entity-hero {
-  width: var(--hero-size);
-  height: var(--hero-size);
-}
+	.entity-hero {
+	width: var(--hero-size);
+	height: var(--hero-size);
+	}
 
-.entity-scorpion,
-.entity-goblin {
-  width: var(--enemy-size);
-  height: var(--enemy-size);
-}
+	.entity-scorpion,
+	.entity-goblin {
+	width: var(--enemy-size);
+	height: var(--enemy-size);
+	}
 
-.entity-needle {
-  width: var(--needle-w);
-  height: var(--needle-h);
-}
+	.entity-needle {
+	width: var(--needle-w);
+	height: var(--needle-h);
+	}
 
-.entity-coin {
-  width: var(--coin-size);
-  height: var(--coin-size);
-  background-color: #ffd700;
-  border-radius: 50%;
-  border: 3px solid #b8860b;
-  box-shadow: 0 0 10px #ffd700;
-}
+	.entity-coin {
+	width: var(--coin-size);
+	height: var(--coin-size);
+	background-color: #ffd700;
+	border-radius: 50%;
+	border: 3px solid #b8860b;
+	box-shadow: 0 0 10px #ffd700;
+	}
 
-#hud-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  font-family: 'Press Start 2P', monospace, cursive;
-  font-size: clamp(0.9rem, 1.5vw, 1.4rem);
-  background-color: rgba(255, 255, 255, 0.85);
-  border-bottom: 3px solid #3e2723;
-  z-index: 10;
-}
+	#hud-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 3rem;
+	font-family: 'Press Start 2P', monospace, cursive;
+	font-size: clamp(0.9rem, 1.5vw, 1.4rem);
+	background-color: rgba(255, 255, 255, 0.85);
+	border-bottom: 3px solid #3e2723;
+	z-index: 10;
+	}
 
-#score-lives-container {
-  display: flex;
-  align-items: center;
-  gap: 4.5rem; /* Expanded space between Score and Lives */
-}
+	#score-lives-container {
+	display: flex;
+	align-items: center;
+	gap: 4.5rem; /* Expanded space between Score and Lives */
+	}
 
-#hud-lives {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* Gap between "Lives:" text and the hearts */
-  letter-spacing: 0.2rem;
-}
+	#hud-lives {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem; /* Gap between "Lives:" text and the hearts */
+	letter-spacing: 0.2rem;
+	}
 
-#hud-timer {
-  margin-left: 6rem; /* Ensures extra breathing room before the timer */
-}
+	#hud-timer {
+	margin-left: 6rem; /* Ensures extra breathing room before the timer */
+	}
 
-#start-screen, #gameover-screen {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Press Start 2P', monospace, cursive;
-  text-align: center;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.55);
-  z-index: 10;
-}
+	#start-screen, #gameover-screen {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Press Start 2P', monospace, cursive;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.55);
+	z-index: 10;
+	}
 
-#start-screen h1, #gameover-screen h1 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  margin-bottom: 0.5rem;
-  color: #cddc39;
-  text-shadow: 3px 3px 0px #3e2723;
-}
+	#start-screen h1, #gameover-screen h1 {
+	font-size: clamp(2rem, 5vw, 4rem);
+	margin-bottom: 0.5rem;
+	color: #cddc39;
+	text-shadow: 3px 3px 0px #3e2723;
+	}
 
-#start-screen h2 {
-  font-size: clamp(1rem, 2.5vw, 2rem);
-  margin-bottom: 2rem;
-}
+	#start-screen h2 {
+	font-size: clamp(1rem, 2.5vw, 2rem);
+	margin-bottom: 2rem;
+	}
 
-#start-screen p {
-  font-size: clamp(0.7rem, 1.2vw, 1rem);
-  margin-top: 1.5rem;
-  color: #ff5252;
-}
+	#start-screen p {
+	font-size: clamp(0.7rem, 1.2vw, 1rem);
+	margin-top: 1.5rem;
+	color: #ff5252;
+	}
 
-/* Score Breakdown Modal Box */
-.score-breakdown-box {
-  background-color: rgba(62, 39, 35, 0.9);
-  border: 3px solid #cddc39;
-  border-radius: 8px;
-  padding: 1.5rem 2rem;
-  margin: 1.5rem 0 2rem 0;
-  min-width: 320px;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
+	/* Score Breakdown Modal Box */
+	.score-breakdown-box {
+	background-color: rgba(62, 39, 35, 0.9);
+	border: 3px solid #cddc39;
+	border-radius: 8px;
+	padding: 1.5rem 2rem;
+	margin: 1.5rem 0 2rem 0;
+	min-width: 320px;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+	}
 
-.score-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: clamp(0.75rem, 1.3vw, 1rem);
-  color: #ffffff;
-}
+	.score-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: clamp(0.75rem, 1.3vw, 1rem);
+	color: #ffffff;
+	}
 
-.bonus-row {
-  color: #81c784; /* Soft green for bonus */
-}
+	.bonus-row {
+	color: #81c784; /* Soft green for bonus */
+	}
 
-.total-row {
-  border-top: 2px dashed #cddc39;
-  padding-top: 0.8rem;
-  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
-  color: #ffd700; /* Gold for total score */
+	.total-row {
+	border-top: 2px dashed #cddc39;
+	padding-top: 0.8rem;
+	font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+	color: #ffd700; /* Gold for total score */
+	}
 }
