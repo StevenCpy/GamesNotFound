@@ -1,175 +1,235 @@
-#playable-area-CactusMan {
-	position: relative;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	color: #3e2723;
-	background-image: url('./assets/Cactus_Man_background.png');
-	background-size: cover;
-	background-position: 0% center;
-	background-repeat: repeat-x;
-	overflow: hidden;
-
-	/* Responsive Unit Bases */
-	--hero-size: clamp(64px, 8vw, 120px);
-	--enemy-size: clamp(80px, 11vw, 160px);
-	--needle-w: clamp(64px, 8vw, 120px);
-	--needle-h: clamp(24px, 3vw, 44px);
-	--coin-size: clamp(32px, 4vw, 50px);
-
-	/* Force crisp rendering on background assets */
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: crisp-edges;
-	image-rendering: pixelated;
+#game-container-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 #playable-area-CactusMan {
-	/* Scrolling effect when game is active */
-	#playable-area-CactusMan.scrolling {
-	animation: scrollBackground 20s linear infinite;
-	}
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: #3e2723;
+    background-image: url('./assets/Cactus_Man_background.png');
+    background-size: cover;
+    background-position: 0% center;
+    background-repeat: repeat-x;
+    overflow: hidden;
 
-	@keyframes scrollBackground {
-	from {
-		background-position-x: 0px;
-	}
-	to {
-		background-position-x: -2000px;
-	}
-	}
+    /* Scaled down CSS clamps for mobile-friendly sprite sizes */
+    --hero-size: clamp(42px, 6vw, 110px);
+    --enemy-size: clamp(50px, 8vw, 140px);
+    --needle-w: clamp(42px, 6vw, 110px);
+    --needle-h: clamp(16px, 2.5vw, 40px);
+    --coin-size: clamp(24px, 3vw, 45px);
 
-	/* Base class for all game entities */
-	.entity {
-	position: absolute;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
+    /* Force crisp rendering on background assets */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
 
-	/* Crisp image rendering for sprites */
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: crisp-edges;
-	image-rendering: pixelated;
+#playable-area-CactusMan.scrolling {
+    animation: scrollBackground 20s linear infinite;
+}
 
-	will-change: left, top;
-	transform: translateZ(0);
-	}
+@keyframes scrollBackground {
+    from {
+        background-position-x: 0px;
+    }
+    to {
+        background-position-x: -2000px;
+    }
+}
 
-	.entity-hero {
-	width: var(--hero-size);
-	height: var(--hero-size);
-	}
+/* Base class for all game entities */
+#playable-area-CactusMan .entity {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
-	.entity-scorpion,
-	.entity-goblin {
-	width: var(--enemy-size);
-	height: var(--enemy-size);
-	}
+    /* Crisp image rendering for sprites */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
 
-	.entity-needle {
-	width: var(--needle-w);
-	height: var(--needle-h);
-	}
+    will-change: left, top;
+    transform: translateZ(0);
+}
 
-	.entity-coin {
-	width: var(--coin-size);
-	height: var(--coin-size);
-	background-color: #ffd700;
-	border-radius: 50%;
-	border: 3px solid #b8860b;
-	box-shadow: 0 0 10px #ffd700;
-	}
+#playable-area-CactusMan .entity-hero {
+    width: var(--hero-size);
+    height: var(--hero-size);
+}
 
-	#hud-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem 3rem;
-	font-family: 'Press Start 2P', monospace, cursive;
-	font-size: clamp(0.9rem, 1.5vw, 1.4rem);
-	background-color: rgba(255, 255, 255, 0.85);
-	border-bottom: 3px solid #3e2723;
-	z-index: 10;
-	}
+#playable-area-CactusMan .entity-scorpion,
+#playable-area-CactusMan .entity-goblin {
+    width: var(--enemy-size);
+    height: var(--enemy-size);
+}
 
-	#score-lives-container {
-	display: flex;
-	align-items: center;
-	gap: 4.5rem; /* Expanded space between Score and Lives */
-	}
+#playable-area-CactusMan .entity-needle {
+    width: var(--needle-w);
+    height: var(--needle-h);
+}
 
-	#hud-lives {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem; /* Gap between "Lives:" text and the hearts */
-	letter-spacing: 0.2rem;
-	}
+#playable-area-CactusMan .entity-coin {
+    width: var(--coin-size);
+    height: var(--coin-size);
+    background-color: #ffd700;
+    border-radius: 50%;
+    border: 3px solid #b8860b;
+    box-shadow: 0 0 10px #ffd700;
+}
 
-	#hud-timer {
-	margin-left: 6rem; /* Ensures extra breathing room before the timer */
-	}
+#playable-area-CactusMan #hud-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    font-family: 'Press Start 2P', monospace, cursive;
+    font-size: clamp(0.85rem, 1.3vw, 1.2rem);
+    background-color: rgba(255, 255, 255, 0.85);
+    border-bottom: 3px solid #3e2723;
+    z-index: 10;
+}
 
-	#start-screen, #gameover-screen {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	font-family: 'Press Start 2P', monospace, cursive;
-	text-align: center;
-	color: #fff;
-	background-color: rgba(0, 0, 0, 0.55);
-	z-index: 10;
-	}
+#playable-area-CactusMan #score-lives-container {
+    display: flex;
+    align-items: center;
+    gap: 4.5rem;
+}
 
-	#start-screen h1, #gameover-screen h1 {
-	font-size: clamp(2rem, 5vw, 4rem);
-	margin-bottom: 0.5rem;
-	color: #cddc39;
-	text-shadow: 3px 3px 0px #3e2723;
-	}
+#playable-area-CactusMan #hud-lives {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    letter-spacing: 0.2rem;
+}
 
-	#start-screen h2 {
-	font-size: clamp(1rem, 2.5vw, 2rem);
-	margin-bottom: 2rem;
-	}
+#playable-area-CactusMan #hud-timer {
+    margin-left: 6rem;
+}
 
-	#start-screen p {
-	font-size: clamp(0.7rem, 1.2vw, 1rem);
-	margin-top: 1.5rem;
-	color: #ff5252;
-	}
+#playable-area-CactusMan #start-screen, 
+#playable-area-CactusMan #gameover-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace, cursive;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 10;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
 
-	/* Score Breakdown Modal Box */
-	.score-breakdown-box {
-	background-color: rgba(62, 39, 35, 0.9);
-	border: 3px solid #cddc39;
-	border-radius: 8px;
-	padding: 1.5rem 2rem;
-	margin: 1.5rem 0 2rem 0;
-	min-width: 320px;
-	max-width: 500px;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-	}
+#playable-area-CactusMan #start-screen h1, 
+#playable-area-CactusMan #gameover-screen h1 {
+    font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+    margin-bottom: 0.4rem;
+    color: #cddc39;
+    text-shadow: 3px 3px 0px #3e2723;
+}
 
-	.score-row {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-size: clamp(0.75rem, 1.3vw, 1rem);
-	color: #ffffff;
-	}
+#playable-area-CactusMan #start-screen h2 {
+    font-size: clamp(0.8rem, 1.8vw, 1.4rem);
+    margin-bottom: 1.5rem;
+}
 
-	.bonus-row {
-	color: #81c784; /* Soft green for bonus */
-	}
+#playable-area-CactusMan #start-screen p {
+    font-size: clamp(0.6rem, 1vw, 0.85rem);
+    margin-top: 1rem;
+    color: #ff5252;
+}
 
-	.total-row {
-	border-top: 2px dashed #cddc39;
-	padding-top: 0.8rem;
-	font-size: clamp(0.9rem, 1.6vw, 1.2rem);
-	color: #ffd700; /* Gold for total score */
-	}
+/* Score Breakdown Modal Box */
+#playable-area-CactusMan .score-breakdown-box {
+    background-color: rgba(62, 39, 35, 0.95);
+    border: 3px solid #cddc39;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+#playable-area-CactusMan .score-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(0.65rem, 1.1vw, 0.9rem);
+    color: #ffffff;
+}
+
+#playable-area-CactusMan .bonus-row {
+    color: #81c784;
+}
+
+#playable-area-CactusMan .total-row {
+    border-top: 2px dashed #cddc39;
+    padding-top: 0.6rem;
+    font-size: clamp(0.75rem, 1.3vw, 1.05rem);
+    color: #ffd700;
+}
+
+/* Mobile Control Pad styling */
+#mobile-control-pad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background-color: #2b1b17;
+    border-top: 3px solid #3e2723;
+    z-index: 20;
+    flex-shrink: 0;
+}
+
+#mobile-control-pad .mobile-btn {
+    font-family: 'Press Start 2P', monospace, cursive;
+    font-size: clamp(0.65rem, 1.8vw, 0.95rem);
+    padding: 0.9rem 1.5rem;
+    border: 3px solid #3e2723;
+    border-radius: 12px;
+    background-color: rgba(205, 220, 57, 0.9);
+    color: #3e2723;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+#mobile-control-pad .mobile-btn:active {
+    transform: scale(0.95);
+    background-color: #b1bf30;
+}
+
+#mobile-control-pad .shoot-btn {
+    background-color: rgba(255, 82, 82, 0.9);
+    color: #ffffff;
+    border-color: #b71c1c;
+}
+
+#mobile-control-pad .shoot-btn:active {
+    background-color: #d32f2f;
+}
+
+@media (pointer: coarse) {
+    #mobile-control-pad .mobile-btn {
+        padding: 1.1rem 1.8rem;
+    }
 }

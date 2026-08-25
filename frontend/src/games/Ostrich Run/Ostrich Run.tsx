@@ -16,399 +16,436 @@ import cactusClusterImg from "./assets/cactus_cluster.png"
 import vultureEnemyImg from "./assets/vulture_enemy.png"
 
 type GameStatusContextType = {
-	isGameOn: boolean
+    isGameOn: boolean
 }
 
 const GameStatusContext = createContext<GameStatusContextType | null>(null)
 
 type Obstacle = {
-	id: number
-	type: 'cactus-small' | 'cactus-cluster' | 'vulture'
-	laneIndex: number
-	y: number
-	vy: number
-	width: number
-	height: number
-	image: string
+    id: number
+    type: 'cactus-small' | 'cactus-cluster' | 'vulture'
+    laneIndex: number
+    y: number
+    vy: number
+    width: number
+    height: number
+    image: string
 }
 
 type OstrichRunProps = {
-	submitScore?: (score: number) => void
+    submitScore?: (score: number) => void
 }
 
 export default function OstrichRun({ submitScore }: OstrichRunProps) {
-	const [score, setScore] = useState(0)
-	const [lives, setLives] = useState(3)
-	const [isGameOn, setIsGameOn] = useState(false)
-	const [isGameOver, setIsGameOver] = useState(false)
-	const [isPaused, setIsPaused] = useState(false)
+    const [score, setScore] = useState(0)
+    const [lives, setLives] = useState(3)
+    const [isGameOn, setIsGameOn] = useState(false)
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [isPaused, setIsPaused] = useState(false)
 
-	// Character State & Movement
-	const [runFrame, setRunFrame] = useState(0)
-	const [currentLane, setCurrentLane] = useState(1) // 0: Left, 1: Center, 2: Right
-	const [isDucking, setIsDucking] = useState(false)
+    // Character State & Movement
+    const [runFrame, setRunFrame] = useState(0)
+    const [currentLane, setCurrentLane] = useState(1) // 0: Left, 1: Center, 2: Right
+    const [isDucking, setIsDucking] = useState(false)
 
-	// Layout & Dynamic Sizing
-	const [playableAreaSize, setPlayableAreaSize] = useState({ width: 0, height: 0 })
-	const playableAreaRef = useRef<HTMLDivElement | null>(null)
+    // Layout & Dynamic Sizing
+    const [playableAreaSize, setPlayableAreaSize] = useState({ width: 0, height: 0 })
+    const playableAreaRef = useRef<HTMLDivElement | null>(null)
 
-	const [obstacles, setObstacles] = useState<Obstacle[]>([])
+    const [obstacles, setObstacles] = useState<Obstacle[]>([])
 
-	// Use refs for loop-dependent states to avoid stale closures and timer issues
-	const isGameOnRef = useRef(isGameOn)
-	isGameOnRef.current = isGameOn
+    // Use refs for loop-dependent states to avoid stale closures and timer issues
+    const isGameOnRef = useRef(isGameOn)
+    isGameOnRef.current = isGameOn
 
-	const isPausedRef = useRef(isPaused)
-	isPausedRef.current = isPaused
+    const isPausedRef = useRef(isPaused)
+    isPausedRef.current = isPaused
 
-	const scoreRef = useRef(score)
-	scoreRef.current = score
+    const scoreRef = useRef(score)
+    scoreRef.current = score
 
-	const playableHeightRef = useRef(playableAreaSize.height)
-	playableHeightRef.current = playableAreaSize.height
+    const playableHeightRef = useRef(playableAreaSize.height)
+    playableHeightRef.current = playableAreaSize.height
 
-	const heroWidth = 70
-	const heroHeight = isDucking ? 45 : 85
+    // Smooth fluid scaling relative to playable area width (clamps between mobile & desktop sizes)
+    const totalWidth = playableAreaSize.width || 600
+    const sideMargin = totalWidth <= 480 ? 12 : 30
+    const availableWidth = totalWidth - (sideMargin * 2)
+    const laneWidth = availableWidth / 3
 
-	// Compute responsive lane X positions matching smaller side margins (30px default, 10px on mobile)
-	const getLaneX = (laneIdx: number) => {
-		const totalWidth = playableAreaSize.width || 600
-		const sideMargin = totalWidth <= 480 ? 20 : 60
-		const availableWidth = totalWidth - (sideMargin * 2)
-		const laneWidth = availableWidth / 3
-		return sideMargin + laneWidth * laneIdx + laneWidth / 2 - heroWidth / 2
-	}
+    // Fluid Hero Sizing (proportional to lane width)
+    const heroWidth = Math.min(70, Math.max(50, laneWidth * 0.55))
+    const heroHeight = isDucking ? heroWidth * 0.65 : heroWidth * 1.2
 
-	// Resize Observer
-	useEffect(() => {
-		if (!playableAreaRef.current) return
+    // Compute responsive lane X positions
+    const getLaneX = (laneIdx: number) => {
+        return sideMargin + laneWidth * laneIdx + laneWidth / 2 - heroWidth / 2
+    }
 
-		const resizeObserver = new ResizeObserver((entries) => {
-			const entry = entries[0]
-			setPlayableAreaSize({
-				width: entry.contentBoxSize[0].inlineSize,
-				height: entry.contentBoxSize[0].blockSize,
-			})
-		})
+    // Resize Observer
+    useEffect(() => {
+        if (!playableAreaRef.current) return
 
-		resizeObserver.observe(playableAreaRef.current)
-		return () => resizeObserver.disconnect()
-	}, [])
+        const resizeObserver = new ResizeObserver((entries) => {
+            const entry = entries[0]
+            setPlayableAreaSize({
+                width: entry.contentBoxSize[0].inlineSize,
+                height: entry.contentBoxSize[0].blockSize,
+            })
+        })
 
-	// Page Visibility Change Listener to Pause Game when switching tabs
-	useEffect(() => {
-		const handleVisibilityChange = () => {
-			if (document.hidden && isGameOnRef.current && !isGameOver) {
-				setIsPaused(true)
-			}
-		}
+        resizeObserver.observe(playableAreaRef.current)
+        return () => resizeObserver.disconnect()
+    }, [])
 
-		document.addEventListener('visibilitychange', handleVisibilityChange)
-		return () => {
-			document.removeEventListener('visibilitychange', handleVisibilityChange)
-		}
-	}, [isGameOver])
+    // Page Visibility Change Listener to Pause Game when switching tabs
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.hidden && isGameOnRef.current && !isGameOver) {
+                setIsPaused(true)
+            }
+        }
 
-	// Running Animation Frame Cycle
-	useEffect(() => {
-		if (!isGameOn || isPaused || isDucking) return
+        document.addEventListener('visibilitychange', handleVisibilityChange)
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange)
+        }
+    }, [isGameOver])
 
-		const animInterval = setInterval(() => {
-			setRunFrame((prev) => (prev + 1) % 4)
-		}, 110)
+    // Running Animation Frame Cycle
+    useEffect(() => {
+        if (!isGameOn || isPaused || isDucking) return
 
-		return () => clearInterval(animInterval)
-	}, [isGameOn, isPaused, isDucking])
+        const animInterval = setInterval(() => {
+            setRunFrame((prev) => (prev + 1) % 4)
+        }, 110)
 
-	// Continuous Score Counter
-	useEffect(() => {
-		if (!isGameOn || isPaused) return
-		const scoreInterval = setInterval(() => {
-			setScore((prev) => prev + 10)
-		}, 120)
+        return () => clearInterval(animInterval)
+    }, [isGameOn, isPaused, isDucking])
 
-		return () => clearInterval(scoreInterval)
-	}, [isGameOn, isPaused])
+    // Continuous Score Counter
+    useEffect(() => {
+        if (!isGameOn || isPaused) return
+        const scoreInterval = setInterval(() => {
+            setScore((prev) => prev + 10)
+        }, 120)
 
-	// Stable Spawner Interval
-	useEffect(() => {
-		if (!isGameOn) return
+        return () => clearInterval(scoreInterval)
+    }, [isGameOn, isPaused])
 
-		const spawnInterval = setInterval(() => {
-			if (!isGameOnRef.current || isPausedRef.current || playableHeightRef.current === 0) return
+    // Stable Spawner Interval
+    useEffect(() => {
+        if (!isGameOn) return
 
-			const lanesCountToSpawn = Math.random() < 0.5 ? 1 : 2
-			const shuffledLanes = [0, 1, 2].sort(() => Math.random() - 0.5)
-			const selectedLanes = shuffledLanes.slice(0, lanesCountToSpawn)
+        const spawnInterval = setInterval(() => {
+            if (!isGameOnRef.current || isPausedRef.current || playableHeightRef.current === 0) return
 
-			const newObstacles: Obstacle[] = selectedLanes.map((laneIdx) => {
-				const randType = Math.random()
-				let obstacleType: Obstacle['type'] = 'cactus-small'
-				let obsWidth = 60
-				let obsHeight = 70
-				let obsImage = cactusSmallImg
+            const lanesCountToSpawn = Math.random() < 0.5 ? 1 : 2
+            const shuffledLanes = [0, 1, 2].sort(() => Math.random() - 0.5)
+            const selectedLanes = shuffledLanes.slice(0, lanesCountToSpawn)
 
-				if (randType > 0.55) {
-					obstacleType = 'vulture'
-					obsWidth = 65
-					obsHeight = 55
-					obsImage = vultureEnemyImg
-				} else if (randType > 0.25) {
-					obstacleType = 'cactus-cluster'
-					obsWidth = 85
-					obsHeight = 70
-					obsImage = cactusClusterImg
-				}
+            const newObstacles: Obstacle[] = selectedLanes.map((laneIdx) => {
+                const randType = Math.random()
+                let obstacleType: Obstacle['type'] = 'cactus-small'
+                
+                // Fluid obstacle sizing relative to current lane width
+                let obsWidth = Math.min(65, Math.max(42, laneWidth * 0.52))
+                let obsHeight = obsWidth * 1.1
+                let obsImage = cactusSmallImg
 
-				return {
-					id: Date.now() + Math.random() * 10000,
-					type: obstacleType,
-					laneIndex: laneIdx,
-					y: -100,
-					vy: 2.2 + Math.floor(scoreRef.current / 4000), // Adjusted divisor for a much more gradual speed increase
-					width: obsWidth,
-					height: obsHeight,
-					image: obsImage,
-				}
-			})
+                if (randType > 0.55) {
+                    obstacleType = 'vulture'
+                    obsWidth = Math.min(68, Math.max(45, laneWidth * 0.55))
+                    obsHeight = obsWidth * 0.85
+                    obsImage = vultureEnemyImg
+                } else if (randType > 0.25) {
+                    obstacleType = 'cactus-cluster'
+                    obsWidth = Math.min(85, Math.max(55, laneWidth * 0.70))
+                    obsHeight = obsWidth * 0.82
+                    obsImage = cactusClusterImg
+                }
 
-			setObstacles((prev) => [...prev, ...newObstacles])
-		}, 700)
+                return {
+                    id: Date.now() + Math.random() * 10000,
+                    type: obstacleType,
+                    laneIndex: laneIdx,
+                    y: -100,
+                    vy: 2.2 + Math.floor(scoreRef.current / 4000),
+                    width: obsWidth,
+                    height: obsHeight,
+                    image: obsImage,
+                }
+            })
 
-		return () => clearInterval(spawnInterval)
-	}, [isGameOn])
+            setObstacles((prev) => [...prev, ...newObstacles])
+        }, 700)
 
-	// Input Handling: "S" or ArrowDown for Duck, A/D/Arrows for Lanes
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (isPausedRef.current) return
+        return () => clearInterval(spawnInterval)
+    }, [isGameOn, laneWidth])
 
-			if (e.code === 'KeyS' || e.code === 'ArrowDown') {
-				e.preventDefault()
-				setIsDucking(true)
-			}
-			if (['ArrowLeft', 'KeyA'].includes(e.code)) {
-				setCurrentLane((prev) => Math.max(0, prev - 1))
-			}
-			if (['ArrowRight', 'KeyD'].includes(e.code)) {
-				setCurrentLane((prev) => Math.min(2, prev + 1))
-			}
-		}
+    // Input Handling: "S" or ArrowDown for Duck, A/D/Arrows for Lanes
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (isPausedRef.current) return
 
-		const handleKeyUp = (e: KeyboardEvent) => {
-			if (e.code === 'KeyS' || e.code === 'ArrowDown') {
-				setIsDucking(false)
-			}
-		}
+            if (e.code === 'KeyS' || e.code === 'ArrowDown') {
+                e.preventDefault()
+                setIsDucking(true)
+            }
+            if (['ArrowLeft', 'KeyA'].includes(e.code)) {
+                setCurrentLane((prev) => Math.max(0, prev - 1))
+            }
+            if (['ArrowRight', 'KeyD'].includes(e.code)) {
+                setCurrentLane((prev) => Math.min(2, prev + 1))
+            }
+        }
 
-		window.addEventListener('keydown', handleKeyDown)
-		window.addEventListener('keyup', handleKeyUp)
-		return () => {
-			window.removeEventListener('keydown', handleKeyDown)
-			window.removeEventListener('keyup', handleKeyUp)
-		}
-	}, [])
+        const handleKeyUp = (e: KeyboardEvent) => {
+            if (e.code === 'KeyS' || e.code === 'ArrowDown') {
+                setIsDucking(false)
+            }
+        }
 
-	// Physics Loop & Forgiving Collision Detection (Fixed Ground Position)
-	useEffect(() => {
-		if (!isGameOn || playableAreaSize.height === 0) return
+        window.addEventListener('keydown', handleKeyDown)
+        window.addEventListener('keyup', handleKeyUp)
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+            window.removeEventListener('keyup', handleKeyUp)
+        }
+    }, [])
 
-		let animationFrameId: number
-		const defaultGroundY = playableAreaSize.height - 140
+    // Physics Loop & Forgiving Collision Detection (Fixed Ground Position)
+    useEffect(() => {
+        if (!isGameOn || playableAreaSize.height === 0) return
 
-		const gameLoop = () => {
-			if (!isPaused) {
-				setObstacles((prev) => {
-					const nextObstacles: Obstacle[] = []
-					const playerX = getLaneX(currentLane)
-					const playerY = defaultGroundY
+        let animationFrameId: number
+        const defaultGroundY = playableAreaSize.height - 140
 
-					prev.forEach((obs) => {
-						const nextY = obs.y + obs.vy
-						const obsX = getLaneX(obs.laneIndex)
-						const isSameLane = obs.laneIndex === currentLane
+        const gameLoop = () => {
+            if (!isPaused) {
+                setObstacles((prev) => {
+                    const nextObstacles: Obstacle[] = []
+                    const playerX = getLaneX(currentLane)
+                    const playerY = defaultGroundY
 
-						let isColliding = false
+                    prev.forEach((obs) => {
+                        const nextY = obs.y + obs.vy
+                        const obsX = getLaneX(obs.laneIndex)
+                        const isSameLane = obs.laneIndex === currentLane
 
-						if (isSameLane) {
-							const basicOverlap =
-								playerX + heroWidth * 0.20 < obsX + obs.width * 0.80 &&
-								playerX + heroWidth * 0.80 > obsX + obs.width * 0.20 &&
-								playerY + heroHeight * 0.20 < nextY + obs.height * 0.80 &&
-								playerY + heroHeight * 0.80 > nextY + obs.height * 0.20
+                        let isColliding = false
 
-							if (basicOverlap) {
-								const isVulture = obs.type === 'vulture'
+                        if (isSameLane) {
+                            const basicOverlap =
+                                playerX + heroWidth * 0.20 < obsX + obs.width * 0.80 &&
+                                playerX + heroWidth * 0.80 > obsX + obs.width * 0.20 &&
+                                playerY + heroHeight * 0.20 < nextY + obs.height * 0.80 &&
+                                playerY + heroHeight * 0.80 > nextY + obs.height * 0.20
 
-								if (isVulture && isDucking) {
-									isColliding = false
-								} else {
-									isColliding = true
-								}
-							}
-						}
+                            if (basicOverlap) {
+                                const isVulture = obs.type === 'vulture'
 
-						if (isColliding) {
-							setLives((l) => {
-								const updatedLives = l - 1
-								if (updatedLives <= 0) {
-									setIsGameOn(false)
-									setIsGameOver(true)
-								}
-								return updatedLives
-							})
-						} else if (nextY < playableAreaSize.height + 50) {
-							nextObstacles.push({ ...obs, y: nextY })
-						}
-					})
+                                if (isVulture && isDucking) {
+                                    isColliding = false
+                                } else {
+                                    isColliding = true
+                                }
+                            }
+                        }
 
-					return nextObstacles
-				})
-			}
+                        if (isColliding) {
+                            setLives((l) => {
+                                const updatedLives = l - 1
+                                if (updatedLives <= 0) {
+                                    setIsGameOn(false)
+                                    setIsGameOver(true)
+                                }
+                                return updatedLives
+                            })
+                        } else if (nextY < playableAreaSize.height + 50) {
+                            nextObstacles.push({ ...obs, y: nextY })
+                        }
+                    })
 
-			animationFrameId = requestAnimationFrame(gameLoop)
-		}
+                    return nextObstacles
+                })
+            }
 
-		animationFrameId = requestAnimationFrame(gameLoop)
-		return () => cancelAnimationFrame(animationFrameId)
-	}, [isGameOn, isPaused, playableAreaSize.height, heroHeight, currentLane, isDucking])
+            animationFrameId = requestAnimationFrame(gameLoop)
+        }
 
-	// High Score Storage
-	useEffect(() => {
-		if (isGameOver) {
-			const currentHighScore = parseInt(localStorage.getItem('ostrich_high_score') || '6398', 10)
-			if (score > currentHighScore) {
-				localStorage.setItem('ostrich_high_score', score.toString())
-			}
-			if (submitScore) submitScore(score)
-		}
-	}, [isGameOver, score, submitScore])
+        animationFrameId = requestAnimationFrame(gameLoop)
+        return () => cancelAnimationFrame(animationFrameId)
+    }, [isGameOn, isPaused, playableAreaSize.height, heroHeight, heroWidth, currentLane, isDucking, laneWidth, sideMargin])
 
-	const handleStartGame = () => {
-		setIsGameOver(false)
-		setIsPaused(false)
-		setIsGameOn(true)
-		setScore(0)
-		setLives(3)
-		setObstacles([])
-		setCurrentLane(1)
-	}
+    // High Score Storage
+    useEffect(() => {
+        if (isGameOver) {
+            const currentHighScore = parseInt(localStorage.getItem('ostrich_high_score') || '6398', 10)
+            if (score > currentHighScore) {
+                localStorage.setItem('ostrich_high_score', score.toString())
+            }
+            if (submitScore) submitScore(score)
+        }
+    }, [isGameOver, score, submitScore])
 
-	const handleResumeGame = () => {
-		setIsPaused(false)
-	}
+    const handleStartGame = () => {
+        setIsGameOver(false)
+        setIsPaused(false)
+        setIsGameOn(true)
+        setScore(0)
+        setLives(3)
+        setObstacles([])
+        setCurrentLane(1)
+    }
 
-	const getCurrentHeroImage = () => {
-		if (isDucking) return ostrichDuckImg
+    const handleResumeGame = () => {
+        setIsPaused(false)
+    }
 
-		const runFrames = [ostrichRun0, ostrichRun1, ostrichRun2, ostrichRun3]
-		return runFrames[runFrame]
-	}
+    const getCurrentHeroImage = () => {
+        if (isDucking) return ostrichDuckImg
 
-	const defaultGroundY = playableAreaSize.height > 0 ? playableAreaSize.height - 140 : 300
+        const runFrames = [ostrichRun0, ostrichRun1, ostrichRun2, ostrichRun3]
+        return runFrames[runFrame]
+    }
 
-	return (
-		<GameStatusContext.Provider value={{ isGameOn }}>
-			<div id="ostrich-game-frame">
-				<div className="frame-corner top-left"></div>
-				<div className="frame-corner top-right"></div>
-				<div className="frame-corner bottom-left"></div>
-				<div className="frame-corner bottom-right"></div>
+    const defaultGroundY = playableAreaSize.height > 0 ? playableAreaSize.height - 140 : 300
 
-				<div
-					id="playable-area-OstrichRun"
-					ref={playableAreaRef}
-				>
-					{/* Vertical Running Lanes */}
-					<div className="vertical-lanes-container">
-						<div className={`lane ${currentLane === 0 ? 'active-lane' : ''}`}></div>
-						<div className={`lane ${currentLane === 1 ? 'active-lane' : ''}`}></div>
-						<div className={`lane ${currentLane === 2 ? 'active-lane' : ''}`}></div>
-					</div>
+    return (
+        <GameStatusContext.Provider value={{ isGameOn }}>
+            <div id="ostrich-game-frame">
+                <div className="frame-corner top-left"></div>
+                <div className="frame-corner top-right"></div>
+                <div className="frame-corner bottom-left"></div>
+                <div className="frame-corner bottom-right"></div>
 
-					{!isGameOn && !isGameOver && (
-						<div id="title-container">
-							<h1 className="game-title">OSTRICH RUN</h1>
-							<p className="game-subtitle">A/D / ARROWS: LANES | S / ↓: DUCK (VULTURES)</p>
-						</div>
-					)}
+                <div
+                    id="playable-area-OstrichRun"
+                    ref={playableAreaRef}
+                >
+                    {/* Vertical Running Lanes */}
+                    <div className="vertical-lanes-container">
+                        <div className={`lane ${currentLane === 0 ? 'active-lane' : ''}`}></div>
+                        <div className={`lane ${currentLane === 1 ? 'active-lane' : ''}`}></div>
+                        <div className={`lane ${currentLane === 2 ? 'active-lane' : ''}`}></div>
+                    </div>
 
-					<div id="hud-left">
-						<div className="hud-box lives-box">
-							<span className="hud-label">LIVES</span>
-							<div className="hearts-container">
-								{Array.from({ length: 3 }).map((_, i) => (
-									<span key={i} className={`heart ${i < lives ? 'filled' : 'empty'}`}>
-										♥
-									</span>
-								))}
-							</div>
-						</div>
+                    {!isGameOn && !isGameOver && (
+                        <div id="title-container">
+                            <h1 className="game-title">OSTRICH RUN</h1>
+                            <p className="game-subtitle">A/D / ARROWS: LANES | S / ↓: DUCK (VULTURES)</p>
+                        </div>
+                    )}
 
-						<div className="hud-box score-box">
-							<span className="hud-label">SCORE</span>
-							<span className="hud-value">{score}</span>
-						</div>
-					</div>
+                    <div id="hud-left">
+                        <div className="hud-box lives-box">
+                            <span className="hud-label">LIVES</span>
+                            <div className="hearts-container">
+                                {Array.from({ length: 3 }).map((_, i) => (
+                                    <span key={i} className={`heart ${i < lives ? 'filled' : 'empty'}`}>
+                                        ♥
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
 
-					{isGameOn && playableAreaSize.width > 0 && (
-						<>
-							{/* Main Character Positioned by Lane */}
-							<div
-								className="game-entity"
-								style={{
-									left: getLaneX(currentLane),
-									top: defaultGroundY,
-									width: heroWidth,
-									height: heroHeight,
-									backgroundImage: `url(${getCurrentHeroImage()})`,
-									transition: 'left 0.12s ease-out',
-								}}
-							/>
+                        <div className="hud-box score-box">
+                            <span className="hud-label">SCORE</span>
+                            <span className="hud-value">{score}</span>
+                        </div>
+                    </div>
 
-							{/* Obstacles Spawning in Vertical Lanes */}
-							{obstacles.map((obs) => (
-								<div
-									key={obs.id}
-									className={`game-entity ${obs.type === 'vulture' ? 'vulture-bobbing' : ''}`}
-									style={{
-										left: getLaneX(obs.laneIndex),
-										top: obs.y,
-										width: obs.width,
-										height: obs.height,
-										backgroundImage: `url(${obs.image})`,
-									}}
-								/>
-							))}
-						</>
-					)}
+                    {isGameOn && playableAreaSize.width > 0 && (
+                        <>
+                            {/* Main Character Positioned by Lane */}
+                            <div
+                                className="game-entity"
+                                style={{
+                                    left: getLaneX(currentLane),
+                                    top: defaultGroundY,
+                                    width: heroWidth,
+                                    height: heroHeight,
+                                    backgroundImage: `url(${getCurrentHeroImage()})`,
+                                    transition: 'left 0.12s ease-out',
+                                }}
+                            />
 
-					{(!isGameOn || isPaused) && (
-						<div id="overlay-screen">
-							{isGameOver ? (
-								<div className="modal-content">
-									<h2>GAME OVER</h2>
-									<p className="final-score">FINAL SCORE: {score}</p>
-									<GameButton onClick={handleStartGame} text="TRY AGAIN" />
-								</div>
-							) : isPaused ? (
-								<div className="modal-content">
-									<h2>PAUSED</h2>
-									<GameButton onClick={handleResumeGame} text="RESUME" />
-								</div>
-							) : (
-								<div className="modal-content">
-									<GameButton onClick={handleStartGame} text="START RUN" />
-								</div>
-							)}
-						</div>
-					)}
+                            {/* Obstacles Spawning in Vertical Lanes */}
+                            {obstacles.map((obs) => (
+                                <div
+                                    key={obs.id}
+                                    className={`game-entity ${obs.type === 'vulture' ? 'vulture-bobbing' : ''}`}
+                                    style={{
+                                        left: getLaneX(obs.laneIndex),
+                                        top: obs.y,
+                                        width: obs.width,
+                                        height: obs.height,
+                                        backgroundImage: `url(${obs.image})`,
+                                    }}
+                                />
+                            ))}
+                        </>
+                    )}
 
-					<div id="tagline-banner">
-						<span>SWITCH LANES TO AVOID CACTI. S OR ↓ TO DUCK VULTURES!</span>
-					</div>
-				</div>
-			</div>
-		</GameStatusContext.Provider>
-	)
+                    {(!isGameOn || isPaused) && (
+                        <div id="overlay-screen">
+                            {isGameOver ? (
+                                <div className="modal-content">
+                                    <h2>GAME OVER</h2>
+                                    <p className="final-score">FINAL SCORE: {score}</p>
+                                    <GameButton onClick={handleStartGame} text="TRY AGAIN" />
+                                </div>
+                            ) : isPaused ? (
+                                <div className="modal-content">
+                                    <h2>PAUSED</h2>
+                                    <GameButton onClick={handleResumeGame} text="RESUME" />
+                                </div>
+                            ) : (
+                                <div className="modal-content">
+                                    <GameButton onClick={handleStartGame} text="START RUN" />
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <div id="tagline-banner">
+                        <span>SWITCH LANES TO AVOID CACTI. S OR ↓ TO DUCK VULTURES!</span>
+                    </div>
+                </div>
+
+                {/* Mobile D-Pad Control Tray Styles - Lanes Left, Duck Right */}
+                <div id="mobile-dpad-container">
+                    <div className="dpad-group-left">
+                        <button 
+                            className="dpad-btn" 
+                            onClick={() => setCurrentLane((prev) => Math.max(0, prev - 1))}
+                            aria-label="Move Left"
+                        >
+                            ◀
+                        </button>
+                        <button 
+                            className="dpad-btn" 
+                            onClick={() => setCurrentLane((prev) => Math.min(2, prev + 1))}
+                            aria-label="Move Right"
+                        >
+                            ▶
+                        </button>
+                    </div>
+                    <div className="dpad-group-right">
+                        <button 
+                            className={`dpad-btn ${isDucking ? 'active' : ''}`}
+                            onMouseDown={() => setIsDucking(true)}
+                            onMouseUp={() => setIsDucking(false)}
+                            onTouchStart={() => setIsDucking(true)}
+                            onTouchEnd={() => setIsDucking(false)}
+                            aria-label="Duck"
+                        >
+                            ▼
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </GameStatusContext.Provider>
+    )
 }
