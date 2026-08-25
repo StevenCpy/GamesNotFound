@@ -21,13 +21,9 @@ function Home() {
                 {currentUser && <h1>Welcome back, <span className="text-green">{currentUser["username"]}</span>!</h1>}
                 <p>
                     Welcome to GamesNotFound!<br />
-                    This platform allows users to play browser games and is currently under development.<br />
-                </p>
-                <br />
-                <p>
-                    Feel free to message me if you find any issues.<br />
-                    Thank you,<br />
-                    Steven
+                    I built this platform independently from scratch.  You can play games here directly on your browser,
+                    both on desktop and mobile.<br />
+                    - Steven
                 </p>
             </div>
 
@@ -41,7 +37,7 @@ function Home() {
                     <li><span className="text-green bold">STORE SORT AND SEARCH:</span> Search games and sort them by ID or name</li>
                     <li><span className="text-green bold">SECURITY:</span> Encrypted password and HTTP-Only JWT cookie with token expiration</li>
                     <li><span className="text-green bold">DARK/LIGHT MODE</span></li>
-                    <li><span className="text-green bold">QUICK AUTH:</span> Quick signup for testing features with a temporary account<br />
+                    <li><span className="text-green bold">QUICK SIGNUP:</span> Test features with a temporary account<br />
                         (Account is deleted on log out)
                     </li>
                 </ul>
