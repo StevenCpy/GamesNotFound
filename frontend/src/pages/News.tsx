@@ -61,7 +61,7 @@ function News() {
         <div id="news-page-container">
             <h1 className="header-title text-green"> What's NEW! </h1>
             <ul id="news-list" className="ul-dash">
-                <Section title="JUNE 3, 2026">
+                <Section title="0.1.0">
                     <li> Created "What's NEW" page to share new features and changelogs. </li>
                     <li>
                         Created first game called "Hit the Target".{" "}
@@ -76,15 +76,15 @@ function News() {
                     </li>
                 </Section>
 
-                <Section title="JUNE 4, 2026">
+                <Section title="0.2.0">
                     <li> Persistent login using JWT token authentication, stay logged in when refreshing browser. </li>
                 </Section>
 
-                <Section title="JUNE 6, 2026">
+                <Section title="0.3.0">
                     <li> Created v2 API endpoints and updated client to use the new endpoints. </li>
                 </Section>
 
-                <Section title="JUNE 10, 2026">
+                <Section title="0.4.0">
                     <li>
                         Added "High Score" feature for playable games.  Scores are submitted automatically on game completion
                         and high score updated accordingly.
@@ -93,11 +93,11 @@ function News() {
                     <li> Added "Last Played" to game cards which gives the last time you submitted a score. </li>
                 </Section>
 
-                <Section title="JUNE 12, 2026">
+                <Section title="0.5.0">
                     <li> Fixed CSS layout issues for mobile devices and smaller screen sizes. </li>
                 </Section>
                 
-                <Section title="JUNE 13, 2026">
+                <Section title="0.6.0">
                     <li> Added toasts to actions like JWT authentication, log in, log out, and adding & removing games from Library. </li>
                     <li> Updated Homepage with current and upcoming features. </li>
                     <li> Added Loading page & delays to allow time for Store & Library resources to load, making initial UI loading smoother. </li>
@@ -105,7 +105,7 @@ function News() {
                     <li> Password masking + Show/Hide password toggle in Signup/Login forms, and server-side password encryption.</li>
                 </Section>
 
-                <Section title="JUNE 14, 2026">
+                <Section title="0.7.0">
                     <li> Sorting dropdown on Store page to sort games by ID or name, preference saved on browser.</li>
                     <li> Game search on Store page to search games by name.</li>
                     <li> Site UI improvements.</li>
@@ -121,24 +121,24 @@ function News() {
                     />
                 </Section>
 
-                <Section title="JUNE 19, 2026">
+                <Section title="0.8.0">
                     <li> Created user profile card on Profile page showing profile picture and account creation date.</li>
                     <li> Migrated entire codebase to TypeScript.</li>
                 </Section>
 
-                <Section title="JUNE 21, 2026">
+                <Section title="0.9.0">
                     <li> Added Docker containerization for predictable builds and deployments.</li>
                     <li> Added "dark/light" mode.<br />
                         <SingleImageContainer src={`${NEWS_IMAGES_PATH}/Dark mode toggle.png`} alt="Dark mode toggle" />
                     </li>
                 </Section>
 
-                <Section title="JUNE 23, 2026">
+                <Section title="0.10.0">
                     <li> Updated API endpoints to v3 for more consistent response shape.</li>
                     <li> Switched from localStorage tokens to HTTPOnly JWT auth with token expiration for better security.</li>
                 </Section>
 
-                <Section title="JUNE 24, 2026">
+                <Section title="0.11.0">
                     <li> Updated Store layout, using clickable mini game cards and collapsible window showing game info on click.<br />
                         <h2 className="text-green header-title">Before:</h2>
                         <SingleImageContainer src={`${NEWS_IMAGES_PATH}/Store page v3.png`} alt="Store page v3" />
@@ -148,7 +148,7 @@ function News() {
                     </li>
                 </Section>
 
-                <Section title="JUNE 26, 2026">
+                <Section title="0.12.0">
                     <li> Added "Quick Signup" button to bypass normal signup and create a temporary account to test features.<br />
                         (Account is deleted on log out).
                     </li>
